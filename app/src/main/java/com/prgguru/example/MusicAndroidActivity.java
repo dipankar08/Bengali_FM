@@ -41,6 +41,7 @@ public class MusicAndroidActivity extends AppCompatActivity {
 		buttonCha = (Button) findViewById(R.id.select_channel);
 		buttonStop = (Button) findViewById(R.id.stop);
 		log = (EditText)findViewById(R.id.logs);
+		log.setVisibility(View.INVISIBLE);
 		LinearLayout layout =(LinearLayout)findViewById(R.id.back);
 		final int sdk = android.os.Build.VERSION.SDK_INT;
 		if(sdk < android.os.Build.VERSION_CODES.JELLY_BEAN) {
