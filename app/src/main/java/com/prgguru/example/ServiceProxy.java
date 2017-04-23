@@ -37,7 +37,7 @@ class ServiceProxy extends AsyncTask<Void, Void, String> {
     protected String doInBackground(Void... params) {
         HttpClient httpClient = new DefaultHttpClient();
         HttpContext localContext = new BasicHttpContext();
-        HttpGet httpGet = new HttpGet("http://52.89.112.230/api/bengalifm");
+        HttpGet httpGet = new HttpGet("http://52.89.112.230/api/bengalifm?page=0&limit=100");
         String text = null;
         List<Channel> ans = new ArrayList<>();
         try {
