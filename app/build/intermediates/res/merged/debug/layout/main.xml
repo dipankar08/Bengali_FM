@@ -39,7 +39,12 @@
         android:layout_height="wrap_content"
         android:layout_margin="10dip"
         android:text="Stop" />
-
+    <Button
+        android:id="@+id/refresh"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dip"
+        android:text="Refresh FM List" />
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

@@ -26,7 +26,7 @@ public class MusicAndroidActivity extends AppCompatActivity {
 	}
 
 	static MediaPlayer mPlayer;
-	Button buttonCat,buttonCha,buttonStop;
+	Button buttonCat,buttonCha,buttonStop,buttonRef;
 	EditText log;
 
 	String m_current_categories = "Internet";
@@ -40,6 +40,7 @@ public class MusicAndroidActivity extends AppCompatActivity {
 		buttonCat = (Button) findViewById(R.id.select_categories);
 		buttonCha = (Button) findViewById(R.id.select_channel);
 		buttonStop = (Button) findViewById(R.id.stop);
+		buttonRef = (Button) findViewById(R.id.refresh);
 		log = (EditText)findViewById(R.id.logs);
 		log.setVisibility(View.INVISIBLE);
 		LinearLayout layout =(LinearLayout)findViewById(R.id.back);
@@ -67,6 +68,11 @@ public class MusicAndroidActivity extends AppCompatActivity {
 		buttonStop.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
 				stop();
+			}
+		});
+		buttonRef.setOnClickListener(new OnClickListener() {
+			public void onClick(View v) {
+				new ServiceProxy().execute();
 			}
 		});
 	}
