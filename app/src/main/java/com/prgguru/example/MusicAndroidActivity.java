@@ -1,78 +1,69 @@
 package com.prgguru.example;
 
 import java.io.IOException;
-import java.util.HashMap;
+import java.util.List;
 
-import android.app.Activity;
+import android.content.DialogInterface;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.Toast;
 
-public class MusicAndroidActivity extends Activity {
+
+public class MusicAndroidActivity extends AppCompatActivity {
 	void SendMsg(String msg){
 		log.append(msg+"\n");
 	}
 
 	static MediaPlayer mPlayer;
-	Button buttonPlay;
-	Button buttonStop;
+	Button buttonCat,buttonCha,buttonStop;
 	EditText log;
-	//String url = "http://android.programmerguru.com/wp-content/uploads/2013/04/hosannatelugu.mp3";
-	//String url = "";
-	String[][] FM = {
-			{"FNF FM", "http://94.23.36.117/proxy/arrahm00?mp=/stream"},
-			{"AIR BENGALI", "http://airlive.nic.in/hls-live/livepkgr/_definst_/bengali/bengali.m3u8"},
-			{"Mirchi top 20", "http://mt20live-lh.akamaihd.net/i/mt20live_1@346531/master.m3u8"},
-			{"Mithe Mirchi", "http://meethimirchihdl-lh.akamaihd.net/i/MeethiMirchiHDLive_1_1@320572/master.m3u8"},
-			{"Puraje Jeans", "http://puranijeanshdliv-lh.akamaihd.net/i/PuraniJeansHDLive_1_1@334555/master.m3u8"},
-			{"Filmy Mirchi", "http://filmymirchihdliv-lh.akamaihd.net/i/FilmyMirchiHDLive_1_1@336266/master.m3u8"},
-			{"Mirchi PhelaNeha", "http://pehlanashahdlive-lh.akamaihd.net/i/PehlaNashaHDLive_1_1@335229/master.m3u8"},
-			{"Club Mirchi", "http://clubmirchihdlive-lh.akamaihd.net/i/ClubMirchiHDLive_1_1@336269/master.m3u8"},
-			{"Mirchi Mehefil", "http://mirchimahfil-lh.akamaihd.net/i/MirchiMehfl_1@120798/master.m3u8"},
-			{"Wakaao Mirchi", "http://wmirchi-lh.akamaihd.net/i/WMIRCHI_1@75780/master.m3u8"},
-			{"Radio City", "http://prclive1.listenon.in:9960/"},
-			{"BongNet","https://radio.bongonet.net:9000/;stream.mpeg"},
-			{"Vividh Bhrati","http://airlive.nic.in/hls-live/livepkgr/_definst_/vividhbharti.m3u8"},
-			{"Telegu","http://android.programmerguru.com/wp-content/uploads/2013/04/hosannatelugu.mp3"}
-	};
+
+	String m_current_categories = "Internet";
+	String m_current_channel_name = "FNF FM";
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main);
-		
-		buttonPlay = (Button) findViewById(R.id.play);
+		getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+		buttonCat = (Button) findViewById(R.id.select_categories);
+		buttonCha = (Button) findViewById(R.id.select_channel);
+		buttonStop = (Button) findViewById(R.id.stop);
 		log = (EditText)findViewById(R.id.logs);
-		//log.setEnabled(false);
-		final int[] idx = {0};
+		LinearLayout layout =(LinearLayout)findViewById(R.id.back);
+		final int sdk = android.os.Build.VERSION.SDK_INT;
+		if(sdk < android.os.Build.VERSION_CODES.JELLY_BEAN) {
+			layout.setBackgroundDrawable( getResources().getDrawable(R.drawable.back) );
+		} else {
+			layout.setBackground( getResources().getDrawable(R.drawable.back));
+		}
 
 		mPlayer = new MediaPlayer();
 		mPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
 
-		buttonPlay.setOnClickListener(new OnClickListener() {
+		buttonCat.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
-				if(idx[0] == FM.length){
-					idx[0] =0;
-				}
-				String[]  now = FM[idx[0]];
-				SendMsg("Stoping player....");
-				stop();
-				SendMsg("Changing channel...");
-				if( play(now[1]) == true){
-					SendMsg("Started....");
-					buttonPlay.setText(now[0]);
-				}
-				idx[0]++;
+				chooseCategoriesDialog();
 			}
 		});
-		
+		buttonCha.setOnClickListener(new OnClickListener() {
+			public void onClick(View v) {
+				chooseChannelDialog();
+			}
+		});
 		buttonStop = (Button) findViewById(R.id.stop);
 		buttonStop.setOnClickListener(new OnClickListener() {
-
 			public void onClick(View v) {
 				stop();
 			}
@@ -81,47 +72,150 @@ public class MusicAndroidActivity extends Activity {
 	
 	protected void onDestroy() {
 		super.onDestroy();
-		// TODO Auto-generated method stub
 		if (mPlayer != null) {
 			mPlayer.release();
 			mPlayer = null;
 		}
 	}
-	boolean play(String url){
-		SendMsg("buttonPlay.setOnClickListener");
+
+
+	public void chooseCategoriesDialog() {
+
+		AlertDialog.Builder builder = new AlertDialog.Builder(MusicAndroidActivity.this);
+		builder.setTitle("Select FM categorie");
+
+		//list of items
+		List<String> list = ChannelList.getAllCategories();
+		String[] items = list.toArray(new String[list.size()]);
+		boolean[] selectedItemsArray = new boolean[items.length];
+		builder.setSingleChoiceItems(items, 0,
+				new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						// item selected logic
+					}
+				});
+
+		String positiveText = getString(android.R.string.ok);
+		builder.setPositiveButton(positiveText,
+				new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						ListView lw = ((AlertDialog)dialog).getListView();
+						Object checkedItem = lw.getAdapter().getItem(lw.getCheckedItemPosition());
+						m_current_categories = checkedItem.toString();
+						chooseChannelDialog();
+					}
+				});
+
+		String negativeText = getString(android.R.string.cancel);
+		builder.setNegativeButton(negativeText,
+				new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						// negative button logic
+					}
+				});
+		builder.setMultiChoiceItems(items, selectedItemsArray,
+				new DialogInterface.OnMultiChoiceClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int which, boolean isChecked) {
+						//item checked logic
+					}
+				});
+		AlertDialog dialog = builder.create();
+		// display dialog
+		dialog.show();
+	}
+
+	public void chooseChannelDialog() {
+		AlertDialog.Builder builder = new AlertDialog.Builder(MusicAndroidActivity.this);
+		builder.setTitle("Select FM Channel");
+
+		//list of items
+		List<String> list = ChannelList.getAllChannelForCategories(m_current_categories);
+		String[] items = list.toArray(new String[list.size()]);
+		boolean[] selectedItemsArray = new boolean[items.length];
+		builder.setSingleChoiceItems(items, 0,
+				new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						// item selected logic
+					}
+				});
+
+		String positiveText = getString(android.R.string.ok);
+		builder.setPositiveButton(positiveText,
+				new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						ListView lw = ((AlertDialog)dialog).getListView();
+						Object checkedItem = lw.getAdapter().getItem(lw.getCheckedItemPosition());
+						m_current_channel_name = checkedItem.toString();
+						//new PlayOperation().execute(); //It causing carsh,,,
+						play();
+					}
+				});
+
+		String negativeText = getString(android.R.string.cancel);
+		builder.setNegativeButton(negativeText,
+				new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						// negative button logic
+					}
+				});
+		builder.setMultiChoiceItems(items, selectedItemsArray,
+				new DialogInterface.OnMultiChoiceClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int which, boolean isChecked) {
+						//item checked logic
+					}
+				});
+		AlertDialog dialog = builder.create();
+		// display dialog
+		dialog.show();
+	}
+
+	String play(){
+		stop();
+		String msg="";
+		String url = ChannelList.getChannelDetails(m_current_channel_name);
+		msg+=("buttonPlay.setOnClickListener");
 		if(mPlayer == null) {
 			mPlayer = new MediaPlayer();
 			mPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
 		}
 		try {
-			SendMsg("mPlayer.setDataSource");
+			msg+=("mPlayer.setDataSource");
 			mPlayer.setDataSource(url);
 		} catch (IllegalArgumentException e) {
-			Toast.makeText(getApplicationContext(), "You might not set the URI correctly!", Toast.LENGTH_LONG).show();
-			SendMsg("IllegalArgumentException");
+			//Toast.makeText(getApplicationContext(), "You might not set the URI correctly!", Toast.LENGTH_LONG).show();
+			msg+=("IllegalArgumentException");
 		} catch (SecurityException e) {
-			Toast.makeText(getApplicationContext(), "You might not set the URI correctly!", Toast.LENGTH_LONG).show();
-			SendMsg("SecurityException");
+			//Toast.makeText(getApplicationContext(), "You might not set the URI correctly!", Toast.LENGTH_LONG).show();
+			msg+=("SecurityException");
 		} catch (IllegalStateException e) {
-			Toast.makeText(getApplicationContext(), "You might not set the URI correctly!", Toast.LENGTH_LONG).show();
-			SendMsg("IOException");
+			//Toast.makeText(getApplicationContext(), "You might not set the URI correctly!", Toast.LENGTH_LONG).show();
+			msg+=("IOException");
 		} catch (IOException e) {
 			e.printStackTrace();
-			SendMsg("IOException");
+			msg+=("IOException");
 		}
 		try {
-			SendMsg("mPlayer.prepare");
+			msg+=("mPlayer.prepare");
 			mPlayer.prepare();
 		} catch (IllegalStateException e) {
 			Toast.makeText(getApplicationContext(), "You might not set the URI correctly!", Toast.LENGTH_LONG).show();
-			SendMsg("IllegalStateException");
+			msg+=("IllegalStateException");
 		} catch (IOException e) {
 			Toast.makeText(getApplicationContext(), "You might not set the URI correctly!", Toast.LENGTH_LONG).show();
-			SendMsg("IOException");
+			msg+=("IOException");
 		}
 		SendMsg("mPlayer.start");
 		mPlayer.start();
-		return true;
+		buttonCha.setText(m_current_channel_name);
+		return msg;
 	}
 	boolean stop(){
 		// TODO Auto-generated method stub
@@ -137,4 +231,24 @@ public class MusicAndroidActivity extends Activity {
 		return false;
 	}
 
+	private class PlayOperation extends AsyncTask<String, Void, String> {
+		@Override
+		protected String doInBackground(String... params) {
+			SendMsg(play());
+			return null;
+		}
+		@Override
+		protected void onPostExecute(String result) {
+			buttonCha.setText(m_current_channel_name);
+		}
+
+		@Override
+		protected void onPreExecute() {
+			buttonCha.setText("Try playing .."+m_current_channel_name);
+		}
+
+		@Override
+		protected void onProgressUpdate(Void... values) {
+		}
+	}
 }

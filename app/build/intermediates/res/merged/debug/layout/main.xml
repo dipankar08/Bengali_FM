@@ -3,7 +3,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:weightSum="1">
+    android:weightSum="1"
+    android:id="@+id/back"
+    android:src="@drawable/back"
+    android:scaleType = "centerCrop"
+    android:paddingTop="20dip">
+
 
     <TextView
         android:id="@+id/textView1"
@@ -14,12 +19,19 @@
         android:text="FM DIPANKAR "
         android:textSize="20dp" />
 
+
     <Button
-        android:id="@+id/play"
+        android:id="@+id/select_categories"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dip"
-        android:text="Play" />
+        android:text="Select Categories" />
+    <Button
+        android:id="@+id/select_channel"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dip"
+        android:text="Select Channel" />
 
     <Button
         android:id="@+id/stop"
@@ -36,7 +48,6 @@
         android:lines="15"
         android:textSize="10dp"
         android:layout_gravity="center_horizontal"
-        android:editable="false"
          />
 
 </LinearLayout>

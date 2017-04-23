@@ -1,5 +1,8 @@
 <resources>
-
-    <style name="AppTheme" parent="android:Theme.Light" />
-
+    <style name="AppTheme" parent="Theme.AppCompat.Light" />
+    <style name="AppTheme.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="android:textColor">#4d3e4b</item>
+    </style>
 </resources>
