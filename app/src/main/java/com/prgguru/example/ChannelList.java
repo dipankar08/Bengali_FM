@@ -82,11 +82,11 @@ public class ChannelList {
         return new ArrayList<String>(ans);
     }
 
-    public static String getChannelDetails(String name){
+    public static Channel getChannelDetails(String name){
         HashSet<String> ans = new HashSet<>();
         for(int i =0;i<FM.size();i++){
             if(FM.get(i).getName().equals(name)) {
-                return FM.get(i).getUrl();
+                return FM.get(i);
             }
         }
         return null;

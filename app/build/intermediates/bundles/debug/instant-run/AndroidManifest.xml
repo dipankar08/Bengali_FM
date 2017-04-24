@@ -24,6 +24,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <service
+            android:name="com.prgguru.example.BackgroundSoundService"
+            android:enabled="true" />
     </application>
 
 </manifest>

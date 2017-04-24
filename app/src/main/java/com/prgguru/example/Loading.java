@@ -27,7 +27,7 @@ public class Loading {
     }
     public static void hide() {
         if( progressDialog != null){
-            progressDialog.dismiss();
+            progressDialog.hide();
             progressDialog = null;
         }
 

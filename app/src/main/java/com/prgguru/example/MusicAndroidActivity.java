@@ -4,11 +4,16 @@ import java.io.IOException;
 import java.util.List;
 
 import android.app.Activity;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -22,11 +27,14 @@ import android.widget.Toast;
 
 
 public class MusicAndroidActivity extends AppCompatActivity {
+	private BroadcastReceiver receiver;
+
+
 	void SendMsg(String msg){
 		log.append(msg+"\n");
 	}
 
-	static MediaPlayer mPlayer;
+
 	static Activity sActivity = null;
 	Button buttonCat,buttonCha,buttonStop,buttonRef;
 	EditText log;
@@ -53,9 +61,14 @@ public class MusicAndroidActivity extends AppCompatActivity {
 		} else {
 			layout.setBackground( getResources().getDrawable(R.drawable.back));
 		}
+		receiver = new BroadcastReceiver() {
+			@Override
+			public void onReceive(Context context, Intent intent) {
+				String s = intent.getStringExtra(BackgroundSoundService.COPA_MESSAGE);
+				PermUIActionOnServiceNotification(s);
+			}
+		};
 
-		mPlayer = new MediaPlayer();
-		mPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
 
 		buttonCat.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
@@ -70,7 +83,7 @@ public class MusicAndroidActivity extends AppCompatActivity {
 		buttonStop = (Button) findViewById(R.id.stop);
 		buttonStop.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
-				stop();
+				Player.stop();
 			}
 		});
 		buttonRef.setOnClickListener(new OnClickListener() {
@@ -79,13 +92,20 @@ public class MusicAndroidActivity extends AppCompatActivity {
 			}
 		});
 	}
-	
+
+	private void PermUIActionOnServiceNotification(String s) {
+		if(s.equals("PLAY_START")){
+			Loading.showPlayProgressDialog();
+		} else{
+			Loading.hide();
+		}
+	}
+
 	protected void onDestroy() {
 		super.onDestroy();
-		if (mPlayer != null) {
-			mPlayer.release();
-			mPlayer = null;
-		}
+		// we allow playing in backgroud...
+		//Player.Destroy();
+
 	}
 	public static Activity Get(){
 		return sActivity;
@@ -164,10 +184,10 @@ public class MusicAndroidActivity extends AppCompatActivity {
 						ListView lw = ((AlertDialog)dialog).getListView();
 						Object checkedItem = lw.getAdapter().getItem(lw.getCheckedItemPosition());
 						m_current_channel_name = checkedItem.toString();
-						//new PlayOperation().execute(); //It causing carsh,,,
-						dialog.dismiss();
-						((AlertDialog) dialog).hide();
-						play();
+						Intent i=new Intent(MusicAndroidActivity.Get(), BackgroundSoundService.class);
+						i.setAction(BackgroundSoundService.ACTION_PLAY);
+						i.putExtra("Name", m_current_channel_name);
+						startService(i);
 					}
 				});
 
@@ -191,82 +211,19 @@ public class MusicAndroidActivity extends AppCompatActivity {
 		dialog.show();
 	}
 
-	String play(){
-		Loading.showPlayProgressDialog();
-		stop();
-		String msg="";
-		String url = ChannelList.getChannelDetails(m_current_channel_name);
-		msg+=("buttonPlay.setOnClickListener");
-		if(mPlayer == null) {
-			mPlayer = new MediaPlayer();
-			mPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
-		}
-		try {
-			msg+=("mPlayer.setDataSource");
-			mPlayer.setDataSource(url);
-		} catch (IllegalArgumentException e) {
-			//Toast.makeText(getApplicationContext(), "You might not set the URI correctly!", Toast.LENGTH_LONG).show();
-			msg+=("IllegalArgumentException");
-		} catch (SecurityException e) {
-			//Toast.makeText(getApplicationContext(), "You might not set the URI correctly!", Toast.LENGTH_LONG).show();
-			msg+=("SecurityException");
-		} catch (IllegalStateException e) {
-			//Toast.makeText(getApplicationContext(), "You might not set the URI correctly!", Toast.LENGTH_LONG).show();
-			msg+=("IOException");
-		} catch (IOException e) {
-			e.printStackTrace();
-			msg+=("IOException");
-		}
-		try {
-			msg+=("mPlayer.prepare");
-			mPlayer.prepare();
-		} catch (IllegalStateException e) {
-			Toast.makeText(getApplicationContext(), "You might not set the URI correctly!", Toast.LENGTH_LONG).show();
-			msg+=("IllegalStateException");
-		} catch (IOException e) {
-			Toast.makeText(getApplicationContext(), "You might not set the URI correctly!", Toast.LENGTH_LONG).show();
-			msg+=("IOException");
-		}
-		SendMsg("mPlayer.start");
-		mPlayer.start();
-		buttonCha.setText(m_current_channel_name);
-		Loading.hide();
-		return msg;
+	@Override
+	protected void onStart() {
+		super.onStart();
+		LocalBroadcastManager.getInstance(this).registerReceiver((receiver),
+				new IntentFilter(BackgroundSoundService.COPA_RESULT)
+		);
 	}
-	boolean stop(){
-		// TODO Auto-generated method stub
-		if(mPlayer!=null && mPlayer.isPlaying()){
-			SendMsg("mPlayer.stop");
-			mPlayer.stop();
-			if (mPlayer != null) {
-				mPlayer.release();
-				mPlayer = null;
-			}
-			return true;
-		}
-		return false;
-	}
-	//Not Working...
-	private class PlayOperation extends AsyncTask<String, Void, String> {
-		@Override
-		protected String doInBackground(String... params) {
-			SendMsg(play());
-			return null;
-		}
-		@Override
-		protected void onPostExecute(String result) {
-			buttonCha.setText(m_current_channel_name);
-		}
 
-		@Override
-		protected void onPreExecute() {
-			Loading.showPlayProgressDialog();
-			buttonCha.setText("Try playing .."+m_current_channel_name);
-		}
-
-		@Override
-		protected void onProgressUpdate(Void... values) {
-			Loading.hide();
-		}
+	@Override
+	protected void onStop() {
+		LocalBroadcastManager.getInstance(this).unregisterReceiver(receiver);
+		super.onStop();
 	}
+
+
 }
