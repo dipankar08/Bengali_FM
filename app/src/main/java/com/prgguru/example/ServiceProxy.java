@@ -35,6 +35,7 @@ class ServiceProxy extends AsyncTask<Void, Void, String> {
     }
     @Override
     protected String doInBackground(Void... params) {
+
         HttpClient httpClient = new DefaultHttpClient();
         HttpContext localContext = new BasicHttpContext();
         HttpGet httpGet = new HttpGet("http://52.89.112.230/api/bengalifm?page=0&limit=100");
@@ -62,15 +63,13 @@ class ServiceProxy extends AsyncTask<Void, Void, String> {
         }
         return null;
     }
+
+    @Override
+    protected void onPreExecute() {
+        Loading.showDownloadProgressDialog();
+    }
     @Override
     protected void onPostExecute(String results) {
-        /*
-        if (results!=null) {
-            EditText et = (EditText)findViewById(R.id.my_edit);
-            et.setText(results);
-        }
-        Button b = (Button)findViewById(R.id.my_button);
-        b.setClickable(true);
-        */
+        Loading.hide();
     }
 }

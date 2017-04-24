@@ -3,6 +3,7 @@ package com.prgguru.example;
 import java.io.IOException;
 import java.util.List;
 
+import android.app.Activity;
 import android.content.DialogInterface;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
@@ -26,6 +27,7 @@ public class MusicAndroidActivity extends AppCompatActivity {
 	}
 
 	static MediaPlayer mPlayer;
+	static Activity sActivity = null;
 	Button buttonCat,buttonCha,buttonStop,buttonRef;
 	EditText log;
 
@@ -34,6 +36,7 @@ public class MusicAndroidActivity extends AppCompatActivity {
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
+		sActivity = this;
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main);
 		getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
@@ -84,7 +87,9 @@ public class MusicAndroidActivity extends AppCompatActivity {
 			mPlayer = null;
 		}
 	}
-
+	public static Activity Get(){
+		return sActivity;
+	}
 
 	public void chooseCategoriesDialog() {
 
@@ -160,6 +165,8 @@ public class MusicAndroidActivity extends AppCompatActivity {
 						Object checkedItem = lw.getAdapter().getItem(lw.getCheckedItemPosition());
 						m_current_channel_name = checkedItem.toString();
 						//new PlayOperation().execute(); //It causing carsh,,,
+						dialog.dismiss();
+						((AlertDialog) dialog).hide();
 						play();
 					}
 				});
@@ -185,6 +192,7 @@ public class MusicAndroidActivity extends AppCompatActivity {
 	}
 
 	String play(){
+		Loading.showPlayProgressDialog();
 		stop();
 		String msg="";
 		String url = ChannelList.getChannelDetails(m_current_channel_name);
@@ -222,6 +230,7 @@ public class MusicAndroidActivity extends AppCompatActivity {
 		SendMsg("mPlayer.start");
 		mPlayer.start();
 		buttonCha.setText(m_current_channel_name);
+		Loading.hide();
 		return msg;
 	}
 	boolean stop(){
@@ -237,7 +246,7 @@ public class MusicAndroidActivity extends AppCompatActivity {
 		}
 		return false;
 	}
-
+	//Not Working...
 	private class PlayOperation extends AsyncTask<String, Void, String> {
 		@Override
 		protected String doInBackground(String... params) {
@@ -251,11 +260,13 @@ public class MusicAndroidActivity extends AppCompatActivity {
 
 		@Override
 		protected void onPreExecute() {
+			Loading.showPlayProgressDialog();
 			buttonCha.setText("Try playing .."+m_current_channel_name);
 		}
 
 		@Override
 		protected void onProgressUpdate(Void... values) {
+			Loading.hide();
 		}
 	}
 }
