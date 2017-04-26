@@ -2337,7 +2337,6 @@ containing a value of this type.
         public static final int line3=0x7f0c0082;
         public static final int listMode=0x7f0c000b;
         public static final int list_item=0x7f0c0041;
-        public static final int logs=0x7f0c0078;
         public static final int media_actions=0x7f0c007c;
         public static final int menu_settings=0x7f0c0086;
         public static final int middle=0x7f0c0032;
@@ -2387,6 +2386,7 @@ containing a value of this type.
         public static final int src_in=0x7f0c002a;
         public static final int src_over=0x7f0c002b;
         public static final int start=0x7f0c0025;
+        public static final int status=0x7f0c0078;
         public static final int status_bar_latest_event_content=0x7f0c007b;
         public static final int stop=0x7f0c0076;
         public static final int submit_area=0x7f0c0065;

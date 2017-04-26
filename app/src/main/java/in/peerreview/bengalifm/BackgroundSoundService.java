@@ -71,16 +71,20 @@ public class BackgroundSoundService extends Service {
         super.onCreate();
         Player.setCallback(new ICallback(){
                                         @Override
+                                        public void beforePlay() {
+                                        }
+                                        @Override
+                                        public void onPlayError() {
+                                        }
+                                        @Override
                                         public void onPlay() {
                                             Log.e( "MediaPlayerService", "onPlay");
                                             buildNotification( generateAction( android.R.drawable.ic_media_pause, "Pause", ACTION_PAUSE ) );
-                                            Loading.hide();
                                         }
                                         @Override
                                         public void onPause() {
                                             Log.e( "MediaPlayerService", "onPause");
                                             buildNotification(generateAction(android.R.drawable.ic_media_play, "Play", ACTION_RESUME));
-                                            Loading.hide();
                                         }
                                         @Override
                                         public void onStop() {
@@ -90,14 +94,13 @@ public class BackgroundSoundService extends Service {
                                             notificationManager.cancel( 1 );
                                             //Intent intent = new Intent( MusicAndroidActivity.Get().getApplicationContext(), BackgroundSoundService.this );
                                            // stopService( intent );
-                                            Loading.hide();
                                         }
                                     }
         );
     }
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        //sendResult("PLAY_START");
+        sendResult("PLAY_START");
         Log.d("Dipankar","BackgroundSoundService stared");
         handleIntent(intent);
         return START_STICKY;

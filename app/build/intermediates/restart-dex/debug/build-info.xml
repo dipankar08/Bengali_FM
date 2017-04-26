@@ -4,35 +4,85 @@
     api-level="23"
     density="xxxhdpi"
     format="7"
-    timestamp="84272166363950"
-    token="-6646474173823153215" >
+    timestamp="181047695527307"
+    token="-6646474173823153215"
+    verifier="COMPATIBLE" >
 
     <task
         name="javac"
-        duration="0" />
+        duration="309" />
     <task
         name="instant-run-dex"
-        duration="0" />
+        duration="572" />
     <task
         name="instant-run-transform"
-        duration="0" />
+        duration="65" />
     <task
         name="verifier"
-        duration="0" />
+        duration="4" />
 
     <artifact
-        location="C:\Users\DDUTTA\Bengali_FM\app\build\intermediates\res\resources-debug.ap_"
-        type="RESOURCES" />
+        location="C:\Users\DDUTTA\Bengali_FM\app\build\intermediates\reload-dex\debug\classes.dex"
+        type="RELOAD_DEX" />
 
-    <build timestamp="84179566567704" >
+    <build timestamp="179899464426772" >
         <artifact
             location="C:\Users\DDUTTA\Bengali_FM\app\build\outputs\apk\app-debug.apk"
             type="MAIN" />
     </build>
-    <build timestamp="84272166363950" >
+    <build timestamp="180465206171905" >
         <artifact
-            location="C:\Users\DDUTTA\Bengali_FM\app\build\intermediates\res\resources-debug.ap_"
-            type="RESOURCES" />
+            location="C:\Users\DDUTTA\Bengali_FM\app\build\intermediates\transforms\dex\debug\folders\1000\5\slice_0\classes.dex"
+            type="DEX" />
+    </build>
+    <build
+        timestamp="180502831858908"
+        verifier="COMPATIBLE" >
+        <artifact
+            location="C:\Users\DDUTTA\Bengali_FM\app\build\intermediates\builds\debug\180502831858908\classes.dex"
+            type="RELOAD_DEX" />
+    </build>
+    <build
+        timestamp="180526067172882"
+        verifier="COMPATIBLE" >
+        <artifact
+            location="C:\Users\DDUTTA\Bengali_FM\app\build\intermediates\builds\debug\180526067172882\classes.dex"
+            type="RELOAD_DEX" />
+    </build>
+    <build
+        timestamp="180557999436256"
+        verifier="COMPATIBLE" >
+        <artifact
+            location="C:\Users\DDUTTA\Bengali_FM\app\build\intermediates\builds\debug\180557999436256\classes.dex"
+            type="RELOAD_DEX" />
+    </build>
+    <build
+        timestamp="180579515805719"
+        verifier="COMPATIBLE" >
+        <artifact
+            location="C:\Users\DDUTTA\Bengali_FM\app\build\intermediates\builds\debug\180579515805719\classes.dex"
+            type="RELOAD_DEX" />
+    </build>
+    <build
+        timestamp="180679809738731"
+        verifier="COMPATIBLE" >
+        <artifact
+            location="C:\Users\DDUTTA\Bengali_FM\app\build\intermediates\builds\debug\180679809738731\classes.dex"
+            type="RELOAD_DEX" />
+    </build>
+    <build
+        timestamp="180762494760950"
+        verifier="COMPATIBLE" >
+        <artifact
+            location="C:\Users\DDUTTA\Bengali_FM\app\build\intermediates\builds\debug\180762494760950\classes.dex"
+            type="RELOAD_DEX" />
+    </build>
+    <build
+        timestamp="181047695527307"
+        verifier="COMPATIBLE" >
+        <artifact
+            location="C:\Users\DDUTTA\Bengali_FM\app\build\intermediates\reload-dex\debug\classes.dex"
+            type="RELOAD_DEX" />
     </build>
 
 </instant-run>

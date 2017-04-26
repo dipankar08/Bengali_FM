@@ -3,11 +3,13 @@ package in.peerreview.bengalifm;
 import java.util.List;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AlertDialog;
@@ -19,6 +21,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.TextView;
 
 
 public class MusicAndroidActivity extends AppCompatActivity {
@@ -26,13 +29,13 @@ public class MusicAndroidActivity extends AppCompatActivity {
 
 
 	void SendMsg(String msg){
-		log.append(msg+"\n");
+		//log.append(msg+"\n");
 	}
 
 
 	static Activity sActivity = null;
 	Button buttonCat,buttonCha,buttonStop,buttonRef;
-	EditText log;
+	TextView status;
 
 	String m_current_categories = "Internet";
 	String m_current_channel_name = "FNF FM";
@@ -47,8 +50,9 @@ public class MusicAndroidActivity extends AppCompatActivity {
 		buttonCha = (Button) findViewById(R.id.select_channel);
 		buttonStop = (Button) findViewById(R.id.stop);
 		buttonRef = (Button) findViewById(R.id.refresh);
-		log = (EditText)findViewById(R.id.logs);
-		log.setVisibility(View.INVISIBLE);
+		status = (TextView)findViewById(R.id.status);
+		//log = (EditText)findViewById(R.id.logs);
+		//log.setVisibility(View.INVISIBLE);
 		LinearLayout layout =(LinearLayout)findViewById(R.id.back);
 		final int sdk = android.os.Build.VERSION.SDK_INT;
 		if(sdk < android.os.Build.VERSION_CODES.JELLY_BEAN) {
@@ -89,10 +93,11 @@ public class MusicAndroidActivity extends AppCompatActivity {
 	}
 
 	private void PermUIActionOnServiceNotification(String s) {
-		if(s.equals("PLAY_START")){
-			Loading.showPlayProgressDialog();
-		} else{
-			Loading.hide();
+		//Loading.hide();
+		if(s.equals("PLAY_STARTED")){
+			//Loading.hide();
+		} else{ //PLAY_Error
+			//Loading.hide();
 		}
 	}
 
@@ -179,10 +184,8 @@ public class MusicAndroidActivity extends AppCompatActivity {
 						ListView lw = ((AlertDialog)dialog).getListView();
 						Object checkedItem = lw.getAdapter().getItem(lw.getCheckedItemPosition());
 						m_current_channel_name = checkedItem.toString();
-						Intent i=new Intent(MusicAndroidActivity.Get(), BackgroundSoundService.class);
-						i.setAction(BackgroundSoundService.ACTION_PLAY);
-						i.putExtra("Name", m_current_channel_name);
-						startService(i);
+						new InvokeService(MusicAndroidActivity.this).execute(m_current_channel_name);
+
 					}
 				});
 
@@ -204,6 +207,52 @@ public class MusicAndroidActivity extends AppCompatActivity {
 		AlertDialog dialog = builder.create();
 		// display dialog
 		dialog.show();
+	}
+
+	public class InvokeService extends AsyncTask<String, Void, Void> {
+		ProgressDialog pDialog;
+		Context appContext;
+		public InvokeService(Context ctx) {
+			appContext = ctx;
+		}
+		@Override
+		protected void onPreExecute() {
+
+			super.onPreExecute();
+			pDialog = new ProgressDialog(appContext);
+			pDialog.setCanceledOnTouchOutside(false);
+			pDialog.setCancelable(false);
+			pDialog.setMessage("Please Wait! We are trying to play the radio.");
+			pDialog.show();
+			status.setVisibility(View.INVISIBLE);
+		}
+		@Override
+		protected Void doInBackground(String... params) {
+			try {
+				Thread.sleep(500);
+				Intent i=new Intent(MusicAndroidActivity.Get(), BackgroundSoundService.class);
+				i.setAction(BackgroundSoundService.ACTION_PLAY);
+				i.putExtra("Name", m_current_channel_name);
+//				Loading.showPlayProgressDialog();
+				startService(i);
+
+			} catch (Exception e) {
+				e.printStackTrace();
+				if (pDialog.isShowing()) {
+					pDialog.dismiss();
+				}
+			}
+			return null;
+		}
+		@Override
+		protected void onPostExecute(Void aVoid) {
+			super.onPostExecute(aVoid);
+			if (pDialog.isShowing()) {
+				pDialog.dismiss();
+			}
+			status.setText("Now Playing "+ChannelList.getChannelDetails(m_current_channel_name).getName()+" ...");
+			status.setVisibility(View.VISIBLE);
+		}
 	}
 
 	@Override

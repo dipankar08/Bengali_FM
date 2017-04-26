@@ -20,8 +20,9 @@ public class Player {
 
     public static boolean play(Channel ci){
         //restart.
+        callback.beforePlay();
         cache = ci;
-        Loading.showPlayProgressDialog();
+        //Loading.showPlayProgressDialog();
         stop();
         String msg="";
         String url = ci.getUrl();
@@ -36,18 +37,22 @@ public class Player {
         } catch (IllegalArgumentException e) {
             //Toast.makeText(getApplicationContext(), "You might not set the URI correctly!", Toast.LENGTH_LONG).show();
             msg+=("IllegalArgumentException");
+            callback.onPlayError();
             return false;
         } catch (SecurityException e) {
             //Toast.makeText(getApplicationContext(), "You might not set the URI correctly!", Toast.LENGTH_LONG).show();
             msg+=("SecurityException");
+            callback.onPlayError();
             return false;
         } catch (IllegalStateException e) {
             //Toast.makeText(getApplicationContext(), "You might not set the URI correctly!", Toast.LENGTH_LONG).show();
             msg+=("IOException");
+            callback.onPlayError();
             return false;
         } catch (IOException e) {
             e.printStackTrace();
             msg+=("IOException");
+            callback.onPlayError();
             return false;
         }
         try {
@@ -56,10 +61,12 @@ public class Player {
         } catch (IllegalStateException e) {
             //Toast.makeText(getApplicationContext(), "You might not set the URI correctly!", Toast.LENGTH_LONG).show();
             msg+=("IllegalStateException");
+            callback.onPlayError();
             return false;
         } catch (IOException e) {
             //Toast.makeText(getApplicationContext(), "You might not set the URI correctly!", Toast.LENGTH_LONG).show();
             msg+=("IOException");
+            callback.onPlayError();
             return false;
         }
         //SendMsg("mPlayer.start");
