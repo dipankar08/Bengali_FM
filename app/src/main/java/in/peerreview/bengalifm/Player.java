@@ -126,6 +126,7 @@ public class Player {
 
     public static void playNext() {
         List<Channel> all  = ChannelList.getAllChannelForCategories(cache.getCategory());
+        if(all.size() <= 1) return;
         for(int i =0;i<all.size();i++){
             if(all.get(i) == cache){
                 if(i == all.size()){
@@ -139,6 +140,7 @@ public class Player {
 
     public static void playPrevious() {
         List<Channel> all  = ChannelList.getAllChannelForCategories(cache.getCategory());
+        if(all.size() <= 1) return;
         for(int i =0;i<all.size();i++){
             if(all.get(i) == cache){
                 if(i == 0 ){

@@ -4,27 +4,27 @@
     api-level="23"
     density="xxxhdpi"
     format="7"
-    timestamp="82180125424860"
+    timestamp="82384395299811"
     token="-4678465326203436421" >
 
     <task
         name="javac"
-        duration="442" />
+        duration="494" />
     <task
         name="instant-run-dex"
         duration="0" />
     <task
         name="instant-run-transform"
-        duration="425" />
+        duration="443" />
     <task
         name="verifier"
-        duration="172" />
+        duration="162" />
 
     <artifact
         location="C:\Users\ddutta\Bengali_FM\app\build\outputs\apk\app-debug.apk"
         type="MAIN" />
 
-    <build timestamp="82180125424860" >
+    <build timestamp="82384395299811" >
         <artifact
             location="C:\Users\ddutta\Bengali_FM\app\build\outputs\apk\app-debug.apk"
             type="MAIN" />
