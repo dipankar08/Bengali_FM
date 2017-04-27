@@ -70,14 +70,14 @@ public class ChannelList {
         return new ArrayList<String>(ans);
     }
 
-    public static List<String> getAllChannelForCategories(String cat){
-        HashSet<String> ans = new HashSet<>();
+    public static List<Channel> getAllChannelForCategories(String cat){
+        HashSet<Channel> ans = new HashSet<>();
         for(int i =0;i<FM.size();i++){
             if(FM.get(i).getCategory().equals(cat)) {
-                ans.add(FM.get(i).getName());
+                ans.add(FM.get(i));
             }
         }
-        return new ArrayList<String>(ans);
+        return new ArrayList<Channel>(ans);
     }
 
     public static Channel getChannelDetails(String name){
@@ -89,5 +89,4 @@ public class ChannelList {
         }
         return null;
     }
-
 }

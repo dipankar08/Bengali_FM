@@ -1,3 +1,82 @@
 <?xml version="1.0" encoding="utf-8"?>
-<items version="2" />
+<items version="2" >
 
+    <item
+        jar="C:\Users\ddutta\.gradle\caches\modules-2\files-2.1\org.apache.httpcomponents\httpcore\4.4.1\f5aa318bda4c6c8d688c9d00b90681dcd82ce636\httpcore-4.4.1.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="f5aa318bda4c6c8d688c9d00b90681dcd82ce636">
+        <dex dex="C:\Users\ddutta\Bengali_FM\app\build\intermediates\transforms\dex\debug\folders\1000\10\httpcore-4.4.1_c8d9b538fc3ad607db5d60a864e534cbe9428377\classes.dex" />
+    </item>
+    <item
+        jar="C:\Users\ddutta\Bengali_FM\app\build\intermediates\exploded-aar\com.android.support\support-v4\23.4.0\jars\classes.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="67bd36ee9340ec7c254108936ad16b24bed160cc">
+        <dex dex="C:\Users\ddutta\Bengali_FM\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-support-v4-23.4.0_3fab2ef6ac7ca8cbcc85e6df13f9a2deadb25c4e\classes.dex" />
+    </item>
+    <item
+        jar="C:\Users\ddutta\Bengali_FM\app\build\intermediates\exploded-aar\com.android.support\design\23.4.0\jars\classes.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="5326d9a850d491714fef8cbfaa9ea3416f0bf0d2">
+        <dex dex="C:\Users\ddutta\Bengali_FM\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-design-23.4.0_3a04db1a15491c71d04df0226918f32331c5c225\classes.dex" />
+    </item>
+    <item
+        jar="C:\Users\ddutta\Bengali_FM\app\build\intermediates\exploded-aar\com.android.support\support-vector-drawable\23.4.0\jars\classes.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="c2c594cace5d83a3227b2b6e658ecbfd586d3ed9">
+        <dex dex="C:\Users\ddutta\Bengali_FM\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-support-vector-drawable-23.4.0_4d0819955a80b4dadc2942299e385fa489d1b155\classes.dex" />
+    </item>
+    <item
+        jar="C:\Users\ddutta\Bengali_FM\app\build\intermediates\incremental-classes\debug\instant-run-bootstrap.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="ffb3065af719a20c400db7faa909ec2d99a2cd9c">
+        <dex dex="C:\Users\ddutta\Bengali_FM\app\build\intermediates\transforms\dex\debug\folders\1000\10\instant-run-bootstrap_cacf7d979f5a9a63542919de1ff4e85479b28a70\classes.dex" />
+    </item>
+    <item
+        jar="C:\Users\ddutta\Bengali_FM\app\build\intermediates\exploded-aar\com.android.support\animated-vector-drawable\23.4.0\jars\classes.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="de4db3785756bfb0915a9f59a9b3f2fea7407be4">
+        <dex dex="C:\Users\ddutta\Bengali_FM\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-animated-vector-drawable-23.4.0_09a57dc32715981df52bd10690f5d50f6e0eb7c0\classes.dex" />
+    </item>
+    <item
+        jar="C:\Users\ddutta\Bengali_FM\app\build\intermediates\exploded-aar\com.android.support\recyclerview-v7\23.4.0\jars\classes.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="ec75036c3c52e451d0cde50a5aedaf5fd32354a0">
+        <dex dex="C:\Users\ddutta\Bengali_FM\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-recyclerview-v7-23.4.0_06ff4a6a11787200b31e3587e28fff65cdd3bd80\classes.dex" />
+    </item>
+    <item
+        jar="C:\Users\ddutta\Bengali_FM\app\build\intermediates\exploded-aar\com.android.support\support-v4\23.4.0\jars\libs\internal_impl-23.4.0.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="ea3c07504d2c8f4b13aa17c45c1b68ed9c1c3674">
+        <dex dex="C:\Users\ddutta\Bengali_FM\app\build\intermediates\transforms\dex\debug\folders\1000\10\internal_impl-23.4.0_21133aa7c45d95554344d1768266b6656ea4836e\classes.dex" />
+    </item>
+    <item
+        jar="C:\Users\ddutta\Bengali_FM\app\build\intermediates\incremental-runtime-classes\debug\instant-run.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="6d8434e09e9689cf4bd716f45ba3123f39aa818e">
+        <dex dex="C:\Users\ddutta\Bengali_FM\app\build\intermediates\transforms\dex\debug\folders\1000\10\instant-run_43a20b9e1e900edd32e5f7ecf5f8aeac827a65fa\classes.dex" />
+    </item>
+    <item
+        jar="C:\Users\ddutta\Bengali_FM\app\build\intermediates\exploded-aar\com.android.support\appcompat-v7\23.4.0\jars\classes.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="548f06de403a9409f00554b3ee12a9fdea0e236c">
+        <dex dex="C:\Users\ddutta\Bengali_FM\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-appcompat-v7-23.4.0_1ceb92a654f5fd78198e79e61aeffdb15cc57ac9\classes.dex" />
+    </item>
+    <item
+        jar="C:\Users\ddutta\AppData\Local\Android\sdk\extras\android\m2repository\com\android\support\support-annotations\23.4.0\support-annotations-23.4.0.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="ffbe55fdb2bb456b1485831706a9eac3300bb6b8">
+        <dex dex="C:\Users\ddutta\Bengali_FM\app\build\intermediates\transforms\dex\debug\folders\1000\10\support-annotations-23.4.0_7e74847e3508dfa0744e41ce7bdc7df0a3293d69\classes.dex" />
+    </item>
+
+</items>

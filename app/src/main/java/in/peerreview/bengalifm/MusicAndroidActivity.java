@@ -165,8 +165,12 @@ public class MusicAndroidActivity extends AppCompatActivity {
 		builder.setTitle("Select FM Channel");
 
 		//list of items
-		List<String> list = ChannelList.getAllChannelForCategories(m_current_categories);
-		String[] items = list.toArray(new String[list.size()]);
+		List<Channel> list = ChannelList.getAllChannelForCategories(m_current_categories);
+
+		String[] items = new String[list.size()];
+		for(int i =0;i<list.size();i++){
+			items[i] = list.get(i).getName();
+		}
 		boolean[] selectedItemsArray = new boolean[items.length];
 		builder.setSingleChoiceItems(items, 0,
 				new DialogInterface.OnClickListener() {

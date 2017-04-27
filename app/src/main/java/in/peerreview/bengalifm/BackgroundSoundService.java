@@ -91,7 +91,7 @@ public class BackgroundSoundService extends Service {
                                             Log.e( "MediaPlayerService", "onStop");
                                             //Stop media player here
                                             NotificationManager notificationManager = (NotificationManager) getApplicationContext().getSystemService(Context.NOTIFICATION_SERVICE);
-                                            notificationManager.cancel( 1 );
+                                            //notificationManager.cancel( 1 );
                                             //Intent intent = new Intent( MusicAndroidActivity.Get().getApplicationContext(), BackgroundSoundService.this );
                                            // stopService( intent );
                                         }
@@ -129,14 +129,12 @@ public class BackgroundSoundService extends Service {
             Player.play(ChannelList.getChannelDetails(name));
         } else if( action.equalsIgnoreCase( ACTION_PAUSE ) ) {
             Player.pause();
-        } else if( action.equalsIgnoreCase( ACTION_FAST_FORWARD ) ) {
-            Player.fastForward();
+        } else if( action.equalsIgnoreCase( ACTION_NEXT ) ) {
+            Player.playNext();
         } else if( action.equalsIgnoreCase( ACTION_RESUME ) ) {
             Player.resume();
         } else if( action.equalsIgnoreCase( ACTION_PREVIOUS ) ) {
-           // Player.skipToPrevious();
-        } else if( action.equalsIgnoreCase( ACTION_NEXT ) ) {
-            //Player.skipToNext();
+            Player.playPrevious();
         } else if( action.equalsIgnoreCase( ACTION_STOP ) ) {
             Player.stop();
         }
@@ -164,7 +162,6 @@ public class BackgroundSoundService extends Service {
                 .setStyle(style);
 
         builder.addAction( generateAction( android.R.drawable.ic_media_previous, "Previous", ACTION_PREVIOUS ) );
-        //builder.addAction( generateAction( android.R.drawable.ic_media_rew, "Rewind", ACTION_REWIND ) );
         builder.addAction( action );
         builder.addAction( generateAction( android.R.drawable.ic_media_pause,"Stop", ACTION_STOP ) );
         builder.addAction( generateAction( android.R.drawable.ic_media_next, "Next", ACTION_NEXT ) );
