@@ -15,6 +15,16 @@ public class Player {
     static Channel cache;//now playing.
     static ICallback callback;
     static boolean trying = false;
+    static final int STATE_NONE = -1;
+    static final int STATE_TRYPLAYING = 1;
+    static final int STATE_PLAYING = 2;
+    static final int STATE_PLAYING_ERROR = 3;
+    static final int STATE_PLAYING_SUCCESS = 4;
+
+    static int m_state = STATE_NONE;
+    static int getState(){
+        return  m_state;
+    }
     static{
         mPlayer = new MediaPlayer();
         mPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
@@ -22,6 +32,7 @@ public class Player {
 
     public static boolean play(Channel ci){
         if(trying == true) return false;
+        m_state = STATE_TRYPLAYING;
         trying = true;
         //restart.
         callback.beforePlay();
@@ -38,29 +49,34 @@ public class Player {
         try {
             msg+=("mPlayer.setDataSource");
             mPlayer.setDataSource(url);
-        } catch (IllegalArgumentException e) {
+        }
+        catch (IllegalArgumentException e) {
             //Toast.makeText(getApplicationContext(), "You might not set the URI correctly!", Toast.LENGTH_LONG).show();
             msg+=("IllegalArgumentException");
             callback.onPlayError();
             trying = false;
+            m_state = STATE_PLAYING_ERROR;
             return false;
         } catch (SecurityException e) {
             //Toast.makeText(getApplicationContext(), "You might not set the URI correctly!", Toast.LENGTH_LONG).show();
             msg+=("SecurityException");
             callback.onPlayError();
             trying = false;
+            m_state = STATE_PLAYING_ERROR;
             return false;
         } catch (IllegalStateException e) {
             //Toast.makeText(getApplicationContext(), "You might not set the URI correctly!", Toast.LENGTH_LONG).show();
             msg+=("IOException");
             callback.onPlayError();
             trying = false;
+            m_state = STATE_PLAYING_ERROR;
             return false;
         } catch (IOException e) {
             e.printStackTrace();
             msg+=("IOException");
             callback.onPlayError();
             trying = false;
+            m_state = STATE_PLAYING_ERROR;
             return false;
         }
         try {
@@ -71,12 +87,14 @@ public class Player {
             msg+=("IllegalStateException");
             callback.onPlayError();
             trying = false;
+            m_state = STATE_PLAYING_ERROR;
             return false;
         } catch (IOException e) {
             //Toast.makeText(getApplicationContext(), "You might not set the URI correctly!", Toast.LENGTH_LONG).show();
             msg+=("IOException");
             callback.onPlayError();
             trying = false;
+            m_state = STATE_PLAYING_ERROR;
             return false;
         }
         //SendMsg("mPlayer.start");
@@ -85,14 +103,15 @@ public class Player {
         Loading.hide();
         callback.onPlay();
         trying = false;
+        m_state = STATE_PLAYING_SUCCESS;
         return true;
     }
     public static boolean pause(){
         if(mPlayer != null){
             mPlayer.stop();
+            callback.onPause();
             mPlayer = null;
         }
-        callback.onPause();
         return true;
     }
     public static boolean resume(){
@@ -125,6 +144,7 @@ public class Player {
     }
 
     public static void playNext() {
+        if(cache == null) return;
         List<Channel> all  = ChannelList.getAllChannelForCategories(cache.getCategory());
         if(all.size() <= 1) return;
         for(int i =0;i<all.size();i++){
@@ -139,10 +159,11 @@ public class Player {
     }
 
     public static void playPrevious() {
+        if(cache == null) return;
         List<Channel> all  = ChannelList.getAllChannelForCategories(cache.getCategory());
         if(all.size() <= 1) return;
         for(int i =0;i<all.size();i++){
-            if(all.get(i) == cache){
+            if(all.get(i).getName().equals(cache.getName())){
                 if(i == 0 ){
                     play(all.get(all.size() -1));
                 } else{

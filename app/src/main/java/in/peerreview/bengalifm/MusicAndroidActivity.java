@@ -22,6 +22,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 public class MusicAndroidActivity extends AppCompatActivity {
@@ -254,8 +255,27 @@ public class MusicAndroidActivity extends AppCompatActivity {
 			if (pDialog.isShowing()) {
 				pDialog.dismiss();
 			}
-			status.setText("Now Playing "+ChannelList.getChannelDetails(m_current_channel_name).getName()+" ...");
-			status.setVisibility(View.VISIBLE);
+			int state = Player.getState();
+			if(state == Player.STATE_PLAYING_SUCCESS){
+				Toast.makeText(MusicAndroidActivity.this,"State:"+Player.getState(),	Toast.LENGTH_SHORT).show();
+				status.setText("Now Playing "+ChannelList.getChannelDetails(m_current_channel_name).getName()+" ...");
+				status.setVisibility(View.VISIBLE);
+			} else {
+				AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(MusicAndroidActivity.this);
+				alertDialogBuilder.setMessage("Not able to play music, Do you want to close the app?");
+				alertDialogBuilder.setPositiveButton("yes",new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface arg0, int arg1) {
+						finish();
+					}
+				});
+				alertDialogBuilder.setNegativeButton("No",new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int which) {
+						Toast.makeText(MusicAndroidActivity.this,"You clicked yes button",Toast.LENGTH_LONG).show();
+					}
+				});
+				AlertDialog alertDialog = alertDialogBuilder.create();
+				alertDialog.show();
+			}
 		}
 	}
 
