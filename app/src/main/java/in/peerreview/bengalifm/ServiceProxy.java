@@ -1,6 +1,7 @@
 package in.peerreview.bengalifm;
 
 import android.os.AsyncTask;
+import android.util.Log;
 
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
@@ -19,10 +20,8 @@ import org.json.*;
 /**
  * Created by ddutta on 4/23/2017.
  */
-class ServiceProxy extends AsyncTask<Void, Void, String> {
-
-
-    protected String getASCIIContentFromEntity(HttpEntity entity) throws IllegalStateException, IOException {
+class ServiceProxy  {
+    protected static String getASCIIContentFromEntity(HttpEntity entity) throws IllegalStateException, IOException {
         InputStream in = entity.getContent();
         StringBuffer out = new StringBuffer();
         int n = 1;
@@ -33,9 +32,8 @@ class ServiceProxy extends AsyncTask<Void, Void, String> {
         }
         return out.toString();
     }
-    @Override
-    protected String doInBackground(Void... params) {
 
+    public static boolean loadFMChannel() {
         HttpClient httpClient = new DefaultHttpClient();
         HttpContext localContext = new BasicHttpContext();
         HttpGet httpGet = new HttpGet("http://52.89.112.230/api/bengalifm?page=0&limit=100");
@@ -56,20 +54,41 @@ class ServiceProxy extends AsyncTask<Void, Void, String> {
                     String type = null;// arr.getJSONObject(i).getString("type");
                     ans.add(new Channel(category,name,url,type));
                 }
-                ChannelList.setList(ans);
+                ChannelList.appendList(ans);
+                return true;
             }
         } catch (Exception e) {
-            return e.getLocalizedMessage();
+            Log.d("Duipankar", String.valueOf(e.getStackTrace()));
         }
-        return null;
+        return false;
     }
+    public static boolean loadLiveChannel() {
+        HttpClient httpClient = new DefaultHttpClient();
+        HttpContext localContext = new BasicHttpContext();
+        HttpGet httpGet = new HttpGet("http://52.89.112.230/api/bengalifmlive?page=0&limit=20");
+        String text = null;
+        List<Channel> ans = new ArrayList<>();
+        try {
+            HttpResponse response = httpClient.execute(httpGet, localContext);
+            HttpEntity entity = response.getEntity();
+            text = getASCIIContentFromEntity(entity);
+            JSONObject obj = new JSONObject(text);
+            if(obj.getString("status").equals("success")){
+                JSONArray arr = obj.getJSONArray("out");
 
-    @Override
-    protected void onPreExecute() {
-        Loading.showDownloadProgressDialog();
-    }
-    @Override
-    protected void onPostExecute(String results) {
-        Loading.hide();
+                for (int i = 0; i < arr.length(); i++){
+                    String category = arr.getJSONObject(i).getString("category");
+                    String name = arr.getJSONObject(i).getString("name");
+                    String url = arr.getJSONObject(i).getString("url");
+                    String type = null;// arr.getJSONObject(i).getString("type");
+                    ans.add(new Channel(category,name,url,type));
+                }
+                ChannelList.appendList(ans);
+                return true;
+            }
+        } catch (Exception e) {
+            Log.d("Duipankar", String.valueOf(e.getStackTrace()));
+        }
+        return false;
     }
 }

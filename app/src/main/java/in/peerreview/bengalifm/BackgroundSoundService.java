@@ -32,10 +32,6 @@ public class BackgroundSoundService extends Service {
     public static final String ACTION_PREVIOUS = "action_previous";
     public static final String ACTION_STOP = "action_stop";
 
-    private MediaPlayer mMediaPlayer;
-    private MediaSessionManager mManager;
-    private MediaSession mSession;
-    private MediaController mController;
 
     @Override
     public IBinder onBind(Intent intent) {
@@ -102,7 +98,7 @@ public class BackgroundSoundService extends Service {
         sendResult("PLAY_START");
         Log.d("Dipankar","BackgroundSoundService stared");
         handleIntent(intent);
-        return -1;//START_STICKY;
+        return START_STICKY;
     }
     @Override
     public void onLowMemory() {
@@ -162,15 +158,11 @@ public class BackgroundSoundService extends Service {
 
         builder.addAction( generateAction( android.R.drawable.ic_media_previous, "Previous", ACTION_PREVIOUS ) );
         builder.addAction( action );
-        builder.addAction( generateAction( android.R.drawable.ic_media_pause,"Stop", ACTION_STOP ) );
+       // builder.addAction( generateAction( android.R.drawable.ic_media_pause,"Stop", ACTION_STOP ) );
         builder.addAction( generateAction( android.R.drawable.ic_media_next, "Next", ACTION_NEXT ) );
         style.setShowActionsInCompactView(0,1,2,3,4);
 
         NotificationManager notificationManager = (NotificationManager) getSystemService( Context.NOTIFICATION_SERVICE );
         notificationManager.notify( 1, builder.build() );
     }
-
-
-
-
 }

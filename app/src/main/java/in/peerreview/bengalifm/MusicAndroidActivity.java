@@ -1,5 +1,6 @@
 package in.peerreview.bengalifm;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import android.app.Activity;
@@ -9,6 +10,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.content.LocalBroadcastManager;
@@ -35,7 +37,7 @@ public class MusicAndroidActivity extends AppCompatActivity {
 
 
 	static Activity sActivity = null;
-	Button buttonCat,buttonCha,buttonStop,buttonRef;
+	Button buttonCat,buttonCha,buttonStop,buttonRef,buttonRate;
 	TextView status;
 
 	String m_current_categories = "Internet";
@@ -51,6 +53,7 @@ public class MusicAndroidActivity extends AppCompatActivity {
 		buttonCha = (Button) findViewById(R.id.select_channel);
 		buttonStop = (Button) findViewById(R.id.stop);
 		buttonRef = (Button) findViewById(R.id.refresh);
+		buttonRate = (Button) findViewById(R.id.rate);
 		status = (TextView)findViewById(R.id.status);
 		//log = (EditText)findViewById(R.id.logs);
 		//log.setVisibility(View.INVISIBLE);
@@ -86,9 +89,16 @@ public class MusicAndroidActivity extends AppCompatActivity {
 				Player.stop();
 			}
 		});
-		buttonRef.setOnClickListener(new OnClickListener() {
+
+
+		buttonRate.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
-				new ServiceProxy().execute();
+				final String appPackageName = getPackageName(); // getPackageName() from Context or Activity object
+				try {
+					startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + appPackageName)));
+				} catch (android.content.ActivityNotFoundException anfe) {
+					startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + appPackageName)));
+				}
 			}
 		});
 	}

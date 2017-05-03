@@ -40,8 +40,9 @@ class Channel {
 
 
 public class ChannelList {
+    //this is all static radio - need to call all.
     static List<Channel> FM = new ArrayList<>();
-    static{
+    static void populateDefault(){
         FM.add(new Channel("Internet","FNF FM", "http://94.23.36.117/proxy/arrahm00?mp=/stream",null));
         FM.add(new Channel("Kolkata","AIR BENGALI", "http://airlive.nic.in/hls-live/livepkgr/_definst_/bengali/bengali.m3u8",null));
         FM.add(new Channel("Mirchi","Mirchi top 20", "http://mt20live-lh.akamaihd.net/i/mt20live_1@346531/master.m3u8",null));
@@ -61,7 +62,9 @@ public class ChannelList {
     public static void setList(List<Channel> list ){
         FM = list;
     }
-
+    public static void appendList(List<Channel> list ){
+        FM.addAll(list);
+    }
     public static List<String> getAllCategories(){
         HashSet<String> ans = new HashSet<>();
         for(int i =0;i<FM.size();i++){

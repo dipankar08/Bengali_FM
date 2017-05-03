@@ -44,7 +44,15 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dip"
+        android:visibility="gone"
         android:text="Refresh FM List" />
+
+    <Button
+        android:id="@+id/rate"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dip"
+        android:text="Rate this App!" />
 
     <TextView
         android:id="@+id/status"

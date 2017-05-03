@@ -4,32 +4,38 @@
     api-level="23"
     density="xxxhdpi"
     format="7"
-    timestamp="99957662727183"
+    timestamp="95394325791416"
     token="-6646474173823153215" >
 
     <task
         name="javac"
-        duration="630" />
+        duration="697" />
     <task
         name="instant-run-dex"
         duration="0" />
     <task
         name="instant-run-transform"
-        duration="128" />
+        duration="169" />
     <task
         name="verifier"
-        duration="3" />
+        duration="27" />
 
+    <artifact
+        location="C:\Users\DDUTTA\Bengali_FM\app\build\intermediates\res\resources-debug.ap_"
+        type="RESOURCES" />
     <artifact
         location="C:\Users\DDUTTA\Bengali_FM\app\build\intermediates\transforms\dex\debug\folders\1000\5\slice_0\classes.dex"
         type="DEX" />
 
-    <build timestamp="98847538263984" >
+    <build timestamp="94778838189772" >
         <artifact
             location="C:\Users\DDUTTA\Bengali_FM\app\build\outputs\apk\app-debug.apk"
             type="MAIN" />
     </build>
-    <build timestamp="99957662727183" >
+    <build timestamp="95394325791416" >
+        <artifact
+            location="C:\Users\DDUTTA\Bengali_FM\app\build\intermediates\res\resources-debug.ap_"
+            type="RESOURCES" />
         <artifact
             location="C:\Users\DDUTTA\Bengali_FM\app\build\intermediates\transforms\dex\debug\folders\1000\5\slice_0\classes.dex"
             type="DEX" />
