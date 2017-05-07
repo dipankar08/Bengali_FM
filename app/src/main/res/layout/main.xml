@@ -40,12 +40,12 @@
         android:layout_margin="10dip"
         android:text="Stop" />
     <Button
-        android:id="@+id/refresh"
+        android:id="@+id/feature"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dip"
-        android:visibility="gone"
-        android:text="Refresh FM List" />
+        android:visibility="visible"
+        android:text="Test Features" />
 
     <Button
         android:id="@+id/rate"

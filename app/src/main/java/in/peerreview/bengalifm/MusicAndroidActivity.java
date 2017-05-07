@@ -37,7 +37,7 @@ public class MusicAndroidActivity extends AppCompatActivity {
 
 
 	static Activity sActivity = null;
-	Button buttonCat,buttonCha,buttonStop,buttonRef,buttonRate;
+	Button buttonCat,buttonCha,buttonStop,buttonRef,buttonRate,featureTest;
 	TextView status;
 
 	String m_current_categories = "Internet";
@@ -52,8 +52,8 @@ public class MusicAndroidActivity extends AppCompatActivity {
 		buttonCat = (Button) findViewById(R.id.select_categories);
 		buttonCha = (Button) findViewById(R.id.select_channel);
 		buttonStop = (Button) findViewById(R.id.stop);
-		buttonRef = (Button) findViewById(R.id.refresh);
 		buttonRate = (Button) findViewById(R.id.rate);
+		featureTest = (Button) findViewById(R.id.feature);
 		status = (TextView)findViewById(R.id.status);
 		//log = (EditText)findViewById(R.id.logs);
 		//log.setVisibility(View.INVISIBLE);
@@ -99,6 +99,28 @@ public class MusicAndroidActivity extends AppCompatActivity {
 				} catch (android.content.ActivityNotFoundException anfe) {
 					startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + appPackageName)));
 				}
+			}
+		});
+		AudioRecoder.register(new IAudioRecoderCallback(){
+			@Override
+			public void onStarted(){
+				featureTest.setText("Stop Recording");
+			};
+			@Override
+			public void onStoped(){
+				featureTest.setText("Start Recording");
+			}
+		});
+		featureTest.setOnClickListener(new OnClickListener() {
+			public void onClick(View v) {
+
+				if(AudioRecoder.isStarted()){
+					AudioRecoder.stop();
+
+				} else{
+					AudioRecoder.start();
+				}
+				Player.stop();
 			}
 		});
 	}
