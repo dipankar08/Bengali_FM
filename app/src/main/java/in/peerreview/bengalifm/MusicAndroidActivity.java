@@ -111,9 +111,9 @@ public class MusicAndroidActivity extends AppCompatActivity {
 				featureTest.setText("Start Recording");
 			}
 		});
+		/*
 		featureTest.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
-
 				if(AudioRecoder.isStarted()){
 					AudioRecoder.stop();
 
@@ -121,6 +121,36 @@ public class MusicAndroidActivity extends AppCompatActivity {
 					AudioRecoder.start();
 				}
 				Player.stop();
+			}
+		});
+		*/
+		featureTest.setOnClickListener(new OnClickListener() {
+			AlertDialog levelDialog;
+			public void onClick(View v) {
+				final CharSequence[] items = {"15 Min", "30 Min ","Cancel"};
+
+				// Creating and Building the Dialog
+				AlertDialog.Builder builder = new AlertDialog.Builder(MusicAndroidActivity.Get());
+				builder.setTitle("Select Auto close FM");
+				builder.setSingleChoiceItems(items, -1, new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int item) {
+						switch(item)
+						{
+							case 0:
+								MyAlarm.setCloseAppAfter(15);
+								break;
+							case 1:
+								MyAlarm.setCloseAppAfter(30);
+								break;
+							case 3:
+								MyAlarm.cancelCloseAppTimer();
+								break;
+						}
+						levelDialog.dismiss();
+					}
+				});
+				levelDialog = builder.create();
+				levelDialog.show();
 			}
 		});
 	}

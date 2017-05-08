@@ -49,7 +49,7 @@ public class BackgroundSoundService extends Service {
     }
 
     public void onStop() {
-
+        Log.d("Dipankar","BackgroundSoundService onStop called");
     }
 
     public void onPause() {
@@ -57,7 +57,7 @@ public class BackgroundSoundService extends Service {
     }
     @Override
     public void onDestroy() {
-        Log.d("Dipankar","BackgroundSoundService stoped");
+        Log.d("Dipankar","BackgroundSoundService onDestroy");
         Player.stop();
     }
     @Override
@@ -99,6 +99,13 @@ public class BackgroundSoundService extends Service {
         Log.d("Dipankar","BackgroundSoundService stared");
         handleIntent(intent);
         return START_STICKY;
+    }
+    @Override
+    public boolean stopService(Intent name) {
+        Log.d("Dipankar","BackgroundSoundService stopService called");
+        Player.stop();
+        return super.stopService(name);
+
     }
     @Override
     public void onLowMemory() {
