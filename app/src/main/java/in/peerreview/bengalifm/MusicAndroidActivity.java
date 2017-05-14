@@ -37,8 +37,8 @@ public class MusicAndroidActivity extends AppCompatActivity {
 
 
 	static Activity sActivity = null;
-	Button buttonCat,buttonCha,buttonStop,buttonRef,buttonRate,featureTest;
-	TextView status;
+	Button buttonCat,buttonCha,buttonStop,buttonRef,buttonRate,buttonTimer,featureTest;
+	public static TextView status,m_timerText;
 
 	String m_current_categories = "Internet";
 	String m_current_channel_name = "FNF FM";
@@ -53,8 +53,10 @@ public class MusicAndroidActivity extends AppCompatActivity {
 		buttonCha = (Button) findViewById(R.id.select_channel);
 		buttonStop = (Button) findViewById(R.id.stop);
 		buttonRate = (Button) findViewById(R.id.rate);
+		buttonTimer = (Button) findViewById(R.id.timer_btn);
 		featureTest = (Button) findViewById(R.id.feature);
 		status = (TextView)findViewById(R.id.status);
+		m_timerText = (TextView)findViewById(R.id.timer_text);
 		//log = (EditText)findViewById(R.id.logs);
 		//log.setVisibility(View.INVISIBLE);
 		LinearLayout layout =(LinearLayout)findViewById(R.id.back);
@@ -111,23 +113,18 @@ public class MusicAndroidActivity extends AppCompatActivity {
 				featureTest.setText("Start Recording");
 			}
 		});
-		/*
+
 		featureTest.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
-				if(AudioRecoder.isStarted()){
-					AudioRecoder.stop();
-
-				} else{
-					AudioRecoder.start();
-				}
-				Player.stop();
+				Toast.makeText(MusicAndroidActivity.Get(), "Feature button clicked.", Toast.LENGTH_LONG).show();
+				MyAlarm.setAlarm(getApplicationContext());
 			}
 		});
-		*/
-		featureTest.setOnClickListener(new OnClickListener() {
+
+		buttonTimer.setOnClickListener(new OnClickListener() {
 			AlertDialog levelDialog;
 			public void onClick(View v) {
-				final CharSequence[] items = {"15 Min", "30 Min ","Cancel"};
+				final CharSequence[] items = {"5 Min", "15 Min", "30 Min ","60 Min ","Cancel"};
 
 				// Creating and Building the Dialog
 				AlertDialog.Builder builder = new AlertDialog.Builder(MusicAndroidActivity.Get());
@@ -137,13 +134,19 @@ public class MusicAndroidActivity extends AppCompatActivity {
 						switch(item)
 						{
 							case 0:
-								MyAlarm.setCloseAppAfter(15);
+								AppCloseTimer.start(5);
 								break;
 							case 1:
-								MyAlarm.setCloseAppAfter(30);
+								AppCloseTimer.start(15);
+								break;
+							case 2:
+								AppCloseTimer.start(30);
 								break;
 							case 3:
-								MyAlarm.cancelCloseAppTimer();
+								AppCloseTimer.start(60);
+								break;
+							case 4:
+								AppCloseTimer.cancel();
 								break;
 						}
 						levelDialog.dismiss();

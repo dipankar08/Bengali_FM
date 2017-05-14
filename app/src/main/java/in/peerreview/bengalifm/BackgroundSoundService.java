@@ -14,6 +14,9 @@ import android.media.session.MediaSessionManager;
 import android.os.IBinder;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
+import android.widget.Toast;
+
+import java.util.Date;
 
 /**
  * Created by ddutta on 4/24/2017.
@@ -92,17 +95,21 @@ public class BackgroundSoundService extends Service {
                                         }
                                     }
         );
+        Toast.makeText(this, "Backgroud Sound service:  onCreate", Toast.LENGTH_LONG).show();
     }
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         sendResult("PLAY_START");
         Log.d("Dipankar","BackgroundSoundService stared");
         handleIntent(intent);
-        return START_STICKY;
+        Toast.makeText(this, "Backgroud Sound service:  onStartCommand", Toast.LENGTH_LONG).show();
+        Log.d("Dipankar", "event received in service: " + new Date().toString());
+        return Service.START_NOT_STICKY;
     }
     @Override
     public boolean stopService(Intent name) {
         Log.d("Dipankar","BackgroundSoundService stopService called");
+        Toast.makeText(this, "Backgroud Sound service:  stopService", Toast.LENGTH_LONG).show();
         Player.stop();
         return super.stopService(name);
 
@@ -122,12 +129,15 @@ public class BackgroundSoundService extends Service {
 
     //Notifuicatison...
     private void handleIntent( Intent intent ) {
+        Log.d("Dipankar",intent.toString());
+        Toast.makeText(this, "Backgroud Sound service:  handleIntent", Toast.LENGTH_LONG).show();
         if( intent == null || intent.getAction() == null )
             return;
 
         String action = intent.getAction();
         if( action.equalsIgnoreCase( ACTION_PLAY ) ) {
             String name = intent.getStringExtra("Name");
+            Log.d("Dipankar",name);
             Player.play(ChannelList.getChannelDetails(name));
         } else if( action.equalsIgnoreCase( ACTION_PAUSE ) ) {
             Player.pause();

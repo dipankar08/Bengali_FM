@@ -32,8 +32,15 @@
                 <action android:name="android.intent.action.MAIN" />
             </intent-filter>
         </activity>
-        <service android:enabled="true"
-            android:name="in.peerreview.bengalifm.BackgroundSoundService"/>
-        <receiver android:process=":remote" android:name="in.peerreview.bengalifm.MyAlarm"></receiver>
+        <service android:enabled="true"  android:name="in.peerreview.bengalifm.BackgroundSoundService"/>
+        <receiver  android:name="in.peerreview.bengalifm.MyAlarm">
+        </receiver>
+
+        <receiver android:name="SchedulerSetupReceiver">
+            <intent-filter >
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="android.intent.action.USER_PRESENT" />
+            </intent-filter>
+        </receiver>
     </application>
 </manifest>

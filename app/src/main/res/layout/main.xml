@@ -40,6 +40,13 @@
         android:layout_margin="10dip"
         android:text="Stop" />
     <Button
+        android:id="@+id/timer_btn"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dip"
+        android:visibility="visible"
+        android:text="App Close Timer" />
+    <Button
         android:id="@+id/feature"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
@@ -62,6 +69,16 @@
         android:gravity="center"
         android:text=""
         android:visibility="invisible"
+        android:textSize="20dp" />
+
+    <TextView
+        android:id="@+id/timer_text"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:gravity="center"
+        android:text=""
+        android:visibility="gone"
         android:textSize="20dp" />
 
 

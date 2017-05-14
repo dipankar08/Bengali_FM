@@ -6,7 +6,10 @@ package in.peerreview.bengalifm;
         import android.content.Context;
         import android.content.Intent;
         import android.os.PowerManager;
+        import android.os.SystemClock;
         import android.widget.Toast;
+
+        import java.util.Calendar;
 
 public class MyAlarm extends BroadcastReceiver
 {
@@ -15,40 +18,38 @@ public class MyAlarm extends BroadcastReceiver
     @Override
     public void onReceive(Context context, Intent intent)
     {
-        PowerManager pm = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
-        PowerManager.WakeLock wl = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "");
-        wl.acquire();
-
-        // Put here YOUR code.
-        Toast.makeText(context, "Alarm !!!!!!!!!!", Toast.LENGTH_LONG).show(); // For example
-        Player.stop();
-
-        //context.stopService(new Intent(new Intent(MusicAndroidActivity.Get(), BackgroundSoundService.class)));
-        wl.release();
-        MusicAndroidActivity.Get().finish();
+        System.out.println("Time is 12 Am");
+        Toast.makeText(context, "Alarm Triggered", Toast.LENGTH_LONG).show();
+        Intent eventService = new Intent(context, BackgroundSoundService.class);
+        context.startService(eventService);
     }
 
-    public void setAlarm(Context context, int min)
+    public static void setAlarm(Context context)
     {
-        AlarmManager am =( AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
-        Intent i = new Intent(context, MyAlarm.class);
-        PendingIntent pi = PendingIntent.getBroadcast(context, 0, i, 0);
-        am.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), 1000 * 60 * min, pi); // Millisec * Second * Minute
+        cancelAlarm(context);
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(System.currentTimeMillis());
+        calendar.set(Calendar.HOUR_OF_DAY, 23);
+        calendar.set(Calendar.MINUTE, 33);
+
+        AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+
+        Intent myIntent = new Intent(MusicAndroidActivity.Get() , BackgroundSoundService.class);
+        PendingIntent pendingIntent =PendingIntent.getBroadcast(MusicAndroidActivity.Get().getApplicationContext(), 0, myIntent,PendingIntent.FLAG_UPDATE_CURRENT);
+        //alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), 24*60*60*1000, pendingIntent);
+        alarmManager.setInexactRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP,
+                SystemClock.elapsedRealtime() + AlarmManager.INTERVAL_DAY,
+                AlarmManager.INTERVAL_DAY, pendingIntent);
+        Toast.makeText(context, "Alarm set", Toast.LENGTH_LONG).show();
     }
 
-    public void cancelAlarm(Context context)
+    public static void cancelAlarm(Context context)
     {
         Intent intent = new Intent(context, MyAlarm.class);
         PendingIntent sender = PendingIntent.getBroadcast(context, 0, intent, 0);
         AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         alarmManager.cancel(sender);
+        Toast.makeText(context, "Alarm Canceled", Toast.LENGTH_LONG).show();
     }
 
-    public static void setCloseAppAfter(int i) {
-        sMyAlarm.setAlarm(MusicAndroidActivity.Get(), 2);
-    }
-
-    public static void cancelCloseAppTimer() {
-        sMyAlarm.cancelAlarm(MusicAndroidActivity.Get());
-    }
 }
