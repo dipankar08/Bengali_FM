@@ -89,7 +89,7 @@
             android:layout_width="25dip"
             android:layout_height="25dip"
             android:color="#fff"
-            android:background="@drawable/volume"
+            android:background="@drawable/vol"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
             android:layout_marginTop="20dp"

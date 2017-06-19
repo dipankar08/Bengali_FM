@@ -61,6 +61,8 @@ import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -84,7 +86,7 @@ public class MainActivity extends AppCompatActivity
 
     private Nodes m_curPlayingNode;
     public static List<Nodes> m_curPlayList = new ArrayList<>();
-    public static List<Nodes> m_searchPlayList = new ArrayList<>();
+
     public static List<Nodes> m_febPlayList = new ArrayList<>();
     private List<BaseFragment> s_allFrags = new ArrayList<>();
     public BaseFragment m_curFragment = null;
@@ -114,9 +116,9 @@ public class MainActivity extends AppCompatActivity
 
         tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(viewPager);
-        tabLayout.getTabAt(0).setIcon(R.drawable.fevyes);
-        tabLayout.getTabAt(1).setIcon(R.drawable.guitar);
-        tabLayout.getTabAt(2).setIcon(R.drawable.play);
+        tabLayout.getTabAt(0).setIcon(R.drawable.fev);
+        tabLayout.getTabAt(1).setIcon(R.drawable.radio);
+        tabLayout.getTabAt(2).setIcon(R.drawable.music);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -147,7 +149,7 @@ public class MainActivity extends AppCompatActivity
         vol.setOnClickListener(this);
         fev.setOnClickListener(this);
         loadFev();
-        LoadRemoteData();
+        LoadRemoteData("active",null);
         //viewadapter.getFragment(0);
         sendEventLaunch();
         populateLocalFiles();
@@ -233,10 +235,13 @@ public class MainActivity extends AppCompatActivity
         String name,img,tags,url;
     };
 
-    public void LoadRemoteData(){
+    public void LoadRemoteData(String state, String tag){
+        if(state == null){
+            state = "active";
+        }
         OkHttpClient client = new OkHttpClient();
         Request request = new Request.Builder()
-                .url("http://52.89.112.230/api/bengalifm?limit=100")
+                .url("http://52.89.112.230/api/nodel_bengalifm?limit=200&state="+state)
                 .build();
         client.newCall(request).enqueue(new Callback() {
             @Override
@@ -252,6 +257,7 @@ public class MainActivity extends AppCompatActivity
                 } else {
                     showToast("Load FM list failed");
                     try {
+                        final List<Nodes> m_searchPlayList = new ArrayList<>();
                         String jsonData = response.body().string();
                         JSONObject Jobject = new JSONObject(jsonData);
                         JSONArray Jarray = null;
@@ -265,6 +271,12 @@ public class MainActivity extends AppCompatActivity
                         new Handler(Looper.getMainLooper()).post(new Runnable() {
                             @Override
                             public void run() {
+                                Collections.sort(m_searchPlayList, new Comparator<Nodes>() {
+                                    @Override
+                                    public int compare(Nodes a1, Nodes a2) {
+                                        return a1.getName().compareTo(a2.getName());
+                                    }
+                                });
                                 s_allFrags.get(1).setNodes(m_searchPlayList);
                             }
                         });
