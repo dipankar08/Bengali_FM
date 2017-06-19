@@ -1,6 +1,7 @@
-package in.peerreview.bengalifm;
+package in.peerreview.fmradioindia;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -703,6 +704,7 @@ public class MainActivity extends AppCompatActivity
         editor.commit();
     }
     // ******************************* Fragments************************************************
+    @SuppressLint("validFragment")
     public class BaseFragment extends Fragment{
         protected String m_fragmentTag;
         protected View m_myview;
@@ -714,7 +716,8 @@ public class MainActivity extends AppCompatActivity
             m_id = id;
             s_allFrags.add(this);
         }
-
+        public BaseFragment() {
+        }
         public BaseFragment get(int id) {
             return s_allFrags.get(id);
         }
