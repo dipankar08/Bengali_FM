@@ -6,6 +6,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.AsyncTask;
@@ -39,7 +40,9 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -61,7 +64,9 @@ import org.json.JSONObject;
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Type;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -117,8 +122,8 @@ public class MainActivity extends AppCompatActivity
 
         tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(viewPager);
-        tabLayout.getTabAt(0).setIcon(R.drawable.fev);
-        tabLayout.getTabAt(1).setIcon(R.drawable.radio);
+        tabLayout.getTabAt(0).setIcon(R.drawable.radio);
+        tabLayout.getTabAt(1).setIcon(R.drawable.fev);
         tabLayout.getTabAt(2).setIcon(R.drawable.music);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
@@ -278,7 +283,7 @@ public class MainActivity extends AppCompatActivity
                                         return a1.getName().compareTo(a2.getName());
                                     }
                                 });
-                                s_allFrags.get(1).setNodes(m_searchPlayList);
+                                s_allFrags.get(0).setNodes(m_searchPlayList);
                             }
                         });
                     } catch (JSONException e) {
@@ -380,10 +385,13 @@ public class MainActivity extends AppCompatActivity
         public View getView(int position, View view, ViewGroup parent) {
             Log.d("Dipankar",position+"");
             LayoutInflater inflater = context.getLayoutInflater();
+
             View rowView= inflater.inflate(R.layout.list, null, true);
+            LinearLayout layout = (LinearLayout) rowView.findViewById(R.id.item);
             TextView sl = (TextView) rowView.findViewById(R.id.sl);
             TextView txtTitle = (TextView) rowView.findViewById(R.id.txt);
             ImageView imageView = (ImageView) rowView.findViewById(R.id.img);
+            TextView excl = (TextView) rowView.findViewById(R.id.excl);
 
             sl.setText((position+1)+".");
             txtTitle.setText(web.get(position).getName());
@@ -416,6 +424,15 @@ public class MainActivity extends AppCompatActivity
 
             if((m_curPlayingNode != null) && m_curPlayingNode.getUrl() == web.get(position).getUrl() ){
                 ((GifTextView) rowView.findViewById(R.id.play_anim)).setVisibility(View.VISIBLE);
+            }
+            //exclusive item
+            if(web.get(position).getType() != null  && web.get(position).getType().indexOf("Exclusive") != -1){
+
+                layout.setBackgroundColor(Color.parseColor("#ebf442"));
+                setImage(imageView,R.drawable.exclusive);
+                excl.setVisibility(View.VISIBLE);
+            } else{
+                excl.setVisibility(View.GONE);
             }
             return rowView;
         }
@@ -655,7 +672,7 @@ public class MainActivity extends AppCompatActivity
         if(temp != null){
             m_febPlayList = temp;
         }
-        s_allFrags.get(0).setNodes(m_febPlayList);
+        s_allFrags.get(1).setNodes(m_febPlayList);
         return m_febPlayList;
     }
     private void addToFev(final Nodes x){
@@ -670,7 +687,7 @@ public class MainActivity extends AppCompatActivity
             }
         }
         m_febPlayList.add(x);
-        s_allFrags.get(0).setNodes(m_febPlayList);
+        s_allFrags.get(1).setNodes(m_febPlayList);
     }
     private void removeFromFev(final Nodes x){
         if(x == null) return ;
@@ -681,7 +698,7 @@ public class MainActivity extends AppCompatActivity
         for (Nodes a : m_febPlayList){
             if(a.getUrl() != null &&  a.getUrl().equals(x.getUrl())){
                 m_febPlayList.remove(x);
-                s_allFrags.get(0).setNodes(m_febPlayList);
+                s_allFrags.get(1).setNodes(m_febPlayList);
                 return;
             }
         }
@@ -886,6 +903,10 @@ public class MainActivity extends AppCompatActivity
             json.put("session",s_session);
             json.put("_cmd", "insert");
             json.put("_dotserializeinp",true);
+            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss.SS");
+            Calendar cal = Calendar.getInstance();
+            String strDate = sdf.format(cal.getTime());
+            json.put("timestamp",strDate);
             json.put("tag",tag);
             MediaType JSON = MediaType.parse("application/json; charset=utf-8");
             RequestBody body = RequestBody.create(JSON, json.toString());
