@@ -240,56 +240,69 @@ public class MainActivity extends AppCompatActivity
         }
         String name,img,tags,url;
     };
-
+    private  List<Nodes> m_searchPlayList = new ArrayList<>();
+    void handleResponse(Response response) {
+        if (!response.isSuccessful()) {
+            showToast("Not able to fetch data from server");
+        } else {
+            showToast("Load FM list failed");
+            try {
+                String jsonData = response.body().string();
+                JSONObject Jobject = new JSONObject(jsonData);
+                JSONArray Jarray = null;
+                Jarray = Jobject.getJSONArray("out");
+                for (int i = 0; i < Jarray.length(); i++) {
+                    JSONObject object = Jarray.getJSONObject(i);
+                    if(object.has("name") && object.has("name")) { //TODO
+                        m_searchPlayList.add(new Nodes(object.optString("name",null), object.optString("img",null), object.optString("url",null), object.optString("tags",null)));
+                    }
+                }
+                new Handler(Looper.getMainLooper()).post(new Runnable() {
+                    @Override
+                    public void run() {
+                        Collections.sort(m_searchPlayList, new Comparator<Nodes>() {
+                            @Override
+                            public int compare(Nodes a1, Nodes a2) {
+                                return a1.getName().compareTo(a2.getName());
+                            }
+                        });
+                        s_allFrags.get(0).setNodes(m_searchPlayList);
+                    }
+                });
+            } catch (JSONException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
     public void LoadRemoteData(String state, String tag){
         if(state == null){
             state = "active";
         }
-        OkHttpClient client = new OkHttpClient();
-        Request request = new Request.Builder()
-                .url("http://52.89.112.230/api/nodel_bengalifm?limit=200&state="+state)
-                .build();
-        client.newCall(request).enqueue(new Callback() {
+        //getting normal data
+        Request request = new Request.Builder().url("http://52.89.112.230/api/nodel_bengalifm?limit=200&state="+state).build();
+        m_Httpclient.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Request request, IOException e) {
                 showToast("Load FM list failed");
                 e.printStackTrace();
             }
-
             @Override
             public void onResponse(Response response) throws IOException {
-                if (!response.isSuccessful()) {
-                    throw new IOException("Unexpected code " + response);
-                } else {
-                    showToast("Load FM list failed");
-                    try {
-                        final List<Nodes> m_searchPlayList = new ArrayList<>();
-                        String jsonData = response.body().string();
-                        JSONObject Jobject = new JSONObject(jsonData);
-                        JSONArray Jarray = null;
-                        Jarray = Jobject.getJSONArray("out");
-                        for (int i = 0; i < Jarray.length(); i++) {
-                            JSONObject object = Jarray.getJSONObject(i);
-                            if(object.has("name") && object.has("name")) { //TODO
-                                m_searchPlayList.add(new Nodes(object.optString("name",null), object.optString("img",null), object.optString("url",null), object.optString("tags",null)));
-                            }
-                        }
-                        new Handler(Looper.getMainLooper()).post(new Runnable() {
-                            @Override
-                            public void run() {
-                                Collections.sort(m_searchPlayList, new Comparator<Nodes>() {
-                                    @Override
-                                    public int compare(Nodes a1, Nodes a2) {
-                                        return a1.getName().compareTo(a2.getName());
-                                    }
-                                });
-                                s_allFrags.get(0).setNodes(m_searchPlayList);
-                            }
-                        });
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                }
+                showToast("Load FM list failed");
+                handleResponse(response);
+            }
+        });
+        // getting ONE exclusive data
+        request = new Request.Builder().url("http://52.89.112.230/api/nodel_bengalifm?limit=1&state=exclusive").build();
+        m_Httpclient.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Request request, IOException e) {
+            }
+            @Override
+            public void onResponse(Response response) throws IOException {
+                handleResponse(response);
             }
         });
     }
@@ -732,8 +745,6 @@ public class MainActivity extends AppCompatActivity
         public BaseFragment(int id) {
             m_id = id;
             s_allFrags.add(this);
-        }
-        public BaseFragment() {
         }
         public BaseFragment get(int id) {
             return s_allFrags.get(id);
