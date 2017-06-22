@@ -3,23 +3,34 @@
 
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/nav_camera"
+            android:id="@+id/s_active"
             android:icon="@drawable/ic_menu_camera"
-            android:title="Import" />
+            android:title="All Live" />
         <item
-            android:id="@+id/nav_gallery"
+            android:id="@+id/s_bengali"
+            android:icon="@drawable/ic_menu_camera"
+            android:title="Bengali" />
+        <item
+            android:id="@+id/s_hindi"
             android:icon="@drawable/ic_menu_gallery"
-            android:title="Gallery" />
+            android:title="Hindi" />
         <item
-            android:id="@+id/nav_slideshow"
+            android:id="@+id/s_bangladesh"
             android:icon="@drawable/ic_menu_slideshow"
-            android:title="Slideshow" />
-        <item
-            android:id="@+id/nav_manage"
-            android:icon="@drawable/ic_menu_manage"
-            android:title="Tools" />
+            android:title="Bangladesh" />
     </group>
-
+    <item android:title="Recoded">
+        <menu>
+            <item
+                android:id="@+id/s_monkebaat_bengali"
+                android:icon="@drawable/ic_menu_share"
+                android:title="Mon ke baat(Bengali)" />
+            <item
+                android:id="@+id/s_monkebaat_hindi"
+                android:icon="@drawable/ic_menu_send"
+                android:title="Mon ke baat(Hindi)" />
+        </menu>
+    </item>
     <item android:title="Communicate">
         <menu>
             <item
@@ -27,7 +38,7 @@
                 android:icon="@drawable/ic_menu_share"
                 android:title="Share" />
             <item
-                android:id="@+id/nav_send"
+                android:id="@+id/nav_send1"
                 android:icon="@drawable/ic_menu_send"
                 android:title="Send" />
         </menu>

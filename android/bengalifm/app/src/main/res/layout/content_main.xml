@@ -30,69 +30,56 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentLeft="true"
         android:gravity="center"
-        android:weightSum="1"
+        android:weightSum="5"
         android:layout_gravity="right">
-
-        <Button
+        <ImageButton
             android:id="@+id/fev"
-            android:layout_width="20dip"
-            android:layout_height="20dip"
-            android:color="#fff"
-            android:background="@drawable/fev"
-            android:layout_marginLeft="25dp"
-            android:layout_marginRight="25dp"
-            android:layout_marginTop="20dp"
-            android:layout_marginBottom="20dp" />
-        <Button
+            android:layout_width="0dip"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:padding="8dip"
+            android:src="@drawable/fev"
+            android:background="@drawable/mybutton" />
+        <ImageButton
             android:id="@+id/prev"
-            android:layout_width="20dip"
-            android:layout_height="20dip"
-            android:color="#fff"
-            android:background="@drawable/prev"
-            android:layout_marginLeft="25dp"
-            android:layout_marginRight="25dp"
-            android:layout_marginTop="20dp"
-            android:layout_marginBottom="20dp" />
-        <Button
+            android:layout_width="0dip"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:padding="8dip"
+            android:src="@drawable/prev"
+            android:background="@drawable/mybutton" />
+        <ImageButton
             android:id="@+id/play"
-            android:layout_width="20dip"
-            android:layout_height="20dip"
-            android:color="#fff"
-            android:background="@drawable/play"
-            android:layout_marginLeft="25dp"
-            android:layout_marginRight="25dp"
-            android:layout_marginTop="20dp"
-            android:layout_marginBottom="20dp" />
-        <pl.droidsonroids.gif.GifTextView
+            android:layout_width="0dip"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:padding="10dip"
+            android:src="@drawable/play"
+            android:background="@drawable/mybutton" />
+        <pl.droidsonroids.gif.GifImageButton
             android:id="@+id/loading2"
             android:layout_width="25dip"
             android:layout_height="25dip"
-            android:layout_marginLeft="25dp"
-            android:layout_marginRight="25dp"
-            android:layout_marginTop="20dp"
-            android:layout_marginBottom="20dp"
-            android:visibility="gone"
-            android:background="@drawable/loading2"
-            />
-        <Button
+            android:layout_weight="1"
+            android:padding="10dip"
+            android:src="@drawable/loading2"
+            android:background="@drawable/mybutton"
+            android:visibility="gone" />
+        <ImageButton
             android:id="@+id/next"
-            android:layout_width="20dip"
-            android:layout_height="20dip"
-            android:color="#fff"
-            android:background="@drawable/next"
-            android:layout_marginLeft="25dp"
-            android:layout_marginRight="25dp"
-            android:layout_marginTop="20dp"
-            android:layout_marginBottom="20dp" />
-        <Button
+            android:layout_width="0dip"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:padding="10dip"
+            android:src="@drawable/next"
+            android:background="@drawable/mybutton" />
+        <ImageButton
             android:id="@+id/vol"
-            android:layout_width="25dip"
-            android:layout_height="25dip"
-            android:color="#fff"
-            android:background="@drawable/vol"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:layout_marginTop="20dp"
-            android:layout_marginBottom="20dp" />
+            android:layout_width="0dip"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:padding="10dip"
+            android:src="@drawable/vol"
+            android:background="@drawable/mybutton" />
     </LinearLayout>
 </RelativeLayout>

@@ -20,9 +20,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingTop="15dip"
-
             android:paddingBottom="15dip">
-
                 <TextView
                     android:id="@+id/sl"
                     android:layout_marginRight="0dp"
@@ -45,16 +43,13 @@
                     android:layout_width="wrap_content"
                     android:layout_toRightOf="@id/img"
                     android:layout_height="wrap_content" />
-
-                <pl.droidsonroids.gif.GifTextView
-                    android:id="@+id/play_anim"
+                <ImageView
+                    android:id="@+id/isfev"
                     android:layout_width="25dp"
-                    android:layout_height="25dp"
                     android:layout_alignParentRight="true"
-                    android:visibility="gone"
-                    android:layout_marginRight="20dp"
-                    android:background="@drawable/play_anim"
-                    />
+                    android:layout_marginRight="15dp"
+                    android:layout_toRightOf="@id/fab"
+                    android:layout_height="35dp"/>
         </RelativeLayout>
 </LinearLayout>
 

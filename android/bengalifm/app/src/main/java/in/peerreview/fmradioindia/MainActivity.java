@@ -39,6 +39,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -75,6 +76,7 @@ import java.util.Map;
 import java.util.Random;
 import java.util.TimeZone;
 
+import pl.droidsonroids.gif.GifImageButton;
 import pl.droidsonroids.gif.GifTextView;
 
 
@@ -86,9 +88,9 @@ public class MainActivity extends AppCompatActivity
     private TabLayout tabLayout;
     private ViewPager viewPager;
     private ViewPagerAdapter viewadapter;
-
-    private Button play,prev,next,fev,vol;
-    private  GifTextView loading1, loading2;
+    NavigationView m_navigationView;
+    private ImageButton play,prev,next,fev,vol;
+    private  GifImageButton loading1, loading2;
 
     private Nodes m_curPlayingNode;
     public static List<Nodes> m_curPlayList = new ArrayList<>();
@@ -105,10 +107,13 @@ public class MainActivity extends AppCompatActivity
 
     private boolean m_isPlaying = false;
     private OkHttpClient m_Httpclient;
+    private static boolean s_tryplaying;
 
     public static MainActivity Get(){
         return s_activity;
     }
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -141,25 +146,24 @@ public class MainActivity extends AppCompatActivity
         drawer.setDrawerListener(toggle);
         toggle.syncState();
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
-        play = (Button) findViewById(R.id.play);
-        next = (Button) findViewById(R.id.next);
-        prev = (Button) findViewById(R.id.prev);
-        vol = (Button) findViewById(R.id.vol);
-        fev = (Button) findViewById(R.id.fev);
-        loading2 =(GifTextView) findViewById(R.id.loading2);
+        m_navigationView = (NavigationView) findViewById(R.id.nav_view);
+        m_navigationView.setNavigationItemSelectedListener(this);
+        m_navigationView.bringToFront();
+        play = (ImageButton) findViewById(R.id.play);
+        next = (ImageButton) findViewById(R.id.next);
+       prev = (ImageButton) findViewById(R.id.prev);
+       vol = (ImageButton) findViewById(R.id.vol);
+       fev = (ImageButton) findViewById(R.id.fev);
+       loading2 =(GifImageButton) findViewById(R.id.loading2);
         play.setOnClickListener(this);
         next.setOnClickListener(this);
         prev.setOnClickListener(this);
         vol.setOnClickListener(this);
         fev.setOnClickListener(this);
         loadFev();
-        LoadRemoteData("active",null);
-        //viewadapter.getFragment(0);
+        LoadRemoteData(null);
         sendEventLaunch();
         populateLocalFiles();
-
     }
 
     // *******************************Setting up the pages ************************************************
@@ -176,6 +180,7 @@ public class MainActivity extends AppCompatActivity
         viewadapter.addFragment(b3, "THREE");
         viewPager.setAdapter(viewadapter);
     }
+
 
     class ViewPagerAdapter extends FragmentPagerAdapter {
         private final List<Fragment> mFragmentList = new ArrayList<>();
@@ -242,10 +247,10 @@ public class MainActivity extends AppCompatActivity
     };
     private  List<Nodes> m_searchPlayList = new ArrayList<>();
     void handleResponse(Response response) {
+        m_searchPlayList.clear();
         if (!response.isSuccessful()) {
             showToast("Not able to fetch data from server");
         } else {
-            showToast("Load FM list failed");
             try {
                 String jsonData = response.body().string();
                 JSONObject Jobject = new JSONObject(jsonData);
@@ -267,6 +272,16 @@ public class MainActivity extends AppCompatActivity
                             }
                         });
                         s_allFrags.get(0).setNodes(m_searchPlayList);
+
+                        //show the view.
+                        BaseFragment bf = s_allFrags.get(0);
+                        if(bf != null) {
+                            if (m_searchPlayList.size() == 0) {
+                                bf.showLoading();
+                            } else {
+                                bf.showLList();
+                            }
+                        }
                     }
                 });
             } catch (JSONException e) {
@@ -276,12 +291,18 @@ public class MainActivity extends AppCompatActivity
             }
         }
     }
-    public void LoadRemoteData(String state, String tag){
-        if(state == null){
-            state = "active";
+    public void LoadRemoteData(String query){
+        if(query == null){
+            query = "state=active";
         }
+        //show hide loading animation.
+        BaseFragment bf = s_allFrags.get(0);
+        if(bf != null) {
+                bf.showLoading();
+        }
+
         //getting normal data
-        Request request = new Request.Builder().url("http://52.89.112.230/api/nodel_bengalifm?limit=200&state="+state).build();
+        Request request = new Request.Builder().url("http://52.89.112.230/api/nodel_bengalifm?limit=200&"+query).build();
         m_Httpclient.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Request request, IOException e) {
@@ -295,6 +316,7 @@ public class MainActivity extends AppCompatActivity
             }
         });
         // getting ONE exclusive data
+        /*
         request = new Request.Builder().url("http://52.89.112.230/api/nodel_bengalifm?limit=1&state=exclusive").build();
         m_Httpclient.newCall(request).enqueue(new Callback() {
             @Override
@@ -305,6 +327,7 @@ public class MainActivity extends AppCompatActivity
                 handleResponse(response);
             }
         });
+        */
     }
     public void showToast(final String msg){
         new Handler(Looper.getMainLooper()).post(new Runnable() {
@@ -395,18 +418,27 @@ public class MainActivity extends AppCompatActivity
         }
 
         @Override
-        public View getView(int position, View view, ViewGroup parent) {
+        public View getView(int position, View convertView, ViewGroup parent) {
+            View rowView;
+            if (convertView == null) {
+               LayoutInflater inflater = context.getLayoutInflater();
+                rowView= inflater.inflate(R.layout.list, null, true);
+            } else{
+                rowView= convertView;
+            }
             Log.d("Dipankar",position+"");
-            LayoutInflater inflater = context.getLayoutInflater();
-
-            View rowView= inflater.inflate(R.layout.list, null, true);
             LinearLayout layout = (LinearLayout) rowView.findViewById(R.id.item);
             TextView sl = (TextView) rowView.findViewById(R.id.sl);
             TextView txtTitle = (TextView) rowView.findViewById(R.id.txt);
             ImageView imageView = (ImageView) rowView.findViewById(R.id.img);
+            final ImageView fev = (ImageView) rowView.findViewById(R.id.isfev);
             TextView excl = (TextView) rowView.findViewById(R.id.excl);
 
             sl.setText((position+1)+".");
+            final Nodes cur = web.get(position);
+            if(cur == null){
+                // todo
+            }
             txtTitle.setText(web.get(position).getName());
             if(web.get(position).getType() != null  && web.get(position).getType().indexOf("DISK") != -1){
                 setImage(imageView,R.drawable.guitar3);
@@ -423,11 +455,20 @@ public class MainActivity extends AppCompatActivity
             else if(web.get(position).getName() != null  && web.get(position).getName().indexOf("Hungama") != -1){
                 setImage(imageView,R.drawable.hungama);
             }
-            else if(web.get(position).getName() != null  && web.get(position).getName().indexOf("Mirchi") != -1){
+            else if(cur.getName().toLowerCase().indexOf("mirchi") != -1){
                 setImage(imageView,R.drawable.mirchi);
             }
-            else if(web.get(position).getName() != null  && web.get(position).getName().indexOf("City") != -1){
+            else if(cur.getName().toLowerCase().indexOf("city") != -1){
                 setImage(imageView,R.drawable.radiocity);
+            }
+            else if(cur.getName().toLowerCase().indexOf("ishq") != -1){
+                setImage(imageView,R.drawable.ishq);
+            }
+            else if(cur.getName().toLowerCase().indexOf("big") != -1){
+                setImage(imageView,R.drawable.big);
+            }
+            else if(cur.getName().toLowerCase().indexOf("friend") != -1){
+                setImage(imageView,R.drawable.friends);
             }
             else if(web.get(position).getImg() != null){
                 Picasso.with(context).load(web.get(position).getImg()).into(imageView);
@@ -436,17 +477,36 @@ public class MainActivity extends AppCompatActivity
             }
 
             if((m_curPlayingNode != null) && m_curPlayingNode.getUrl() == web.get(position).getUrl() ){
-                ((GifTextView) rowView.findViewById(R.id.play_anim)).setVisibility(View.VISIBLE);
+               // ((GifTextView) rowView.findViewById(R.id.play_anim)).setVisibility(View.VISIBLE);
             }
             //exclusive item
             if(web.get(position).getType() != null  && web.get(position).getType().indexOf("Exclusive") != -1){
-
                 layout.setBackgroundColor(Color.parseColor("#ebf442"));
                 setImage(imageView,R.drawable.exclusive);
                 excl.setVisibility(View.VISIBLE);
             } else{
+                if(layout != null){
+                   //TODO  layout.setBackgroundColor(Color.parseColor("#000"));
+                }
                 excl.setVisibility(View.GONE);
             }
+            if(isInFev(cur)){
+                setImage(fev,R.drawable.fevyesblack);
+            } else{
+                setImage(fev,R.drawable.fevblack);
+            }
+            fev.setOnClickListener(new View.OnClickListener()
+            {
+                @Override
+                public void onClick(View v) {
+                    int res = toggleFev(cur);
+                    if(res == 1){ //added
+                        setImage(fev,R.drawable.fevyesblack);
+                    } else if(res == -1){ //removed
+                        setImage(fev,R.drawable.fevblack);
+                    }
+                }
+            });
             return rowView;
         }
         public void clearData() {
@@ -460,11 +520,10 @@ public class MainActivity extends AppCompatActivity
     // ******************************* Music Player Button Handlers************************************************
     @Override
     public void onClick(View v) {
-        if(m_isPlaying == true && m_curPlayingNode == null) return;
+        if(m_curPlayingNode == null) return;
         // Perform action on click
         switch(v.getId()) {
             case R.id.play:
-                if(m_curPlayingNode == null) return;
                 if(m_isPlaying){
                     stop();
                 } else{
@@ -505,12 +564,12 @@ public class MainActivity extends AppCompatActivity
                 if(isInFev(n) == false){
                     addToFev(n);
                     saveFev();
-                    setImage(fev,R.drawable.fevyes);
+                    fev.setImageResource(R.drawable.fevyes);
                     showToast("Added to favourite");
                 } else{
                     removeFromFev(n);
                     saveFev();
-                    setImage(fev,R.drawable.fev);
+                    fev.setImageResource(R.drawable.fev);
                     showToast("Removed from favourite");
                 }
                 break;
@@ -518,11 +577,17 @@ public class MainActivity extends AppCompatActivity
     }
     // ******************************* Music Player Impl************************************************
     public void play(){
-        if(m_curPlayingNode == null || m_curPlayingNode.getUrl() == null) return;
-
+        if(m_curPlayingNode == null || m_curPlayingNode.getUrl() == null) {
+            showToast("Invalid FM, Please try playing others");
+        };
+        if(s_tryplaying == true){
+            showToast("Please wait..I am trying to play "+m_curPlayingNode.getName());
+            return;
+        }
+        s_tryplaying = true;
         if(mPlayer != null && mPlayer.isPlaying()){
             mPlayer.stop();
-            mPlayer.release();
+            mPlayer.reset();
             mPlayer = null;
         }
         if(mPlayer == null) {
@@ -552,6 +617,8 @@ public class MainActivity extends AppCompatActivity
                 put("url",m_curPlayingNode.getUrl());
                 put("Exception", e.toString());
             }});
+        } finally {
+
         }
         //if we ave an excpetion at this points let's return.
         if(mPlayer == null) return;
@@ -585,11 +652,16 @@ public class MainActivity extends AppCompatActivity
                 stop();
             }
         });
+        s_tryplaying = false;
     }
     public void stop(){
+        if(s_tryplaying == true){
+            showToast("Please wait..I am trying to play "+m_curPlayingNode.getName());
+            return;
+        }
         if(mPlayer != null){
             mPlayer.stop();
-            mPlayer.release();
+            mPlayer.reset();
             mPlayer = null;
             if( m_isPlaying == true) {
                 setImage(play, R.drawable.play);
@@ -601,17 +673,13 @@ public class MainActivity extends AppCompatActivity
             }
         }
         m_isPlaying = false;
+        s_tryplaying = false;
     }
 
     // ******************************* Helpers ************************************************
-    void setImage(View v, int id){
+    void setImage(ImageView v, int id){
         if(v == null) return;
-        final int sdk = android.os.Build.VERSION.SDK_INT;
-        if(sdk < android.os.Build.VERSION_CODES.JELLY_BEAN) {
-            v.setBackgroundDrawable( getResources().getDrawable(id) );
-        } else {
-            v.setBackground( getResources().getDrawable(id));
-        }
+        v.setImageResource(id);
     }
     @Override
     public void onBackPressed() {
@@ -645,24 +713,26 @@ public class MainActivity extends AppCompatActivity
         return super.onOptionsItemSelected(item);
     }
 
-    @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
-            // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
-
-        } else if (id == R.id.nav_slideshow) {
-
-        } else if (id == R.id.nav_manage) {
-
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
-
+        if (id == R.id.s_bengali) {
+            LoadRemoteData("state=active&tags=bengali");
+        } else if (id == R.id.s_hindi) {
+            LoadRemoteData("state=active&tags=hindi");
+        } else if (id == R.id.s_bangladesh) {
+            LoadRemoteData("state=active&tags=bangladesh");
+        } else if (id == R.id.s_monkebaat_bengali) {
+            LoadRemoteData("state=recoded&tags=monkebaat_bengali");
+        } else if (id == R.id.s_monkebaat_hindi) {
+            LoadRemoteData("state=recoded&tags=monkebaat_hindi");
+        } else if (id == R.id.nav_send1) {
+            //LoadRemoteData("state=active&tag=bengali");
+        }
+        else if (id == R.id.s_active) {
+            LoadRemoteData("state=Active");
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -686,24 +756,27 @@ public class MainActivity extends AppCompatActivity
             m_febPlayList = temp;
         }
         s_allFrags.get(1).setNodes(m_febPlayList);
+        showHideAnimation();
         return m_febPlayList;
     }
-    private void addToFev(final Nodes x){
-        if(x == null) return ;
+    private boolean addToFev(final Nodes x){
+        if(x == null) return false ;
         sendTelemetry("addToFev",  new HashMap<String, String>(){{
             put("name",x.getName());
             put("url",x.getUrl());
         }});
         for (Nodes a : m_febPlayList){
             if(a.getUrl() != null &&  a.getUrl().equals(x.getUrl())){
-                return ;
+                return false;
             }
         }
         m_febPlayList.add(x);
         s_allFrags.get(1).setNodes(m_febPlayList);
+        showHideAnimation();
+        return true;
     }
-    private void removeFromFev(final Nodes x){
-        if(x == null) return ;
+    private boolean removeFromFev(final Nodes x){
+        if(x == null) return false ;
         sendTelemetry("removeFromFev",  new HashMap<String, String>(){{
             put("name",x.getName());
             put("url",x.getUrl());
@@ -712,10 +785,26 @@ public class MainActivity extends AppCompatActivity
             if(a.getUrl() != null &&  a.getUrl().equals(x.getUrl())){
                 m_febPlayList.remove(x);
                 s_allFrags.get(1).setNodes(m_febPlayList);
-                return;
+                showHideAnimation();
+                return true;
             }
         }
+        return false;
     }
+
+    private int toggleFev(final Nodes x){
+        if(isInFev(x)){
+            if(removeFromFev(x)){
+                return -1;
+            }
+        } else{
+            if(addToFev(x)){
+                return 1;
+            }
+        }
+        return 0;
+    }
+
     private boolean isInFev(Nodes x){
         if(x == null) return false;
         for (Nodes a : m_febPlayList){
@@ -732,6 +821,16 @@ public class MainActivity extends AppCompatActivity
         String json = gson.toJson(m_febPlayList);
         editor.putString(PRODUCT_TAG, json);
         editor.commit();
+    }
+    public void showHideAnimation(){
+        BaseFragment bf = s_allFrags.get(1);
+        if (bf != null){
+            if(m_febPlayList.size() ==0){
+                bf.showLoading();
+            } else{
+                bf.showLList();
+            }
+        }
     }
     // ******************************* Fragments************************************************
     @SuppressLint("validFragment")
@@ -777,6 +876,11 @@ public class MainActivity extends AppCompatActivity
                                  Bundle savedInstanceState) {
             // Inflate the layout for this fragment
             m_myview = inflater.inflate(m_id, container, false);
+            if(m_NodeList.size() != 0){
+               showLList();
+            } else{
+                showLoading();
+            }
             m_adapter = renderList();
             return m_myview;
         }
@@ -798,7 +902,7 @@ public class MainActivity extends AppCompatActivity
                 if(m_adapter != null) {
                     m_adapter.notifyDataSetChanged();
                 }
-          }
+            }
         }
         private  CustomListAdapter renderList( ) {
             //list = (ListView) findViewById(R.id.list);
@@ -826,7 +930,7 @@ public class MainActivity extends AppCompatActivity
             ListView listview= (ListView)m_myview.findViewById(R.id.list);
             if(listview == null) return;
             for (int i=0 ;i <listview.getChildCount();i++){
-                    listview.getChildAt(i).findViewById(R.id.play_anim).setVisibility(View.GONE);
+// todo                    listview.getChildAt(i).findViewById(R.id.play_anim).setVisibility(View.GONE);
 
             }
         }
@@ -846,10 +950,24 @@ public class MainActivity extends AppCompatActivity
             for (int i=0 ;i <listview.getChildCount();i++){
                 if(m_NodeList.get(i).getUrl().equals(m_curPlayingNode.getUrl())){
                     //setImage(listview.getChildAt(i).findViewById(R.id.play_anim),R.drawable.play_anim);
-                    listview.getChildAt(i).findViewById(R.id.play_anim).setVisibility(View.VISIBLE);
+                    //listview.getChildAt(i).findViewById(R.id.play_anim).setVisibility(View.VISIBLE);
                 }
             }
         }
+
+        public void showLoading() {
+            if(m_myview != null){
+                m_myview.findViewById(R.id.search_loading).setVisibility(View.VISIBLE);
+                m_myview.findViewById(R.id.list).setVisibility(View.GONE);
+            }
+        }
+        public void showLList() {
+            if(m_myview != null){
+                m_myview.findViewById(R.id.search_loading).setVisibility(View.GONE);
+                m_myview.findViewById(R.id.list).setVisibility(View.VISIBLE);
+            }
+        }
+
     }
     //################  Telemetry #################################################################
     protected static String getSaltString() {
