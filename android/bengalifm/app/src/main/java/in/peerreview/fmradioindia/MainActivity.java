@@ -3,7 +3,13 @@ package in.peerreview.fmradioindia;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.app.Service;
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
@@ -14,6 +20,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
+import android.os.IBinder;
 import android.os.Looper;
 import android.provider.Settings;
 import android.support.design.widget.FloatingActionButton;
@@ -22,6 +29,8 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.NotificationCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.telephony.TelephonyManager;
 import android.util.Log;
@@ -44,6 +53,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
+import android.widget.RemoteViews;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -311,7 +321,6 @@ public class MainActivity extends AppCompatActivity
             }
             @Override
             public void onResponse(Response response) throws IOException {
-                showToast("Load FM list failed");
                 handleResponse(response);
             }
         });
@@ -374,11 +383,13 @@ public class MainActivity extends AppCompatActivity
             return null;
         }
     }
+
     public void populateLocalFiles(){
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if (!Settings.System.canWrite(this)) {
+            if (ContextCompat.checkSelfPermission(MainActivity.Get(),  Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                        != PackageManager.PERMISSION_GRANTED) {
                 requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                        Manifest.permission.READ_EXTERNAL_STORAGE}, 2909);
+                        Manifest.permission.READ_EXTERNAL_STORAGE}, WRITE_EXTERNAL_STORAGE);
             } else {
                 File root = new File(Environment.getExternalStorageDirectory().getAbsolutePath());
                 new ExploreLocalFilesTask().execute(root);
@@ -390,10 +401,11 @@ public class MainActivity extends AppCompatActivity
     }
 
     // ******************************* Run time permission managermnet ************************************************
+    private final int WRITE_EXTERNAL_STORAGE = 1110;
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         switch (requestCode) {
-            case 2909: {
+            case WRITE_EXTERNAL_STORAGE: {
                 if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     Log.e("Permission", "Granted");
                     File root = new File(Environment.getExternalStorageDirectory().getAbsolutePath());
@@ -406,6 +418,43 @@ public class MainActivity extends AppCompatActivity
         }
     }
     // ******************************* Common List pager Design ************************************************
+    public int getChannelIcon(Nodes cur){
+        if(cur.getType() != null  && cur.getType().indexOf("DISK") != -1){
+            return R.drawable.guitar3;
+        }
+        else if(cur.getName().toLowerCase().indexOf("bongnet") != -1){
+            return R.drawable.bongonet;
+        }
+        else if(cur.getName().toLowerCase().indexOf("mirchi") != -1){
+            return R.drawable.mirchi ;
+        }
+        else if(cur.getName().toLowerCase().indexOf("air") != -1){
+            return R.drawable.air;
+        }
+        else if(cur.getName().toLowerCase().indexOf("hungama") != -1){
+            return R.drawable.hungama;
+        }
+        else if(cur.getName().toLowerCase().indexOf("mirchi") != -1){
+            return R.drawable.mirchi;
+        }
+        else if(cur.getName().toLowerCase().indexOf("city") != -1){
+            return R.drawable.radiocity;
+        }
+        else if(cur.getName().toLowerCase().indexOf("ishq") != -1){
+            return R.drawable.ishq;
+        }
+        else if(cur.getName().toLowerCase().indexOf("big") != -1){
+            return R.drawable.big;
+        }
+        else if(cur.getName().toLowerCase().indexOf("friend") != -1){
+            return R.drawable.friends;
+        }/*
+        else if(web.get(position).getImg() != null){
+            Picasso.with(context).load(web.get(position).getImg()).into(imageView);
+        } */else{
+            return R.drawable.guitar1;
+        }
+    }
     class CustomListAdapter extends ArrayAdapter<Nodes> {
 
         private final Activity context;
@@ -439,42 +488,8 @@ public class MainActivity extends AppCompatActivity
             if(cur == null){
                 // todo
             }
-            txtTitle.setText(web.get(position).getName());
-            if(web.get(position).getType() != null  && web.get(position).getType().indexOf("DISK") != -1){
-                setImage(imageView,R.drawable.guitar3);
-            }
-            else if(web.get(position).getUrl() != null  && web.get(position).getUrl().indexOf("bongonet") != -1){
-                setImage(imageView,R.drawable.bongonet);
-            }
-            else if(web.get(position).getUrl() != null  && web.get(position).getUrl().indexOf("mirchi") != -1){
-                setImage(imageView,R.drawable.mirchi);
-            }
-            else if(web.get(position).getUrl() != null  && web.get(position).getUrl().indexOf("airlive") != -1){
-                setImage(imageView,R.drawable.air);
-            }
-            else if(web.get(position).getName() != null  && web.get(position).getName().indexOf("Hungama") != -1){
-                setImage(imageView,R.drawable.hungama);
-            }
-            else if(cur.getName().toLowerCase().indexOf("mirchi") != -1){
-                setImage(imageView,R.drawable.mirchi);
-            }
-            else if(cur.getName().toLowerCase().indexOf("city") != -1){
-                setImage(imageView,R.drawable.radiocity);
-            }
-            else if(cur.getName().toLowerCase().indexOf("ishq") != -1){
-                setImage(imageView,R.drawable.ishq);
-            }
-            else if(cur.getName().toLowerCase().indexOf("big") != -1){
-                setImage(imageView,R.drawable.big);
-            }
-            else if(cur.getName().toLowerCase().indexOf("friend") != -1){
-                setImage(imageView,R.drawable.friends);
-            }
-            else if(web.get(position).getImg() != null){
-                Picasso.with(context).load(web.get(position).getImg()).into(imageView);
-            } else{
-                setImage(imageView,R.drawable.guitar1);
-            }
+            txtTitle.setText(cur.getName());
+            setImage(imageView,getChannelIcon(cur));
 
             if((m_curPlayingNode != null) && m_curPlayingNode.getUrl() == web.get(position).getUrl() ){
                // ((GifTextView) rowView.findViewById(R.id.play_anim)).setVisibility(View.VISIBLE);
@@ -579,16 +594,16 @@ public class MainActivity extends AppCompatActivity
     public void play(){
         if(m_curPlayingNode == null || m_curPlayingNode.getUrl() == null) {
             showToast("Invalid FM, Please try playing others");
+            return;
         };
         if(s_tryplaying == true){
             showToast("Please wait..I am trying to play "+m_curPlayingNode.getName());
             return;
         }
         s_tryplaying = true;
-        if(mPlayer != null && mPlayer.isPlaying()){
+        if(mPlayer != null){
             mPlayer.stop();
             mPlayer.reset();
-            mPlayer = null;
         }
         if(mPlayer == null) {
             mPlayer = new MediaPlayer();
@@ -644,6 +659,7 @@ public class MainActivity extends AppCompatActivity
                         put("name",m_curPlayingNode.getName());
                         put("url",m_curPlayingNode.getUrl());
                 }});
+                pauseNotification();
             }
         });
         mPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener(){
@@ -674,6 +690,7 @@ public class MainActivity extends AppCompatActivity
         }
         m_isPlaying = false;
         s_tryplaying = false;
+        cancelNotification();
     }
 
     // ******************************* Helpers ************************************************
@@ -725,14 +742,18 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.s_bangladesh) {
             LoadRemoteData("state=active&tags=bangladesh");
         } else if (id == R.id.s_monkebaat_bengali) {
-            LoadRemoteData("state=recoded&tags=monkebaat_bengali");
+            LoadRemoteData("state=recorded&tags=mkbt_bengali");
         } else if (id == R.id.s_monkebaat_hindi) {
-            LoadRemoteData("state=recoded&tags=monkebaat_hindi");
+            LoadRemoteData("state=recorded&tags=mkbt_hindi");
         } else if (id == R.id.nav_send1) {
             //LoadRemoteData("state=active&tag=bengali");
         }
         else if (id == R.id.s_active) {
             LoadRemoteData("state=Active");
+        }
+        else if (id == R.id.test) {
+            //DIPANKAR TEST
+            createNotification(NOTI.play);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -969,6 +990,99 @@ public class MainActivity extends AppCompatActivity
         }
 
     }
+    //################  Notification ##############################################################
+    private static NotificationManager notificationManager;
+    private final int NOTIFICATION_ID =111;
+    enum NOTI{
+        play,
+        pause,
+        stop
+
+    };
+    private void createNotification(NOTI type){
+        if(m_curPlayingNode == null){
+            return;
+        }
+        notificationManager = (NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE);
+
+
+        Intent notificationIntent = new Intent(MainActivity.Get().getApplicationContext(), MainActivity.class);
+        notificationIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        PendingIntent intent = PendingIntent.getActivity(MainActivity.Get().getApplicationContext(), 0,
+                notificationIntent, 0);
+
+        Notification notification;
+
+        Intent switchIntent1 = new Intent(this, switchButtonListener.class);
+        switchIntent1.setAction("stop");
+        PendingIntent pendingSwitchIntent1 = PendingIntent.getBroadcast(this, 0, switchIntent1, 0);
+        Intent switchIntent2 = new Intent(this, switchButtonListener.class);
+        switchIntent2.setAction("play");
+        PendingIntent pendingSwitchIntent2 = PendingIntent.getBroadcast(this, 0, switchIntent2, 0);
+        Intent switchIntent3 = new Intent(this, switchButtonListener.class);
+        switchIntent3.setAction("pause");
+        PendingIntent pendingSwitchIntent3 = PendingIntent.getBroadcast(this, 0, switchIntent3, 0);
+        if (type == NOTI.play) {
+            notification = new NotificationCompat.Builder(MainActivity.Get().getApplicationContext())
+                    .setContentIntent(intent)
+                    .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
+                    .setSmallIcon(getChannelIcon(m_curPlayingNode))
+                    .addAction(R.drawable.play, "Play", pendingSwitchIntent2)
+                    .addAction(R.drawable.stop, "Stop", pendingSwitchIntent1)
+                    .setContentTitle(m_curPlayingNode.getName())
+                    .setContentText("Best FM playing app in India")
+                   // .setLargeIcon(R.mipmap.ic_launcher)
+                    .build();
+        } else{
+            notification = new NotificationCompat.Builder(MainActivity.Get().getApplicationContext())
+                    .setContentIntent(intent)
+                    .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
+                    .setSmallIcon(getChannelIcon(m_curPlayingNode))
+                    .addAction(R.drawable.pause, "Pause", pendingSwitchIntent3)
+                    .addAction(R.drawable.stop, "Stop", pendingSwitchIntent1)
+                    .setContentTitle(m_curPlayingNode.getName())
+                    .setContentText("Best FM playing app in India")
+                    //.setLargeIcon(getChannelIcon(m_curPlayingNode))
+                    .build();
+        }
+        notification.flags |= Notification.FLAG_AUTO_CANCEL;
+        notificationManager.notify(NOTIFICATION_ID, notification);
+    }
+    void playNotification(){
+        createNotification(NOTI.play);
+    }
+    void pauseNotification(){
+        createNotification(NOTI.pause);
+    }
+    void cancelNotification(){
+        if(notificationManager != null) {
+            notificationManager.cancel(NOTIFICATION_ID);
+        }
+    }
+    public static class switchButtonListener extends BroadcastReceiver {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if(MainActivity.Get() == null){
+                return;
+            }
+            switch(intent.getAction()){
+                case "play":
+                    MainActivity.Get().play();
+                    MainActivity.Get().pauseNotification();
+                    break;
+                case "pause":
+                    MainActivity.Get().stop();
+                    MainActivity.Get().playNotification();
+                    break;
+                case "stop":
+                    MainActivity.Get().stop();
+                    MainActivity.Get().cancelNotification();
+                    MainActivity.Get().finish();
+                    break;
+            }
+        }
+
+    }
     //################  Telemetry #################################################################
     protected static String getSaltString() {
         String SALTCHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
@@ -1028,6 +1142,10 @@ public class MainActivity extends AppCompatActivity
     }
 
     void sendTelemtry(String tag, JSONObject json){
+        if (BuildConfig.DEBUG) {
+            Log.d("DIPANKAR","Skipping telemetry as debug build");
+            return;
+        }
         try {
             json.put("session",s_session);
             json.put("_cmd", "insert");
@@ -1058,4 +1176,11 @@ public class MainActivity extends AppCompatActivity
             e.printStackTrace();
         }
     }
+
 }
+
+/* Script perser
+
+res = [];for ( var i =0;i<31;i++){name =$($('.detailNew h5')[i]).html();url="http://cdn.narendramodi.in/"+JSON.parse($($('.detailNew .BindPop')[i]).attr('data-id')).bengali; res.push({name:name,url:url,tags:"mkbt_bengali india",state:"recorded"});} console.log(JSON.stringify(res))
+
+ */

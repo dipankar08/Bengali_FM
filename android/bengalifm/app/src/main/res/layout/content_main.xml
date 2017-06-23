@@ -35,7 +35,7 @@
         <ImageButton
             android:id="@+id/fev"
             android:layout_width="0dip"
-            android:layout_height="wrap_content"
+            android:layout_height="20dp"
             android:layout_weight="1"
             android:padding="8dip"
             android:src="@drawable/fev"
@@ -62,8 +62,7 @@
             android:layout_height="25dip"
             android:layout_weight="1"
             android:padding="10dip"
-            android:src="@drawable/loading2"
-            android:background="@drawable/mybutton"
+            android:background="@drawable/loading2"
             android:visibility="gone" />
         <ImageButton
             android:id="@+id/next"

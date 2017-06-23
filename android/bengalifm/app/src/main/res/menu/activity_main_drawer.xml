@@ -23,7 +23,7 @@
         <menu>
             <item
                 android:id="@+id/s_monkebaat_bengali"
-                android:icon="@drawable/ic_menu_share"
+                android:icon="@drawable/modi"
                 android:title="Mon ke baat(Bengali)" />
             <item
                 android:id="@+id/s_monkebaat_hindi"
@@ -33,6 +33,11 @@
     </item>
     <item android:title="Communicate">
         <menu>
+            <item
+                android:id="@+id/test"
+                android:icon="@drawable/ic_menu_share"
+                android:title="Test" />
+
             <item
                 android:id="@+id/nav_share"
                 android:icon="@drawable/ic_menu_share"
