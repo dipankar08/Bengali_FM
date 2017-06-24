@@ -15,14 +15,14 @@
         android:id="@+id/viewpager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingBottom="70dp"
+        android:paddingBottom="50dp"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"  />
     <LinearLayout
         android:orientation="horizontal"
         style="@style/footer"
         android:id="@+id/footer"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="50dp"
         android:background="#000000"
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="false"
@@ -35,9 +35,9 @@
         <ImageButton
             android:id="@+id/fev"
             android:layout_width="0dip"
-            android:layout_height="20dp"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:padding="8dip"
+            android:padding="30dip"
             android:src="@drawable/fev"
             android:background="@drawable/mybutton" />
         <ImageButton
@@ -45,7 +45,7 @@
             android:layout_width="0dip"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:padding="8dip"
+            android:padding="30dip"
             android:src="@drawable/prev"
             android:background="@drawable/mybutton" />
         <ImageButton
@@ -53,15 +53,14 @@
             android:layout_width="0dip"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:padding="10dip"
+            android:padding="30dip"
             android:src="@drawable/play"
             android:background="@drawable/mybutton" />
         <pl.droidsonroids.gif.GifImageButton
             android:id="@+id/loading2"
-            android:layout_width="25dip"
-            android:layout_height="25dip"
-            android:layout_weight="1"
-            android:padding="10dip"
+            android:layout_width="30dip"
+            android:layout_height="30dip"
+            android:padding="0dip"
             android:background="@drawable/loading2"
             android:visibility="gone" />
         <ImageButton
@@ -69,7 +68,7 @@
             android:layout_width="0dip"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:padding="10dip"
+            android:padding="30dip"
             android:src="@drawable/next"
             android:background="@drawable/mybutton" />
         <ImageButton
@@ -77,7 +76,7 @@
             android:layout_width="0dip"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:padding="10dip"
+            android:padding="30dip"
             android:src="@drawable/vol"
             android:background="@drawable/mybutton" />
     </LinearLayout>

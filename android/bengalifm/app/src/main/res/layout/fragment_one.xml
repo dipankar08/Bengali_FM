@@ -15,15 +15,17 @@
         android:layout_width="match_parent"
         android:id="@+id/search_loading"
         android:orientation="vertical"
+        android:padding="20dp"
         android:gravity="center_vertical|center_horizontal"
         android:layout_height="match_parent">
         <pl.droidsonroids.gif.GifTextView
-            android:id="@+id/play_anim"
+            android:id="@+id/loading_icon"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:background="@drawable/loading3"
             />
         <TextView
+            android:id="@+id/loading_msg"
             android:layout_width="match_parent"
             android:gravity="center"
             android:text="Loading...please wait..."

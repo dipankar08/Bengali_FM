@@ -259,7 +259,10 @@ public class MainActivity extends AppCompatActivity
     void handleResponse(Response response) {
         m_searchPlayList.clear();
         if (!response.isSuccessful()) {
-            showToast("Not able to fetch data from server");
+            BaseFragment bf = s_allFrags.get(0);
+            if(bf != null) {
+                bf.showLoadingError();
+            }
         } else {
             try {
                 String jsonData = response.body().string();
@@ -287,7 +290,7 @@ public class MainActivity extends AppCompatActivity
                         BaseFragment bf = s_allFrags.get(0);
                         if(bf != null) {
                             if (m_searchPlayList.size() == 0) {
-                                bf.showLoading();
+                                bf.showLoadingEmpty();
                             } else {
                                 bf.showLList();
                             }
@@ -298,6 +301,7 @@ public class MainActivity extends AppCompatActivity
                 e.printStackTrace();
             } catch (IOException e) {
                 e.printStackTrace();
+
             }
         }
     }
@@ -308,15 +312,22 @@ public class MainActivity extends AppCompatActivity
         //show hide loading animation.
         BaseFragment bf = s_allFrags.get(0);
         if(bf != null) {
-                bf.showLoading();
+                bf.showLoadingTry();
         }
-
         //getting normal data
         Request request = new Request.Builder().url("http://52.89.112.230/api/nodel_bengalifm?limit=200&"+query).build();
         m_Httpclient.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Request request, IOException e) {
-                showToast("Load FM list failed");
+                new Handler(Looper.getMainLooper()).post(new Runnable() {
+                    @Override
+                    public void run() {
+                        BaseFragment bf = s_allFrags.get(0);
+                        if(bf != null) {
+                            bf.showLoadingError();
+                        }
+                    }
+                });
                 e.printStackTrace();
             }
             @Override
@@ -346,7 +357,6 @@ public class MainActivity extends AppCompatActivity
             }
         });
     }
-
     // ******************************* API to read local songs ************************************************
     private class ExploreLocalFilesTask extends AsyncTask<File, Integer, ArrayList<Nodes>> {
         protected ArrayList<Nodes>  doInBackground(File... urls) {
@@ -506,7 +516,7 @@ public class MainActivity extends AppCompatActivity
                 excl.setVisibility(View.GONE);
             }
             if(isInFev(cur)){
-                setImage(fev,R.drawable.fevyesblack);
+                setImage(fev,R.drawable.tickfev);
             } else{
                 setImage(fev,R.drawable.fevblack);
             }
@@ -516,7 +526,7 @@ public class MainActivity extends AppCompatActivity
                 public void onClick(View v) {
                     int res = toggleFev(cur);
                     if(res == 1){ //added
-                        setImage(fev,R.drawable.fevyesblack);
+                        setImage(fev,R.drawable.tickfev);
                     } else if(res == -1){ //removed
                         setImage(fev,R.drawable.fevblack);
                     }
@@ -735,21 +745,42 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.s_bengali) {
-            LoadRemoteData("state=active&tags=bengali");
+        if (id == R.id.s_live) {
+            LoadRemoteData("state=active");
+        } else if (id == R.id.s_kolkata) {
+            LoadRemoteData("state=active&tags=live&tags=kolkata");
+        }else if (id == R.id.s_delhi) {
+            LoadRemoteData("state=active&tags=live&tags=delhi");
+        }else if (id == R.id.s_mumbai) {
+            LoadRemoteData("state=active&tags=live&tags=mumbai");
+        }else if (id == R.id.s_hyderabad) {
+            LoadRemoteData("state=active&tags=live&tags=hyderabad");
+        }else if (id == R.id.s_pune) {
+            LoadRemoteData("state=active&tags=live&tags=pune");
+        }else if (id == R.id.s_bangalore) {
+            LoadRemoteData("state=active&tags=live&tags=bangalore");
+        }else if (id == R.id.s_chennai) {
+            LoadRemoteData("state=active&tags=live&tags=chennai");
         } else if (id == R.id.s_hindi) {
             LoadRemoteData("state=active&tags=hindi");
-        } else if (id == R.id.s_bangladesh) {
-            LoadRemoteData("state=active&tags=bangladesh");
-        } else if (id == R.id.s_monkebaat_bengali) {
+        }else if (id == R.id.s_bangla) {
+            LoadRemoteData("state=active&tags=bengali");
+        }else if (id == R.id.s_tamil) {
+            LoadRemoteData("state=active&tags=tamil");
+        }else if (id == R.id.s_telegu) {
+            LoadRemoteData("state=active&tags=telegu");
+        }else if (id == R.id.s_marathi) {
+            LoadRemoteData("state=active&tags=marathi");
+        } else if (id == R.id.s_malayalam) {
+            LoadRemoteData("state=active&tags=malayalam");
+        } else if (id == R.id.s_kannada) {
+            LoadRemoteData("state=active&tags=kannada");
+        }else if (id == R.id.s_monkebaat_bengali) {
             LoadRemoteData("state=recorded&tags=mkbt_bengali");
         } else if (id == R.id.s_monkebaat_hindi) {
             LoadRemoteData("state=recorded&tags=mkbt_hindi");
         } else if (id == R.id.nav_send1) {
             //LoadRemoteData("state=active&tag=bengali");
-        }
-        else if (id == R.id.s_active) {
-            LoadRemoteData("state=Active");
         }
         else if (id == R.id.test) {
             //DIPANKAR TEST
@@ -989,6 +1020,30 @@ public class MainActivity extends AppCompatActivity
             }
         }
 
+        public void showLoadingEmpty() {
+            if(m_myview != null){
+                m_myview.findViewById(R.id.search_loading).setVisibility(View.VISIBLE);
+                m_myview.findViewById(R.id.loading_icon).setVisibility(View.GONE);
+                ((TextView)m_myview.findViewById(R.id.loading_msg)).setText("Sorry,Currently We don not have any FM channel for this type.");
+                m_myview.findViewById(R.id.list).setVisibility(View.GONE);
+            }
+        }
+        public void showLoadingError() {
+            if(m_myview != null){
+                m_myview.findViewById(R.id.search_loading).setVisibility(View.VISIBLE);
+                m_myview.findViewById(R.id.loading_icon).setVisibility(View.GONE);
+                ((TextView)m_myview.findViewById(R.id.loading_msg)).setText("Ooops, Network error happens while loading the list. Please check your internet connection and retry.");
+                m_myview.findViewById(R.id.list).setVisibility(View.GONE);
+            }
+        }
+        public void showLoadingTry() {
+            if(m_myview != null){
+                m_myview.findViewById(R.id.search_loading).setVisibility(View.VISIBLE);
+                m_myview.findViewById(R.id.loading_icon).setVisibility(View.VISIBLE);
+                ((TextView)m_myview.findViewById(R.id.loading_msg)).setText("Please wait for a min, We are retriving FM list from server.");
+                m_myview.findViewById(R.id.list).setVisibility(View.GONE);
+            }
+        }
     }
     //################  Notification ##############################################################
     private static NotificationManager notificationManager;
@@ -1027,8 +1082,8 @@ public class MainActivity extends AppCompatActivity
                     .setContentIntent(intent)
                     .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
                     .setSmallIcon(getChannelIcon(m_curPlayingNode))
-                    .addAction(R.drawable.play, "Play", pendingSwitchIntent2)
-                    .addAction(R.drawable.stop, "Stop", pendingSwitchIntent1)
+                    .addAction(R.drawable.greenplay, "Play", pendingSwitchIntent2)
+                    .addAction(R.drawable.greenstop, "Stop", pendingSwitchIntent1)
                     .setContentTitle(m_curPlayingNode.getName())
                     .setContentText("Best FM playing app in India")
                    // .setLargeIcon(R.mipmap.ic_launcher)
@@ -1038,8 +1093,8 @@ public class MainActivity extends AppCompatActivity
                     .setContentIntent(intent)
                     .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
                     .setSmallIcon(getChannelIcon(m_curPlayingNode))
-                    .addAction(R.drawable.pause, "Pause", pendingSwitchIntent3)
-                    .addAction(R.drawable.stop, "Stop", pendingSwitchIntent1)
+                    .addAction(R.drawable.greenpause, "Pause", pendingSwitchIntent3)
+                    .addAction(R.drawable.greenstop, "Stop", pendingSwitchIntent1)
                     .setContentTitle(m_curPlayingNode.getName())
                     .setContentText("Best FM playing app in India")
                     //.setLargeIcon(getChannelIcon(m_curPlayingNode))
