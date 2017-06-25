@@ -33,12 +33,12 @@
         android:weightSum="5"
         android:layout_gravity="right">
         <ImageButton
-            android:id="@+id/fev"
+            android:id="@+id/like"
             android:layout_width="0dip"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:padding="30dip"
-            android:src="@drawable/fev"
+            android:src="@drawable/like"
             android:background="@drawable/mybutton" />
         <ImageButton
             android:id="@+id/prev"

@@ -87,9 +87,6 @@ import java.util.Random;
 import java.util.TimeZone;
 
 import pl.droidsonroids.gif.GifImageButton;
-import pl.droidsonroids.gif.GifTextView;
-
-
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener{
 
@@ -97,12 +94,12 @@ public class MainActivity extends AppCompatActivity
 
     private TabLayout tabLayout;
     private ViewPager viewPager;
-    private ViewPagerAdapter viewadapter;
+    public  ViewPagerAdapter viewadapter;
     NavigationView m_navigationView;
     private ImageButton play,prev,next,fev,vol;
     private  GifImageButton loading1, loading2;
 
-    private Nodes m_curPlayingNode;
+    public Nodes m_curPlayingNode;
     public static List<Nodes> m_curPlayList = new ArrayList<>();
 
     public static List<Nodes> m_febPlayList = new ArrayList<>();
@@ -121,6 +118,14 @@ public class MainActivity extends AppCompatActivity
 
     public static MainActivity Get(){
         return s_activity;
+    }
+    public static Context getContext(){
+        if(s_activity != null) {
+            return s_activity.getApplicationContext();
+        }
+        else{
+            return null;
+        }
     }
 
 
@@ -163,7 +168,7 @@ public class MainActivity extends AppCompatActivity
         next = (ImageButton) findViewById(R.id.next);
        prev = (ImageButton) findViewById(R.id.prev);
        vol = (ImageButton) findViewById(R.id.vol);
-       fev = (ImageButton) findViewById(R.id.fev);
+       fev = (ImageButton) findViewById(R.id.like);
        loading2 =(GifImageButton) findViewById(R.id.loading2);
         play.setOnClickListener(this);
         next.setOnClickListener(this);
@@ -234,27 +239,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     // ******************************* API to read remote data ************************************************
-    class Nodes{
-        public Nodes(String name, String img, String url, String tags) {
-            this.name = name;
-            this.img = img;
-            this.tags = tags;
-            this.url = url;
-        }
-        public String getName() {
-            return name;
-        }
-        public String getImg() {
-            return img;
-        }
-        public String getType() {
-            return tags;
-        }
-        public String getUrl() {
-            return url;
-        }
-        String name,img,tags,url;
-    };
+
     private  List<Nodes> m_searchPlayList = new ArrayList<>();
     void handleResponse(Response response) {
         m_searchPlayList.clear();
@@ -293,6 +278,9 @@ public class MainActivity extends AppCompatActivity
                                 bf.showLoadingEmpty();
                             } else {
                                 bf.showLList();
+                                if(m_curPlayingNode != null){
+                                    m_curPlayingNode = m_searchPlayList.get(0);
+                                }
                             }
                         }
                     }
@@ -465,81 +453,7 @@ public class MainActivity extends AppCompatActivity
             return R.drawable.guitar1;
         }
     }
-    class CustomListAdapter extends ArrayAdapter<Nodes> {
 
-        private final Activity context;
-        private final List<Nodes> web;
-
-        public CustomListAdapter(Activity context, List<Nodes> web) {
-            super(context, R.layout.list, web);
-            this.context = context;
-            this.web = web;
-        }
-
-        @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
-            View rowView;
-            if (convertView == null) {
-               LayoutInflater inflater = context.getLayoutInflater();
-                rowView= inflater.inflate(R.layout.list, null, true);
-            } else{
-                rowView= convertView;
-            }
-            Log.d("Dipankar",position+"");
-            LinearLayout layout = (LinearLayout) rowView.findViewById(R.id.item);
-            TextView sl = (TextView) rowView.findViewById(R.id.sl);
-            TextView txtTitle = (TextView) rowView.findViewById(R.id.txt);
-            ImageView imageView = (ImageView) rowView.findViewById(R.id.img);
-            final ImageView fev = (ImageView) rowView.findViewById(R.id.isfev);
-            TextView excl = (TextView) rowView.findViewById(R.id.excl);
-
-            sl.setText((position+1)+".");
-            final Nodes cur = web.get(position);
-            if(cur == null){
-                // todo
-            }
-            txtTitle.setText(cur.getName());
-            setImage(imageView,getChannelIcon(cur));
-
-            if((m_curPlayingNode != null) && m_curPlayingNode.getUrl() == web.get(position).getUrl() ){
-               // ((GifTextView) rowView.findViewById(R.id.play_anim)).setVisibility(View.VISIBLE);
-            }
-            //exclusive item
-            if(web.get(position).getType() != null  && web.get(position).getType().indexOf("Exclusive") != -1){
-                layout.setBackgroundColor(Color.parseColor("#ebf442"));
-                setImage(imageView,R.drawable.exclusive);
-                excl.setVisibility(View.VISIBLE);
-            } else{
-                if(layout != null){
-                   //TODO  layout.setBackgroundColor(Color.parseColor("#000"));
-                }
-                excl.setVisibility(View.GONE);
-            }
-            if(isInFev(cur)){
-                setImage(fev,R.drawable.tickfev);
-            } else{
-                setImage(fev,R.drawable.fevblack);
-            }
-            fev.setOnClickListener(new View.OnClickListener()
-            {
-                @Override
-                public void onClick(View v) {
-                    int res = toggleFev(cur);
-                    if(res == 1){ //added
-                        setImage(fev,R.drawable.tickfev);
-                    } else if(res == -1){ //removed
-                        setImage(fev,R.drawable.fevblack);
-                    }
-                }
-            });
-            return rowView;
-        }
-        public void clearData() {
-            // clear the data
-            web.clear();
-            //this.setNotifyOnChange();
-        }
-    }
 
 
     // ******************************* Music Player Button Handlers************************************************
@@ -584,18 +498,13 @@ public class MainActivity extends AppCompatActivity
                 //Stop MediaPlayer
                 //MediaPlayer.create(getBaseContext(), R.raw.voicefile).stop();
                 //break;
-            case R.id.fev:
-                Nodes n = m_curPlayingNode;
-                if(isInFev(n) == false){
-                    addToFev(n);
-                    saveFev();
-                    fev.setImageResource(R.drawable.fevyes);
-                    showToast("Added to favourite");
-                } else{
-                    removeFromFev(n);
-                    saveFev();
-                    fev.setImageResource(R.drawable.fev);
-                    showToast("Removed from favourite");
+            case R.id.like:
+                if(m_curPlayingNode != null){
+                    sendTelemetry("like_click",  new HashMap<String, String>(){{
+                        put("name",m_curPlayingNode.getName());
+                        put("url",m_curPlayingNode.getUrl());
+                    }});
+                    setImage(fev,R.drawable.greenlike);
                 }
                 break;
         }
@@ -748,19 +657,21 @@ public class MainActivity extends AppCompatActivity
         if (id == R.id.s_live) {
             LoadRemoteData("state=active");
         } else if (id == R.id.s_kolkata) {
-            LoadRemoteData("state=active&tags=live&tags=kolkata");
+            LoadRemoteData("state=active&tags=kolkata");
         }else if (id == R.id.s_delhi) {
-            LoadRemoteData("state=active&tags=live&tags=delhi");
+            LoadRemoteData("state=active&tags=delhi");
         }else if (id == R.id.s_mumbai) {
-            LoadRemoteData("state=active&tags=live&tags=mumbai");
+            LoadRemoteData("state=active&tags=mumbai");
         }else if (id == R.id.s_hyderabad) {
-            LoadRemoteData("state=active&tags=live&tags=hyderabad");
+            LoadRemoteData("state=active&tags=hyderabad");
         }else if (id == R.id.s_pune) {
-            LoadRemoteData("state=active&tags=live&tags=pune");
+            LoadRemoteData("state=active&tags=pune");
         }else if (id == R.id.s_bangalore) {
-            LoadRemoteData("state=active&tags=live&tags=bangalore");
+            LoadRemoteData("state=active&tags=bangalore");
         }else if (id == R.id.s_chennai) {
-            LoadRemoteData("state=active&tags=live&tags=chennai");
+            LoadRemoteData("state=active&tags=chennai");
+        } else if (id == R.id.s_bangladesh) {
+            LoadRemoteData("state=active&tags=bangladesh");
         } else if (id == R.id.s_hindi) {
             LoadRemoteData("state=active&tags=hindi");
         }else if (id == R.id.s_bangla) {
@@ -844,7 +755,7 @@ public class MainActivity extends AppCompatActivity
         return false;
     }
 
-    private int toggleFev(final Nodes x){
+    public int toggleFev(final Nodes x){
         if(isInFev(x)){
             if(removeFromFev(x)){
                 return -1;
@@ -884,167 +795,7 @@ public class MainActivity extends AppCompatActivity
             }
         }
     }
-    // ******************************* Fragments************************************************
-    @SuppressLint("validFragment")
-    public class BaseFragment extends Fragment{
-        protected String m_fragmentTag;
-        protected View m_myview;
-        protected int m_id;
-        protected CustomListAdapter m_adapter;
-        protected  List<Nodes> m_NodeList = new ArrayList<>();
-        private List<BaseFragment> s_allFrags = new ArrayList<>();
-        public BaseFragment(int id) {
-            m_id = id;
-            s_allFrags.add(this);
-        }
-        public BaseFragment get(int id) {
-            return s_allFrags.get(id);
-        }
 
-        public void setFragmentTag(String tag)
-        {
-            this.m_fragmentTag = tag;
-        }
-
-        public String getFragmentTag()
-        {
-            return this.m_fragmentTag;
-        }
-
-        @Override
-        public void onResume() {
-            super.onResume();
-
-        }
-
-        @Override
-        public void onCreate(Bundle savedInstanceState) {
-            super.onCreate(savedInstanceState);
-        }
-
-
-        @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                                 Bundle savedInstanceState) {
-            // Inflate the layout for this fragment
-            m_myview = inflater.inflate(m_id, container, false);
-            if(m_NodeList.size() != 0){
-               showLList();
-            } else{
-                showLoading();
-            }
-            m_adapter = renderList();
-            return m_myview;
-        }
-        public View getView(){
-            return m_myview;
-        }
-
-        public CustomListAdapter getListAdapter(){
-            return m_adapter;
-        }
-
-        public List<MainActivity.Nodes> getNodes(){
-            return m_NodeList;
-        }
-        public void setNodes(List<Nodes> list ){
-            if (list != null){
-                m_NodeList.clear();
-                m_NodeList.addAll(list);
-                if(m_adapter != null) {
-                    m_adapter.notifyDataSetChanged();
-                }
-            }
-        }
-        private  CustomListAdapter renderList( ) {
-            //list = (ListView) findViewById(R.id.list);
-            CustomListAdapter adapter = new CustomListAdapter(MainActivity.this, m_NodeList);
-            ListView listview= (ListView)m_myview.findViewById(R.id.list);
-            listview.setAdapter(adapter);
-            listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                @Override
-                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    Toast.makeText(MainActivity.this, "You clicked " + m_NodeList.get(position).getName(), Toast.LENGTH_SHORT).show();
-                    m_curFragment = viewadapter.getVisibleFragment();
-                    m_curPlayList = m_curFragment.getNodes();
-                    if(m_curPlayList != null && position <m_curPlayList.size() ) {
-                        m_curPlayingNode = m_curPlayList.get(position);
-                        play();
-                    } else{
-                        showToast("Click returns invalid entry!");
-                    }
-                }
-            });
-            return adapter;
-        }
-
-        public void clearAnimation(){
-            ListView listview= (ListView)m_myview.findViewById(R.id.list);
-            if(listview == null) return;
-            for (int i=0 ;i <listview.getChildCount();i++){
-// todo                    listview.getChildAt(i).findViewById(R.id.play_anim).setVisibility(View.GONE);
-
-            }
-        }
-        public void showInProgressAnimation(){
-            ListView listview= (ListView)m_myview.findViewById(R.id.list);
-            if(listview == null) return;
-            for (int i=0 ;i <listview.getChildCount();i++){
-                if(m_NodeList.get(i).getUrl().equals(m_curPlayingNode.getUrl())){
-                    //setImage(listview.getChildAt(i).findViewById(R.id.play_anim),R.drawable.loading2);
-                    //listview.getChildAt(i).findViewById(R.id.play_anim).setVisibility(View.VISIBLE);
-                }
-            }
-        }
-        public void showPlayingAnimation(){
-            ListView listview= (ListView)m_myview.findViewById(R.id.list);
-            if(listview == null) return;
-            for (int i=0 ;i <listview.getChildCount();i++){
-                if(m_NodeList.get(i).getUrl().equals(m_curPlayingNode.getUrl())){
-                    //setImage(listview.getChildAt(i).findViewById(R.id.play_anim),R.drawable.play_anim);
-                    //listview.getChildAt(i).findViewById(R.id.play_anim).setVisibility(View.VISIBLE);
-                }
-            }
-        }
-
-        public void showLoading() {
-            if(m_myview != null){
-                m_myview.findViewById(R.id.search_loading).setVisibility(View.VISIBLE);
-                m_myview.findViewById(R.id.list).setVisibility(View.GONE);
-            }
-        }
-        public void showLList() {
-            if(m_myview != null){
-                m_myview.findViewById(R.id.search_loading).setVisibility(View.GONE);
-                m_myview.findViewById(R.id.list).setVisibility(View.VISIBLE);
-            }
-        }
-
-        public void showLoadingEmpty() {
-            if(m_myview != null){
-                m_myview.findViewById(R.id.search_loading).setVisibility(View.VISIBLE);
-                m_myview.findViewById(R.id.loading_icon).setVisibility(View.GONE);
-                ((TextView)m_myview.findViewById(R.id.loading_msg)).setText("Sorry,Currently We don not have any FM channel for this type.");
-                m_myview.findViewById(R.id.list).setVisibility(View.GONE);
-            }
-        }
-        public void showLoadingError() {
-            if(m_myview != null){
-                m_myview.findViewById(R.id.search_loading).setVisibility(View.VISIBLE);
-                m_myview.findViewById(R.id.loading_icon).setVisibility(View.GONE);
-                ((TextView)m_myview.findViewById(R.id.loading_msg)).setText("Ooops, Network error happens while loading the list. Please check your internet connection and retry.");
-                m_myview.findViewById(R.id.list).setVisibility(View.GONE);
-            }
-        }
-        public void showLoadingTry() {
-            if(m_myview != null){
-                m_myview.findViewById(R.id.search_loading).setVisibility(View.VISIBLE);
-                m_myview.findViewById(R.id.loading_icon).setVisibility(View.VISIBLE);
-                ((TextView)m_myview.findViewById(R.id.loading_msg)).setText("Please wait for a min, We are retriving FM list from server.");
-                m_myview.findViewById(R.id.list).setVisibility(View.GONE);
-            }
-        }
-    }
     //################  Notification ##############################################################
     private static NotificationManager notificationManager;
     private final int NOTIFICATION_ID =111;
@@ -1234,6 +985,27 @@ public class MainActivity extends AppCompatActivity
 
 }
 
+class Nodes{
+    public Nodes(String name, String img, String url, String tags) {
+        this.name = name;
+        this.img = img;
+        this.tags = tags;
+        this.url = url;
+    }
+    public String getName() {
+        return name;
+    }
+    public String getImg() {
+        return img;
+    }
+    public String getType() {
+        return tags;
+    }
+    public String getUrl() {
+        return url;
+    }
+    String name,img,tags,url;
+};
 /* Script perser
 
 res = [];for ( var i =0;i<31;i++){name =$($('.detailNew h5')[i]).html();url="http://cdn.narendramodi.in/"+JSON.parse($($('.detailNew .BindPop')[i]).attr('data-id')).bengali; res.push({name:name,url:url,tags:"mkbt_bengali india",state:"recorded"});} console.log(JSON.stringify(res))
