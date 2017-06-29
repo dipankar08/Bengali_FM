@@ -57,6 +57,8 @@ import android.widget.RemoteViews;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.squareup.okhttp.Call;
@@ -179,6 +181,8 @@ public class MainActivity extends AppCompatActivity
         LoadRemoteData(null);
         sendEventLaunch();
         populateLocalFiles();
+        FirebaseMessaging.getInstance().subscribeToTopic("News");
+        FirebaseInstanceId.getInstance().getToken();
     }
 
     // *******************************Setting up the pages ************************************************

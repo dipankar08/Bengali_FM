@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "587235439821",
+    "firebase_url": "https://fmradioindia-e4819.firebaseio.com",
+    "project_id": "fmradioindia-e4819",
+    "storage_bucket": "fmradioindia-e4819.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:587235439821:android:4dfd2aaf4afbafa2",
+        "android_client_info": {
+          "package_name": "in.peerreview.fmradioindia"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "587235439821-53ob7oqefb3oetklg50lum4oki798o34.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCE-G_Hc5-PC2Xoe7fLU1f4oGzDwUCbnAk"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
