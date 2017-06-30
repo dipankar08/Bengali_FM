@@ -96,6 +96,15 @@ public class BaseFragment extends Fragment {
             }
         }
     }
+
+    public void addNodes(Nodes n ){
+        if (n != null){
+            m_NodeList.add(0,n);
+            if(m_adapter != null) {
+                m_adapter.notifyDataSetChanged();
+            }
+        }
+    }
     private  CustomListAdapter renderList( ) {
         //list = (ListView) findViewById(R.id.list);
         Activity c = MainActivity.Get();

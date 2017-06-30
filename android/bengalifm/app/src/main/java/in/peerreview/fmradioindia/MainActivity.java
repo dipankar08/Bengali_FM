@@ -183,6 +183,29 @@ public class MainActivity extends AppCompatActivity
         populateLocalFiles();
         FirebaseMessaging.getInstance().subscribeToTopic("News");
         FirebaseInstanceId.getInstance().getToken();
+        onNewIntent(getIntent());
+    }
+    @Override
+    public void onNewIntent(Intent intent) {
+        Bundle extras = intent.getExtras();
+        if(intent.getAction().equals("android.intent.action.MAIN")){
+
+        } else if(intent.getAction().equals("LiveNotification")) {
+            if(extras != null){
+                String msg = extras.getString("message");
+                String url = extras.getString("url");
+                if(msg !=null && url != null){
+                    Nodes n = new Nodes(msg,null,url,"LiveNotification exclusive");
+                    m_curPlayingNode = n;
+                    s_allFrags.get(0).addNodes(n);
+                    play();
+                }
+            }
+        } else{
+
+        }
+
+
     }
 
     // *******************************Setting up the pages ************************************************
@@ -450,7 +473,10 @@ public class MainActivity extends AppCompatActivity
         }
         else if(cur.getName().toLowerCase().indexOf("friend") != -1){
             return R.drawable.friends;
-        }/*
+        }
+        else if(cur.getType().toLowerCase().indexOf("exclusive") != -1){
+            return R.drawable.exclusive;
+        }/*/*
         else if(web.get(position).getImg() != null){
             Picasso.with(context).load(web.get(position).getImg()).into(imageView);
         } */else{

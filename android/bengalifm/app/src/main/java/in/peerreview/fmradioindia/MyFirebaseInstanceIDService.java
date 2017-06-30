@@ -41,7 +41,8 @@ public class MyFirebaseInstanceIDService extends FirebaseInstanceIdService {
         data.put("device_id", Settings.Secure.getString(MainActivity.Get().getApplicationContext().getContentResolver(),Settings.Secure.ANDROID_ID));
         RequestBody body = RequestBody.create(JSON, data.toString());
         Request request = new Request.Builder()
-                .url("http://192.168.56.101/api/bengalifm_noti")
+                //.url("http://192.168.56.101/api/bengalifm_noti")
+                .url("http://52.89.112.230/api/bengalifm_noti")
                 .post(body)
                 .build();
 
