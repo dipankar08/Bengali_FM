@@ -187,6 +187,9 @@ public class MainActivity extends AppCompatActivity
     }
     @Override
     public void onNewIntent(Intent intent) {
+        if(intent == null || intent.getAction() == null ||  intent.getExtras() == null ){
+            return;
+        }
         Bundle extras = intent.getExtras();
         if(intent.getAction().equals("android.intent.action.MAIN")){
 
