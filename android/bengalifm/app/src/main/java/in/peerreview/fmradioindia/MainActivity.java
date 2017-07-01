@@ -198,7 +198,7 @@ public class MainActivity extends AppCompatActivity
                 String msg = extras.getString("message");
                 String url = extras.getString("url");
                 if(msg !=null && url != null){
-                    Nodes n = new Nodes(msg,null,url,"LiveNotification exclusive");
+                    Nodes n = new Nodes(null, msg,null,url,"LiveNotification exclusive");
                     m_curPlayingNode = n;
                     s_allFrags.get(0).addNodes(n);
                     play();
@@ -287,7 +287,7 @@ public class MainActivity extends AppCompatActivity
                 for (int i = 0; i < Jarray.length(); i++) {
                     JSONObject object = Jarray.getJSONObject(i);
                     if(object.has("name") && object.has("name")) { //TODO
-                        m_searchPlayList.add(new Nodes(object.optString("name",null), object.optString("img",null), object.optString("url",null), object.optString("tags",null)));
+                        m_searchPlayList.add(new Nodes(object.optString("uid",null), object.optString("name",null), object.optString("img",null), object.optString("url",null), object.optString("tags",null)));
                     }
                 }
                 new Handler(Looper.getMainLooper()).post(new Runnable() {
@@ -402,7 +402,7 @@ public class MainActivity extends AppCompatActivity
                         break;
                     }
                 } else if (file.getName().endsWith(".mp3")) {
-                    Nodes song = new Nodes(file.getName().substring(0,15)+"...mp3","INDISK_FILE", file.getAbsolutePath(), "IN_DISK_FILE" );
+                    Nodes song = new Nodes(null, file.getName().substring(0,15)+"...mp3","INDISK_FILE", file.getAbsolutePath(), "IN_DISK_FILE" );
                     fileList.add(song);
                 }
             }
@@ -553,6 +553,7 @@ public class MainActivity extends AppCompatActivity
             return;
         }
         s_tryplaying = true;
+        final Nodes tryPaying = m_curPlayingNode;
         if(mPlayer != null){
             mPlayer.stop();
             mPlayer.reset();
@@ -620,13 +621,31 @@ public class MainActivity extends AppCompatActivity
                 stop();
             }
         });
+        mPlayer.setOnErrorListener(
+                new MediaPlayer.OnErrorListener(){
+                        public boolean onError(    MediaPlayer mp,    int what,    final int extra){
+                            setImage(play,R.drawable.play);
+                            play.setVisibility(View.VISIBLE);
+                            loading2.setVisibility(View.GONE);
+                            showToast("Looks like stream is not available now!");
+                            stop();
+                            sendTelemetry("play_error",  new HashMap<String, String>(){{
+                                put("name",tryPaying.getName());
+                                put("url",tryPaying.getUrl());
+                                put("extra", ""+extra);
+                            }});
+                            sendToServer( new HashMap<String, String>(){{
+                                put("_cmd","update");
+                                put("id",tryPaying.getUid());
+                                put("state","NetError");
+                            }});
+                            return true;
+                        }
+                }
+        );
         s_tryplaying = false;
     }
     public void stop(){
-        if(s_tryplaying == true){
-            showToast("Please wait..I am trying to play "+m_curPlayingNode.getName());
-            return;
-        }
         if(mPlayer != null){
             mPlayer.stop();
             mPlayer.reset();
@@ -690,21 +709,21 @@ public class MainActivity extends AppCompatActivity
         if (id == R.id.s_live) {
             LoadRemoteData("state=active");
         } else if (id == R.id.s_kolkata) {
-            LoadRemoteData("state=active&tags=kolkata");
+            LoadRemoteData("tags=kolkata");
         }else if (id == R.id.s_delhi) {
-            LoadRemoteData("state=active&tags=delhi");
+            LoadRemoteData("tags=delhi");
         }else if (id == R.id.s_mumbai) {
-            LoadRemoteData("state=active&tags=mumbai");
+            LoadRemoteData("tags=mumbai");
         }else if (id == R.id.s_hyderabad) {
-            LoadRemoteData("state=active&tags=hyderabad");
+            LoadRemoteData("tags=hyderabad");
         }else if (id == R.id.s_pune) {
-            LoadRemoteData("state=active&tags=pune");
+            LoadRemoteData("tags=pune");
         }else if (id == R.id.s_bangalore) {
-            LoadRemoteData("state=active&tags=bangalore");
+            LoadRemoteData("tags=bangalore");
         }else if (id == R.id.s_chennai) {
-            LoadRemoteData("state=active&tags=chennai");
+            LoadRemoteData("tags=chennai");
         } else if (id == R.id.s_bangladesh) {
-            LoadRemoteData("state=active&tags=bangladesh");
+            LoadRemoteData("tags=bangladesh");
         } else if (id == R.id.s_hindi) {
             LoadRemoteData("state=active&tags=hindi");
         }else if (id == R.id.s_bangla) {
@@ -1016,14 +1035,47 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
+    void sendToServer(Map<String,String> map){
+        Log.d("Dipankar", "sendToServer: called "+map.toString());
+        JSONObject json = new JSONObject();
+        try {
+            for (Map.Entry<String, String> entry : map.entrySet())
+            {
+                json.put(entry.getKey(), entry.getValue());
+            }
+            MediaType JSON = MediaType.parse("application/json; charset=utf-8");
+            RequestBody body = RequestBody.create(JSON, json.toString());
+            Request request = new Request.Builder()
+                    .url("http://52.89.112.230/api/nodel_bengalifm")
+                    .post(body)
+                    .build();
+            m_Httpclient.newCall(request)
+                    .enqueue(new Callback() {
+                        @Override
+                        public void onFailure(Request request, IOException e) {
+                            Log.d("Dipankar", "sendToServer: Failed "+e.toString());
+                        }
+                        @Override
+                        public void onResponse(Response response) throws IOException {
+                            Log.d("Dipankar", "sendToServer: Success "+response.toString());
+                        }
+                    });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }
 
 class Nodes{
-    public Nodes(String name, String img, String url, String tags) {
+    public Nodes(String uid, String name, String img, String url, String tags) {
+        this.uid = uid;
         this.name = name;
         this.img = img;
         this.tags = tags;
         this.url = url;
+    }
+    public String getUid() {
+        return uid;
     }
     public String getName() {
         return name;
@@ -1037,7 +1089,8 @@ class Nodes{
     public String getUrl() {
         return url;
     }
-    String name,img,tags,url;
+
+    String uid, name,img,tags,url;
 };
 /* Script perser
 

@@ -37,6 +37,10 @@ public class BaseFragment extends Fragment {
         m_id = id;
         s_allFrags.add(this);
     }
+    public BaseFragment() {
+        m_id =0;
+
+    }
     public BaseFragment get(int id) {
         return s_allFrags.get(id);
     }
