@@ -1,5 +1,5 @@
 /* Aim : Check if the app is installed for first time */
-package in.peerreview.fmradioindia;
+package in.peerreview.fmradioindia.External;
 
 import android.content.Context;
 import android.content.SharedPreferences;

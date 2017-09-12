@@ -3,6 +3,7 @@ package in.peerreview.fmradioindia;
 /**
  * Created by ddutta on 6/30/2017.
  */
+
 import android.provider.Settings;
 import android.util.Log;
 
@@ -22,6 +23,7 @@ import java.io.IOException;
 public class MyFirebaseInstanceIDService extends FirebaseInstanceIdService {
 
     private static final String TAG = "MyFirebaseIIDService";
+
     @Override
     public void onTokenRefresh() {
         String refreshedToken = FirebaseInstanceId.getInstance().getToken();
@@ -36,9 +38,10 @@ public class MyFirebaseInstanceIDService extends FirebaseInstanceIdService {
     private void sendRegistrationToServer(String token) throws JSONException {
         MediaType JSON = MediaType.parse("application/json; charset=utf-8");
         JSONObject data = new JSONObject();
-        data.put("_cmd","gsm_register");
-        data.put("reg_id",token);
-        data.put("device_id", Settings.Secure.getString(MainActivity.Get().getApplicationContext().getContentResolver(),Settings.Secure.ANDROID_ID));
+        data.put("_cmd", "gsm_register");
+        data.put("reg_id", token);
+        Log.d("DIPANKAR", "sendRegistrationToServer: Trying to sedn token..." + token);
+        data.put("device_id", Settings.Secure.getString(MainActivity.Get().getApplicationContext().getContentResolver(), Settings.Secure.ANDROID_ID));
         RequestBody body = RequestBody.create(JSON, data.toString());
         Request request = new Request.Builder()
                 //.url("http://192.168.56.101/api/bengalifm_noti")
@@ -50,6 +53,7 @@ public class MyFirebaseInstanceIDService extends FirebaseInstanceIdService {
         try {
             c.newCall(request).execute();
         } catch (IOException e) {
+            Log.d("DIPANKAR", "sendRegistrationToServer: send token faild." + token);
             e.printStackTrace();
         }
     }

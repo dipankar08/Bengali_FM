@@ -3,6 +3,7 @@ package in.peerreview.fmradioindia;
 /**
  * Created by ddutta on 6/30/2017.
  */
+
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
@@ -22,22 +23,22 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
         Log.d(TAG, "From: " + remoteMessage.getFrom());
-        sendNotification(remoteMessage.getData().get("message"),remoteMessage.getData().get("url"));
+        sendNotification(remoteMessage.getData().get("message"), remoteMessage.getData().get("url"));
     }
 
     private void sendNotification(String messageBody, String url) {
-        Intent resultIntent  = new Intent(this, MainActivity.class);
-        resultIntent.putExtra("message",messageBody);
-        resultIntent.putExtra("url",url);
+        Intent resultIntent = new Intent(this, MainActivity.class);
+        resultIntent.putExtra("message", messageBody);
+        resultIntent.putExtra("url", url);
         resultIntent.setAction("LiveNotification");
-        resultIntent .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0 /* Request code */, resultIntent ,
+        resultIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0 /* Request code */, resultIntent,
                 PendingIntent.FLAG_UPDATE_CURRENT);
 
-        Uri defaultSoundUri= RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+        Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
         NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this)
                 .setSmallIcon(R.drawable.ishq)
-                .setContentTitle("FCM Message")
+                .setContentTitle("Exclusive Live Audio for you :)")
                 .setContentText(messageBody)
                 .setAutoCancel(true)
                 .setSound(defaultSoundUri)
