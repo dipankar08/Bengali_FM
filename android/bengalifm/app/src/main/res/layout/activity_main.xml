@@ -1,8 +1,62 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
+    android:orientation="vertical"
     android:layout_height="match_parent">
-    <TextView
-        android:layout_width="wrap_content"
-        android:text="Hello"
-        android:layout_height="wrap_content" />
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/cardList"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:background="@android:color/black"
+        android:padding="10dp"
+        android:orientation="vertical"
+        android:layout_height="150dp">
+        <RelativeLayout
+            android:id="@+id/infoholder"
+            android:layout_width="match_parent"
+            android:layout_marginBottom="15dp"
+            android:layout_height="wrap_content">
+            <TextView
+                android:layout_width="wrap_content"
+                android:text="Mirchi 98.3 FM"
+                android:textColor="@android:color/white"
+                android:layout_height="20dp" />
+        </RelativeLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:orientation="horizontal"
+            android:gravity="bottom"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_height="80dp">
+            <ImageView
+                android:layout_width="wrap_content"
+                android:id="@+id/back"
+                android:src="@drawable/BackRed100"
+                android:padding="10dp"
+                android:layout_centerVertical="true"
+                android:layout_alignParentLeft="true"
+                android:textColor="@android:color/white"
+                android:layout_height="wrap_content" />
+            <ImageView
+                android:id="@+id/play"
+                android:layout_width="wrap_content"
+                android:src="@drawable/PlayRed100"
+                android:layout_centerHorizontal="true"
+                android:textColor="@android:color/white"
+                android:layout_height="wrap_content" />
+            <ImageView
+                android:layout_width="wrap_content"
+                android:id="@+id/next"
+                android:src="@drawable/NextRed100"
+                android:padding="15dp"
+                android:layout_centerVertical="true"
+                android:layout_alignParentRight="true"
+
+                android:textColor="@android:color/white"
+                android:layout_height="wrap_content" />
+        </RelativeLayout>
     </LinearLayout>
+</LinearLayout>
