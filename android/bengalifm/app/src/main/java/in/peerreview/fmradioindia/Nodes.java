@@ -1,9 +1,5 @@
 package in.peerreview.fmradioindia;
-
-/**
- * Created by ddutta on 9/2/2017.
- */
-class Nodes {
+public class Nodes {
     public Nodes(String uid, String name, String img, String url, String tags) {
         this.uid = uid;
         this.name = name;
@@ -24,7 +20,7 @@ class Nodes {
         return img;
     }
 
-    public String getType() {
+    public String getTags() {
         return tags;
     }
 
