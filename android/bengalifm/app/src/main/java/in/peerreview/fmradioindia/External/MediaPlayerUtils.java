@@ -42,12 +42,6 @@ public class MediaPlayerUtils {
             callback.error("Invalid URL passed", null);
             return;
         }
-        ;
-        if (s_playing == true) {
-            callback.error("Already playing a music", null);
-            return;
-        }
-        s_playing = true;
         callback.tryPlaying();
         if (mPlayer != null) {
             mPlayer.stop();
@@ -62,7 +56,7 @@ public class MediaPlayerUtils {
             mPlayer.prepareAsync();
         } catch (final Exception e) {
             callback.error("Not able to play music", e);
-            stop(callback);
+            stop();
             e.printStackTrace();
         } finally {
 
@@ -91,22 +85,16 @@ public class MediaPlayerUtils {
                     }
                 }
         );
-        s_playing = false;
+        s_playing = true;
     }
 
-    public static void stop(final IPlayerCallback callback) {
+    public static void stop() {
         if (mPlayer != null) {
             mPlayer.stop();
             mPlayer.reset();
             mPlayer = null;
-            if (s_playing == true) {
-                callback.success("Player Stoped");
-                s_playing = false;
-            } else {
-                callback.error("Not playing", null);
-            }
         }
-        callback.error("Not playing", null);
+        s_playing = false;
     }
 
     /***********************************************************************************************

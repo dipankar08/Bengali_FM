@@ -8,6 +8,7 @@ import android.widget.Toast;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.w3c.dom.Node;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -22,7 +23,7 @@ public class Nodes {
         this.name = name;
         this.img = img;
         this.tags = tags;
-        this.imgurl = url;
+        this.mediaurl = url;
         this.count = count;
     }
 
@@ -43,17 +44,32 @@ public class Nodes {
     }
 
     public String getUrl() {
-        return url;
+        return mediaurl;
     }
     public int getCount() {
         return count;
     }
-    String uid, name, img, tags, imgurl;
+    String uid, name, img, tags, mediaurl;
     int count;
 
-    private static final String url= "http://52.89.112.230/api/nodel_bengalifm?limit=200&state=Active";
+    private static final String url= "http://52.89.112.230/api/nodel_bengalifm?limit=300";
     private static final String TAG= "";
     private static List<Nodes> mNodes;
+    private static int mCurNodeIdx = 0;
+
+    public static Nodes getCurNode(){
+        if( mNodes == null){
+            return null;
+        }
+        return mNodes.get(mCurNodeIdx);
+    }
+    public static Nodes getPrevNode(){
+        return mNodes.get(--mCurNodeIdx);
+    }
+    public static Nodes getNextNode(){
+        return mNodes.get(++mCurNodeIdx);
+    }
+
     public static void loadData(){
         final List<Nodes> nodes = new ArrayList<>();
         MyOkHttp.CacheControl c = MyOkHttp.CacheControl.GET_LIVE_ELSE_CACHE;
@@ -66,7 +82,7 @@ public class Nodes {
                      Jarray = jsonObject.getJSONArray("out");
                      for (int i = 0; i < Jarray.length(); i++) {
                          JSONObject object = Jarray.getJSONObject(i);
-                         if(object.has("name") && object.has("name")) { //TODO
+                         if(object.has("name") && object.has("url")) { //TODO
                              nodes.add(new Nodes(
                                      object.optString("uid",null),
                                      object.optString("name",null),
