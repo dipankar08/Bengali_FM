@@ -13,7 +13,10 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+
+import in.peerreview.fmradioindia.External.SimpleSend;
 
 public class RVAdapter extends RecyclerView.Adapter<RVAdapter.PersonViewHolder>{
     private static final String TAG = "RVAdapter" ;
@@ -43,8 +46,16 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.PersonViewHolder>{
             img = (ImageView)itemView.findViewById(R.id.img);
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override public void onClick(View v) {
-                    int pos = getAdapterPosition();
+                    final int pos = getAdapterPosition();
                     Toast.makeText(MainActivity.Get(), nodes.get(pos).getName(), Toast.LENGTH_SHORT).show();
+                    new SimpleSend.Builder()
+                            .url("http://52.89.112.230/api/nodel_bengalifm")
+                            .payload(new HashMap<String, String>() {{
+                                put("_cmd","increment");
+                                put("id",nodes.get(pos).getUid());
+                                put("_payload","count");
+                            }})
+                    .post();
                 }
             });
         }

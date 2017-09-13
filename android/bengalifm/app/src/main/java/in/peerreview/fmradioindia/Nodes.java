@@ -82,7 +82,7 @@ public class Nodes {
                              Collections.sort(nodes, new Comparator<Nodes>() {
                                  @Override
                                  public int compare(Nodes a1, Nodes a2) {
-                                     return a1.getName().compareTo(a2.getName());
+                                     return a2.getCount() - a1.getCount();
                                  }
                              });
                              MainActivity.Get().getAdapter().update(nodes);
