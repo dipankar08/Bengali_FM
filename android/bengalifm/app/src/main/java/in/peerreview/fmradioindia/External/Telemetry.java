@@ -46,7 +46,13 @@ import java.util.TimeZone;
  * protected void onCreate(Bundle savedInstanceState) {
  * super.onCreate(savedInstanceState);
  * sMainActivity = this;
- * }
+
+ Telemetry.sendTelemetry("data_fetch_time",  new HashMap<String, String>(){{
+ put("time",endTime - startTime+"");
+ }});
+
+
+
  */
 public class Telemetry {
     private OkHttpClient m_Httpclient;
@@ -57,10 +63,6 @@ public class Telemetry {
     private final static String TAG = "Telemetry";
     private static Context mContext;
 
-    public static void setup(Context cx) {
-        mContext = cx;
-    }
-
     public static Telemetry Get() {
         if (mTelemetry == null) {
             mTelemetry = new Telemetry();
@@ -68,7 +70,8 @@ public class Telemetry {
         return mTelemetry;
     }
 
-    public static void setup(String url, boolean isForce) {
+    public static void setup(Context cx, String url, boolean isForce) {
+        mContext = cx;
         Telemetry t = Get();
         t.mUrl = url;
         t.mDebug = isForce;
@@ -161,7 +164,9 @@ public class Telemetry {
             data.put("deviceinfo.device", android.os.Build.DEVICE); // OS version
             data.put("deviceinfo.model", android.os.Build.MODEL); // OS version
             data.put("deviceinfo.product", android.os.Build.PRODUCT); // OS version
-            data.put("deviceinfo.deviceid", Settings.Secure.getString(mContext.getContentResolver(), Settings.Secure.ANDROID_ID)); // OS version
+            if(mContext != null) {
+                data.put("deviceinfo.deviceid", Settings.Secure.getString(mContext.getContentResolver(), Settings.Secure.ANDROID_ID)); // OS version
+            }
             data.put("deviceinfo.timezone", "TimeZone   " + tz.getDisplayName(false, TimeZone.SHORT) + " Timezon id :: " + tz.getID());
             sendTelemtry("launch", data);
         } catch (Exception e) {

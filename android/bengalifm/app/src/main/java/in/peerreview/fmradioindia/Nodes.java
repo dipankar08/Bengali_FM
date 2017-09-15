@@ -132,6 +132,37 @@ public class Nodes {
         }
         MainActivity.Get().getAdapter().update(filterdNames);
     }
+    public static void filterByTag(String text){
+        if(mNodes == null) return;
+        ArrayList<Nodes> filterdNames = new ArrayList<>();
+        for (Nodes n : mNodes) {
+            if (n.getTags().toLowerCase().contains(text.toLowerCase())) {
+                filterdNames.add(n);
+            }
+        }
+        MainActivity.Get().getAdapter().update(filterdNames);
+    }
+    public static void topFive(String text){
+        if(mNodes == null) return;
+        ArrayList<Nodes> filterdNames = new ArrayList<>();
+        for (Nodes n : mNodes) {
+            if (n.getTags().toLowerCase().contains(text.toLowerCase())) {
+                filterdNames.add(n);
+            }
+        }
+        MainActivity.Get().getAdapter().update(filterdNames);
+    }
+
+    public static void FrequentlyPlayed(String text){
+        if(mNodes == null) return;
+        ArrayList<Nodes> filterdNames = new ArrayList<>();
+        for (Nodes n : mNodes) {
+            if (n.getTags().toLowerCase().contains(text.toLowerCase())) {
+                filterdNames.add(n);
+            }
+        }
+        MainActivity.Get().getAdapter().update(filterdNames);
+    }
 
     public static List<Nodes> getNodes() {
         return mNodes;

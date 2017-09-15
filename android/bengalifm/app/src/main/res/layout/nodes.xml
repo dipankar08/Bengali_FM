@@ -2,10 +2,16 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="16dp">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:paddingRight="15dp"
+    android:paddingLeft="15dp"
+    android:background="@color/white200"
+    android:paddingTop="10dp">
+    android:paddingButton="10dp">
     <android.support.v7.widget.CardView
         android:id="@+id/cv"
         android:layout_width="match_parent"
+        app:cardBackgroundColor="@color/white200"
         android:layout_height="wrap_content">
         <RelativeLayout
             android:layout_width="match_parent"
@@ -18,7 +24,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="2dp"
-                android:visibility="invisible"
+                android:visibility="gone"
                 android:textColor="@android:color/holo_blue_dark"
                 android:layout_marginRight="5dp"
                 android:textSize="20dp" />
@@ -27,34 +33,36 @@
                 android:text="1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_toRightOf="@+id/dot"
+                android:layout_centerVertical="true"
                 android:layout_alignBaseline="@+id/dot"
-                android:textSize="20dp" />
+                android:textSize="15dp" />
             <ImageView
                 android:id="@+id/img"
                 android:layout_width="70dp"
                 android:layout_height="70dp"
                 android:layout_toRightOf="@+id/sl"
-                android:layout_marginRight="15dp"
-                android:layout_marginLeft="10dp"
+                android:layout_marginRight="30dp"
+                android:layout_marginLeft="30dp"
                 />
             <TextView
                 android:id="@+id/name"
                 android:text="Radio Mirchi"
+                android:layout_marginTop="5dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentRight="true"
+                android:textColor="@color/gray400"
+                android:layout_alignTop="@+id/img"
                 android:layout_toRightOf="@+id/img"
                 android:textSize="16dp" />
             <TextView
                 android:id="@+id/count"
                 android:text="10 views"
+                android:textColor="@color/gray200"
                 android:layout_width="wrap_content"
+                android:layout_marginBottom="5dp"
+                android:layout_alignBottom="@+id/img"
                 android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:layout_toRightOf="@+id/img"
-                android:layout_alignParentRight="true" />
+                android:layout_toRightOf="@+id/img" />
         </RelativeLayout>
     </android.support.v7.widget.CardView>
 </LinearLayout>

@@ -12,17 +12,19 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/white200"
         android:fitsSystemWindows="true"
         tools:context="in.peerreview.myapplication.MainActivity">
         <android.support.design.widget.AppBarLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:theme="@style/AppTheme.AppBarOverlay">
+            android:theme="@style/AppToolbar">
             <android.support.v7.widget.Toolbar
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 android:background="?attr/colorPrimary"
+                android:theme="@style/AppToolbar"
                 app:popupTheme="@style/AppTheme.PopupOverlay">
                 <RelativeLayout
                     android:layout_width="match_parent"
@@ -37,27 +39,104 @@
                         android:focusable="true"
                         android:focusableInTouchMode="true"
                         android:iconifiedByDefault="true"
-                        android:queryHint="Search" />
+                        android:queryHint="" />
                 </RelativeLayout>
             </android.support.v7.widget.Toolbar>
+            <LinearLayout
+                android:id="@+id/qab"
+                android:layout_width="match_parent"
+                android:orientation="horizontal"
+                android:gravity="center"
+                android:visibility="gone"
+                android:paddingBottom="5dp"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:id="@+id/top5"
+                    android:onClick="onClick"
+                    android:paddingLeft="5dp"
+                    android:paddingTop="3dp"
+                    android:paddingBottom="3dp"
+                    android:textSize="10dp"
+                    android:textColor="@color/gray300"
+                    android:paddingRight="5dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_width="wrap_content"
+                    android:background="@drawable/backgroud_gray_round"
+                    android:layout_height="wrap_content"
+                    android:text="Top 5"/>
+                <TextView
+                    android:id="@+id/recent"
+                    android:onClick="onClick"
+                    android:paddingLeft="5dp"
+                    android:paddingTop="3dp"
+                    android:textSize="10dp"
+                    android:textColor="@color/gray300"
+                    android:paddingBottom="3dp"
+                    android:paddingRight="5dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_width="wrap_content"
+                    android:background="@drawable/backgroud_gray_round"
+                    android:layout_height="wrap_content"
+                    android:text="Recent"/>
+                <TextView
+                    android:id="@+id/hindi"
+                    android:onClick="onClick"
+                    android:paddingLeft="5dp"
+                    android:paddingTop="3dp"
+                    android:textSize="10dp"
+                    android:textColor="@color/gray300"
+                    android:paddingBottom="3dp"
+                    android:paddingRight="5dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_width="wrap_content"
+                    android:background="@drawable/backgroud_gray_round"
+                    android:layout_height="wrap_content"
+                    android:text="Hindi"/>
+                <TextView
+                    android:id="@+id/kolkata"
+                    android:onClick="onClick"
+                    android:paddingLeft="5dp"
+                    android:paddingTop="3dp"
+                    android:textSize="10dp"
+                    android:paddingBottom="3dp"
+                    android:textColor="@color/gray300"
+                    android:paddingRight="5dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_width="wrap_content"
+                    android:background="@drawable/backgroud_gray_round"
+                    android:layout_height="wrap_content"
+                    android:text="Kolkata"/>
+                <TextView
+                    android:id="@+id/bangaladesh"
+                    android:onClick="onClick"
+                    android:paddingLeft="5dp"
+                    android:paddingTop="3dp"
+                    android:textSize="10dp"
+                    android:paddingBottom="3dp"
+                    android:paddingRight="5dp"
+                    android:textColor="@color/gray300"
+                    android:layout_width="wrap_content"
+                    android:background="@drawable/backgroud_gray_round"
+                    android:layout_height="wrap_content"
+                    android:text="Bangaladesh"/>
+            </LinearLayout>
         </android.support.design.widget.AppBarLayout>
-
         <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
             xmlns:app="http://schemas.android.com/apk/res-auto"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="55dp"
+            android:layout_marginTop="82dp"
+            android:id="@+id/mainbody"
             android:orientation="vertical">
-
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/rv"
                 android:layout_width="match_parent"
+                android:background="@color/white100"
                 android:layout_height="0dp"
                 android:layout_weight="1" />
-
             <LinearLayout
                 android:layout_width="match_parent"
-                android:background="@color/white200"
+                android:background="@color/white300"
                 android:layout_height="130dp"
                 android:orientation="vertical"
                 android:padding="10dp">
@@ -69,10 +148,10 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textSize="17dp"
-                        android:text="Mirchi 98.3 FM"
+                        android:textSize="15dp"
+                        android:text="Tap on channel to play."
                         android:id="@+id/message"
-                        android:textColor="#555" />
+                        android:textColor="@color/gray400" />
                     <TextView
                         android:layout_width="wrap_content"
                         android:id="@+id/isplaying"
