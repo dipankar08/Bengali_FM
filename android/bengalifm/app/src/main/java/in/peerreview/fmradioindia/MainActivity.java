@@ -15,11 +15,17 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.SearchView;
+import android.widget.TextView;
 
-import org.w3c.dom.Node;
+import com.bumptech.glide.Glide;
 
-import in.peerreview.fmradioindia.External.MyOkHttp;
+import java.util.HashMap;
+
+import in.peerreview.fmradioindia.External.MediaPlayerUtils;
+import in.peerreview.fmradioindia.External.SimpleSend;
+import pl.droidsonroids.gif.GifImageView;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -31,14 +37,24 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private RecyclerView rv;
     private RVAdapter adapter;
+    private ImageView play,next,prev;
+    private GifImageView tryplayin;
+    private TextView message, isplaying;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         s_activity = this;
         setContentView(R.layout.activity_main);
         setuptoolbar();
+        play = (ImageView)findViewById(R.id.play);
+        prev = (ImageView)findViewById(R.id.prev);
+        next = (ImageView)findViewById(R.id.next);
         rv = (RecyclerView)findViewById(R.id.rv);
-        init();
+        message = (TextView)findViewById(R.id.message);
+        tryplayin = (GifImageView)findViewById(R.id.tryplaying);
+        isplaying = (TextView) findViewById(R.id.isplaying);
+
+        initExternal();
         setRV();
     }
 
@@ -82,7 +98,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         });
     }
-    private void init() {
+    private void initExternal() {
 
     }
 
@@ -97,6 +113,93 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public RVAdapter getAdapter(){
         return adapter;
     }
+
+    // Click events and helpsers
+    void play(final Nodes temp){
+        if(temp != null){
+            final Nodes finalTemp = temp;
+            MediaPlayerUtils.play(temp.getUrl(), new MediaPlayerUtils.IPlayerCallback() {
+                @Override
+                public void tryPlaying() {
+                    TryPlayUI(finalTemp);
+                }
+                @Override
+                public void success(String msg) {
+                    PauseUI(finalTemp);
+                }
+                @Override
+                public void error(String msg, Exception e) {
+                    PlayUI(finalTemp);
+                }
+                @Override
+                public void complete(String msg) {
+                    PlayUI(finalTemp);
+                }
+            });
+            new SimpleSend.Builder()
+                    .url("http://52.89.112.230/api/nodel_bengalifm")
+                    .payload(new HashMap<String, String>() {{
+                        put("_cmd","increment");
+                        put("id",temp.getUid());
+                        put("_payload","count");
+                    }})
+                    .post();
+        } else{
+            PlayUI(null);
+        }
+    }
+    public void onClick(View v) {
+        Nodes temp = null;
+        switch (v.getId()) {
+            case R.id.play:
+                if(MediaPlayerUtils.isPlaying()){
+                    MediaPlayerUtils.stop();
+                    PlayUI(null);
+                } else {
+                    play(Nodes.getCurNode());
+                }
+                break;
+            case R.id.prev:
+                play(Nodes.getCurNode());
+                break;
+            case R.id.next:
+                play(Nodes.getCurNode());
+                break;
+        }
+    }
+    //UI change
+    void PlayUI(Nodes n){
+        if(n == null){
+            message.setText("");
+        } else{
+            message.setText("Stoped "+n.getName());
+        }
+        play.setImageResource(R.drawable.play);
+        play.setVisibility(View.VISIBLE);
+        isplaying.setVisibility(View.GONE);
+        tryplayin.setVisibility(View.GONE);
+    }
+    void TryPlayUI(Nodes n){
+        message.setText("Wait, Try playing "+n.getName() +" ...");
+        play.setImageResource(R.drawable.play);
+        play.setVisibility(View.GONE);
+        isplaying.setVisibility(View.GONE);
+        tryplayin.setVisibility(View.VISIBLE);
+    }
+    void PauseUI(Nodes n){
+        message.setText("Now Playing "+n.getName());
+        play.setImageResource(R.drawable.pause);
+        play.setVisibility(View.VISIBLE);
+        isplaying.setVisibility(View.VISIBLE);
+        tryplayin.setVisibility(View.GONE);
+    }
+    void ShowLoadUI(){
+
+    }
+    void HideLoadUI(){
+
+    }
+
 
     //Other overrides here
     @Override
@@ -125,5 +228,4 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
-
 }

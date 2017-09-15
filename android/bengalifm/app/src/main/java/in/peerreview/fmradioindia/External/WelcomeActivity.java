@@ -35,6 +35,7 @@ public class WelcomeActivity  extends AppCompatActivity {
 
     private void initExternal() {
         MyOkHttp.setup(this);
+        Telemetry.setup("http://52.89.112.230/api/stat_bengalifm",true);
     }
 
     //step1: Write what should you do.
@@ -56,6 +57,6 @@ public class WelcomeActivity  extends AppCompatActivity {
         finish();
     }
     public void exit(){
-
+        this.finish();
     }
 }

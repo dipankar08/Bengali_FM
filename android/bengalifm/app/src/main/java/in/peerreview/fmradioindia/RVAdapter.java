@@ -48,14 +48,7 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.PersonViewHolder>{
                 @Override public void onClick(View v) {
                     final int pos = getAdapterPosition();
                     Toast.makeText(MainActivity.Get(), nodes.get(pos).getName(), Toast.LENGTH_SHORT).show();
-                    new SimpleSend.Builder()
-                            .url("http://52.89.112.230/api/nodel_bengalifm")
-                            .payload(new HashMap<String, String>() {{
-                                put("_cmd","increment");
-                                put("id",nodes.get(pos).getUid());
-                                put("_payload","count");
-                            }})
-                    .post();
+                    MainActivity.Get().play(nodes.get(pos));
                 }
             });
         }
@@ -74,7 +67,7 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.PersonViewHolder>{
     public void onBindViewHolder(PersonViewHolder personViewHolder, int i) {
         personViewHolder.sl.setText(i+"");
         personViewHolder.name.setText(nodes.get(i).getName());
-        personViewHolder.count.setText(nodes.get(i).getCount()+" views");
+        personViewHolder.count.setText(nodes.get(i).getCount()+" plays");
         Glide.with(mContext)
                 .load(nodes.get(i).getImg())
                 .override(70, 70)

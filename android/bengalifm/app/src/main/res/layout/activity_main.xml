@@ -7,7 +7,6 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
     tools:openDrawer="start">
-
     <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
@@ -15,24 +14,20 @@
         android:layout_height="match_parent"
         android:fitsSystemWindows="true"
         tools:context="in.peerreview.myapplication.MainActivity">
-
         <android.support.design.widget.AppBarLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:theme="@style/AppTheme.AppBarOverlay">
-
             <android.support.v7.widget.Toolbar
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 android:background="?attr/colorPrimary"
                 app:popupTheme="@style/AppTheme.PopupOverlay">
-
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginTop="5dp">
-
                     <SearchView
                         android:id="@+id/searchView"
                         android:layout_width="match_parent"
@@ -62,50 +57,70 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="150dp"
                 android:background="@color/white200"
+                android:layout_height="130dp"
                 android:orientation="vertical"
                 android:padding="10dp">
-
                 <RelativeLayout
                     android:id="@+id/infoholder"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="15dp">
-
                     <TextView
                         android:layout_width="wrap_content"
-                        android:layout_height="20dp"
+                        android:layout_height="wrap_content"
+                        android:textSize="17dp"
                         android:text="Mirchi 98.3 FM"
-                        android:textColor="@android:color/white" />
+                        android:id="@+id/message"
+                        android:textColor="#555" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:id="@+id/isplaying"
+                        android:text="Live"
+                        android:textColor="@android:color/holo_red_dark"
+                        android:paddingLeft="5dp"
+                        android:paddingRight="5dp"
+                        android:paddingBottom="3dp"
+                        android:paddingTop="3dp"
+                        android:textSize="10dp"
+                        android:visibility="gone"
+                        android:background="@drawable/backgroud_red_round"
+                        android:layout_alignBaseline="@+id/message"
+                        android:layout_alignParentRight="true"
+                        android:layout_height="wrap_content"
+                    />
                 </RelativeLayout>
-
                 <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="80dp"
+                    android:layout_height="70dp"
                     android:layout_marginLeft="20dp"
                     android:layout_marginRight="20dp"
+                    android:layout_marginBottom="20dp"
                     android:gravity="bottom"
                     android:orientation="horizontal">
-
                     <ImageView
                         android:id="@+id/prev"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignParentLeft="true"
                         android:layout_centerVertical="true"
                         android:padding="10dp"
                         android:src="@drawable/prev"
-                        android:textColor="@android:color/white" />
-
+                        android:onClick="onClick" />
                     <ImageView
                         android:id="@+id/play"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerHorizontal="true"
                         android:src="@drawable/play"
-                        android:textColor="@android:color/white" />
-
+                        android:onClick="onClick" />
+                    <pl.droidsonroids.gif.GifImageView
+                        android:layout_width="60dp"
+                        android:layout_height="70dp"
+                        android:layout_centerHorizontal="true"
+                        android:visibility="gone"
+                        android:id="@+id/tryplaying"
+                        android:src="@drawable/loading"
+                        />
                     <ImageView
                         android:id="@+id/next"
                         android:layout_width="wrap_content"
@@ -113,8 +128,8 @@
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
                         android:padding="15dp"
-                        android:src="@drawable/next"
-                        android:textColor="@android:color/white" />
+                        android:onClick="onClick"
+                        android:src="@drawable/next" />
                 </RelativeLayout>
             </LinearLayout>
         </LinearLayout>
