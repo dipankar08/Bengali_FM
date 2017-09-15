@@ -38,13 +38,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setContentView(R.layout.activity_main);
         setuptoolbar();
         rv = (RecyclerView)findViewById(R.id.rv);
-        initExternal();
+        init();
         setRV();
     }
 
     private void setuptoolbar() {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+       setSupportActionBar(toolbar);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -82,8 +82,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         });
     }
-    private void initExternal() {
-        MyOkHttp.setup(this);
+    private void init() {
+
     }
 
     void setRV(){
@@ -92,7 +92,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         adapter = new RVAdapter(null,this);
         rv.setLayoutManager(llm);
         rv.setAdapter(adapter);
-        Nodes.loadData();
+        adapter.update(Nodes.getNodes());
     }
     public RVAdapter getAdapter(){
         return adapter;

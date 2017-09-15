@@ -15,6 +15,7 @@ import java.util.Comparator;
 import java.util.List;
 
 import in.peerreview.fmradioindia.External.MyOkHttp;
+import in.peerreview.fmradioindia.External.WelcomeActivity;
 
 public class Nodes {
     public Nodes(String uid, String name, String img, String url, String tags, int count) {
@@ -85,18 +86,17 @@ public class Nodes {
                                      return a2.getCount() - a1.getCount();
                                  }
                              });
-                             MainActivity.Get().getAdapter().update(nodes);
                              mNodes= nodes;
-                             Toast.makeText(MainActivity.Get(),  "FM List is loaded successfully!", Toast.LENGTH_SHORT).show();
-
+                             WelcomeActivity.Get().next();
                          }});
 
                  } catch (JSONException e) {
                      e.printStackTrace();
+                     WelcomeActivity.Get().exit();
                  }
              }
              @Override public void error(String msg) {
-                 Toast.makeText(MainActivity.Get(),  "FM List is loaded successfully!", Toast.LENGTH_SHORT).show();
+                 WelcomeActivity.Get().exit();
              }
         });
     }
@@ -109,5 +109,9 @@ public class Nodes {
             }
         }
         MainActivity.Get().getAdapter().update(filterdNames);
+    }
+
+    public static List<Nodes> getNodes() {
+        return mNodes;
     }
 }
