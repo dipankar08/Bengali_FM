@@ -17,6 +17,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.AnimationUtils;
 import android.view.animation.OvershootInterpolator;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
@@ -32,6 +33,8 @@ import java.util.HashMap;
 import in.peerreview.fmradioindia.External.MediaPlayerUtils;
 import in.peerreview.fmradioindia.External.SimpleSend;
 import in.peerreview.fmradioindia.External.Telemetry;
+import io.paperdb.Paper;
+import jp.wasabeef.recyclerview.animators.SlideInLeftAnimator;
 import jp.wasabeef.recyclerview.animators.SlideInUpAnimator;
 import pl.droidsonroids.gif.GifImageView;
 
@@ -45,7 +48,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private RecyclerView rv;
     private RVAdapter adapter;
-    private ImageView play,next,prev;
+    private ImageView play,next,prev,fev;
     private GifImageView tryplayin;
     private TextView message, isplaying;
     LinearLayout qab;
@@ -58,6 +61,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         play = (ImageView)findViewById(R.id.play);
         prev = (ImageView)findViewById(R.id.prev);
         next = (ImageView)findViewById(R.id.next);
+        fev = (ImageView)findViewById(R.id.fev);
 
         message = (TextView)findViewById(R.id.message);
         tryplayin = (GifImageView)findViewById(R.id.tryplaying);
@@ -128,7 +132,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         navigationView.setNavigationItemSelectedListener(this);
     }
     private void initExternal() {
-
+        Paper.init(this);
     }
 
     void setRV(){
@@ -139,8 +143,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         rv.setLayoutManager(llm);
         rv.setAdapter(adapter);
         adapter.update(Nodes.getNodes());
-        SlideInUpAnimator animator = new SlideInUpAnimator(new OvershootInterpolator(1f));
-        rv.setItemAnimator(animator);
+        rv.setItemAnimator(new SlideInLeftAnimator());
     }
     public RVAdapter getAdapter(){
         return adapter;
@@ -167,11 +170,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                                 .payload(new HashMap<String, String>() {{
                                     put("_cmd","increment");
                                     put("id",finalTemp.getUid());
-                                    put("_payload","success_count");
+                                    put("_payload","count_success");
                                 }})
                                 .post();
+                        Nodes.addToRecent(finalTemp);
                     }
                     PauseUI(finalTemp);
+
                 }
                 @Override
                 public void error(String msg, Exception e) {
@@ -184,7 +189,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                                 .payload(new HashMap<String, String>() {{
                                     put("_cmd","increment");
                                     put("id",finalTemp.getUid());
-                                    put("_payload","error_count");
+                                    put("_payload","count_error");
                                 }})
                         .post();
                     }
@@ -200,7 +205,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     .payload(new HashMap<String, String>() {{
                         put("_cmd","increment");
                         put("id",temp.getUid());
-                        put("_payload","click_count");
+                        put("_payload","count_click");
                     }})
                     .post();
         } else{
@@ -209,15 +214,23 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     public void filterByTag(final String tag){
-        Nodes.filterByTag(tag);
-        HideQAB();
+        if(tag.equals("recent")){
+            adapter.update(Nodes.getRecent());
+        } else if (tag.equals("feb")){
+            adapter.update(Nodes.getFavorite());
+        }else if (tag.equals("clear")){
+            adapter.update(Nodes.getNodes());
+        } else{
+            Nodes.filterByTag(tag);
+        }
+        //HideQAB();
         Telemetry.sendTelemetry("click_qsb",  new HashMap<String, String>(){{
             put("id",tag);
         }});
     }
 
     public void onClick(View v) {
-        Nodes temp = null;
+        Nodes temp = Nodes.getCurNode();
         switch (v.getId()) {
             //Player Comands
             case R.id.play:
@@ -225,22 +238,24 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     MediaPlayerUtils.stop();
                     PlayUI(null);
                 } else {
-                    play(Nodes.getCurNode());
+                    play(temp);
                 }
                 break;
             case R.id.prev:
-                play(Nodes.getCurNode());
+                play(temp);
                 break;
             case R.id.next:
-                play(Nodes.getCurNode());
+                play(temp);
+                break;
+            case R.id.fev:
+                if(temp != null) {
+                    Nodes.handleFavorite(temp);
+                }
                 break;
             case R.id.mainbody:
                 HideQAB();
                 break;
             //QAB Commands
-            case R.id.top5:
-                filterByTag("top");
-                break;
             case R.id.kolkata:
                 filterByTag("kolkata");
                 break;
@@ -252,6 +267,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 break;
             case R.id.recent:
                 filterByTag("recent");
+                break;
+            case R.id.clear:
+                filterByTag("clear");
+                break;
+            case R.id.qsb_fev:
+                adapter.update(Nodes.getFavorite());
                 break;
         }
     }
@@ -266,18 +287,25 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         play.setVisibility(View.VISIBLE);
         isplaying.setVisibility(View.GONE);
         tryplayin.setVisibility(View.GONE);
+        fev.setVisibility(View.GONE);
     }
     void TryPlayUI(Nodes n){
-        message.setText("Wait, Try playing "+n.getName() +" ...");
+        if(n != null) {
+            message.setText("Wait, Try playing " + n.getName() + " ...");
+        }
         play.setImageResource(R.drawable.play);
         play.setVisibility(View.GONE);
         isplaying.setVisibility(View.GONE);
+        fev.setVisibility(View.GONE);
         tryplayin.setVisibility(View.VISIBLE);
     }
     void PauseUI(Nodes n){
-        message.setText("Now Playing "+n.getName());
+        if(n != null) {
+            message.setText("Now Playing " + n.getName());
+        }
         play.setImageResource(R.drawable.pause);
         play.setVisibility(View.VISIBLE);
+        fev.setVisibility(View.VISIBLE);
         isplaying.setVisibility(View.VISIBLE);
         tryplayin.setVisibility(View.GONE);
     }
@@ -291,6 +319,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
             imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
         }
+    }
+    void enableFeb(){
+        fev.setImageResource(R.drawable.heart_active);
+        fev.startAnimation(AnimationUtils.loadAnimation(this, R.anim.pulse));
+    }
+    void disableFeb(){
+        fev.setImageResource(R.drawable.heart);
+        fev.startAnimation(AnimationUtils.loadAnimation(this, R.anim.pulse));
     }
 
     //Other overrides here

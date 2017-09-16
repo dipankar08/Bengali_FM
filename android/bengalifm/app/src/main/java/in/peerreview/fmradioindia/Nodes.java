@@ -14,20 +14,24 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 
 import in.peerreview.fmradioindia.External.MyOkHttp;
 import in.peerreview.fmradioindia.External.Telemetry;
 import in.peerreview.fmradioindia.External.WelcomeActivity;
+import io.paperdb.Paper;
 
 public class Nodes {
-    public Nodes(String uid, String name, String img, String url, String tags, int count) {
+    public Nodes(String uid, String name, String img, String url, String tags, int error,int success, int click) {
         this.uid = uid;
         this.name = name;
         this.img = img;
         this.tags = tags;
         this.mediaurl = url;
-        this.count = count;
+        this.count_error = error;
+        this.count_success = success;
+        this.count_click = click;
     }
 
     public String getUid() {
@@ -50,10 +54,13 @@ public class Nodes {
         return mediaurl;
     }
     public int getCount() {
-        return count;
+        return count_click;
+    }
+    public int getRank() {
+        return count_click- 2* count_error+count_success;
     }
     String uid, name, img, tags, mediaurl;
-    int count;
+    int count_error,count_success,count_click;
 
     private static final String url= "http://52.89.112.230/api/nodel_bengalifm?limit=300";
     private static final String TAG= "";
@@ -92,7 +99,9 @@ public class Nodes {
                                      object.optString("img",null),
                                      object.optString("url",null),
                                      object.optString("tags",null),
-                                     object.optInt("count",0)));
+                                     object.optInt("count_error",0),
+                                     object.optInt("count_success",0),
+                                     object.optInt("count_click",0)));
                          }
                      }
                      new Handler(Looper.getMainLooper()).post(new Runnable() {
@@ -101,7 +110,7 @@ public class Nodes {
                              Collections.sort(nodes, new Comparator<Nodes>() {
                                  @Override
                                  public int compare(Nodes a1, Nodes a2) {
-                                     return a2.getCount() - a1.getCount();
+                                     return a2.getRank() - a1.getRank();
                                  }
                              });
                              mNodes= nodes;
@@ -166,5 +175,61 @@ public class Nodes {
 
     public static List<Nodes> getNodes() {
         return mNodes;
+    }
+
+    /*****************  Feb List **********************************/
+    private static LinkedList<Nodes> feblist;
+    public static List<Nodes> getFavorite(){
+        if(feblist == null){
+            feblist = Paper.book().read("FevList", new LinkedList());
+        }
+        return feblist;
+    }
+    public static void handleFavorite(Nodes temp){
+        if(feblist == null){
+            feblist = Paper.book().read("FevList", new LinkedList());
+        }
+        Nodes found = null;
+        for (Nodes a : feblist) {
+            if(a.getName().equals(temp.getName())){
+                //exist - remove
+                found = a;
+                break;
+            }
+        }
+        if(found != null){
+            feblist.remove(found);
+            MainActivity.Get().disableFeb();
+        } else{
+            feblist.add(0,temp);
+            if(feblist.size() == 11){
+                feblist.remove(feblist.size() - 1);
+            }
+            MainActivity.Get().enableFeb();
+        }
+        Paper.book().write("FevList", feblist);
+    }
+    /*****************  Recent List **********************************/
+    private static LinkedList<Nodes> rectlist;
+    public static List<Nodes> getRecent(){
+        if(rectlist == null){
+            rectlist = Paper.book().read("RecentList", new LinkedList());
+        }
+        return rectlist;
+    }
+    public static void addToRecent(Nodes n){
+        if(rectlist == null){
+            rectlist = Paper.book().read("RecentList", new LinkedList());
+        }
+        for (Nodes a : rectlist) {
+            if(a.getName().equals(n.getName())){
+                return;
+            }
+        }
+        rectlist.add(0,n);
+        if(rectlist.size() == 11){
+            rectlist.remove(rectlist.size() - 1);
+        }
+        Paper.book().write("RecentList", rectlist);
     }
 }

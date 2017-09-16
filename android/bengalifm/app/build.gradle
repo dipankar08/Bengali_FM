@@ -38,6 +38,7 @@ dependencies {
     compile 'com.github.arimorty:floatingsearchview:2.1.1'
     compile "com.android.support:support-core-utils:25.4.0"
     compile 'jp.wasabeef:recyclerview-animators:2.2.7'
+    compile 'io.paperdb:paperdb:2.1'
 }
 
 apply plugin: 'com.google.gms.google-services'

@@ -65,7 +65,7 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.PersonViewHolder>{
     }
     @Override
     public void onBindViewHolder(PersonViewHolder personViewHolder, int i) {
-        personViewHolder.sl.setText(i+"");
+        personViewHolder.sl.setText((i+1)+"");
         personViewHolder.name.setText(nodes.get(i).getName());
         personViewHolder.count.setText(nodes.get(i).getCount()+" plays");
         Glide.with(mContext)
@@ -78,13 +78,12 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.PersonViewHolder>{
         super.onAttachedToRecyclerView(recyclerView);
     }
     public void update(List<Nodes> datas){
-        if(datas == null || datas.size()==0)
+        if(datas == null)
             return;
-        if (nodes != null && nodes.size()>0)
+        if (nodes != null && nodes.size()>=0){
             nodes.clear();
+        }
         nodes.addAll(datas);
         notifyDataSetChanged();
     }
-
-
 }
