@@ -174,6 +174,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                                 }})
                                 .post();
                         Nodes.addToRecent(finalTemp);
+                        Nodes.setCurNode(finalTemp);
                     }
                     PauseUI(finalTemp);
 

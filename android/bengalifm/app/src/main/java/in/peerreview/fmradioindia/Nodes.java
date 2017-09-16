@@ -33,23 +33,18 @@ public class Nodes {
         this.count_success = success;
         this.count_click = click;
     }
-
     public String getUid() {
         return uid;
     }
-
     public String getName() {
         return name;
     }
-
     public String getImg() {
         return img;
     }
-
     public String getTags() {
         return tags;
     }
-
     public String getUrl() {
         return mediaurl;
     }
@@ -65,8 +60,9 @@ public class Nodes {
     private static final String url= "http://52.89.112.230/api/nodel_bengalifm?limit=300";
     private static final String TAG= "";
     private static List<Nodes> mNodes;
-    private static int mCurNodeIdx = 0;
 
+    /******************  Start of Cur Nodes  ********************************/
+    private static int mCurNodeIdx = 0;
     public static Nodes getCurNode(){
         if( mNodes == null){
             return null;
@@ -79,6 +75,19 @@ public class Nodes {
     public static Nodes getNextNode(){
         return mNodes.get(++mCurNodeIdx);
     }
+    public static void setCurNode(Nodes n) {
+        for( int i =0;i<mNodes.size();i++){
+            if(mNodes.get(i).getUid().equals(n.getUid())){
+                mCurNodeIdx = i;
+                break;
+            }
+        }
+    }
+    public static List<Nodes> getNodes() {
+        return mNodes;
+    }
+
+    /******************  End of Cur Nodes  ********************************/
 
     public static void loadData(){
         final List<Nodes> nodes = new ArrayList<>();
@@ -131,6 +140,12 @@ public class Nodes {
              }
         });
     }
+
+
+
+
+
+    /******************  Start of filter ********************************/
     public static void filter(String text){
         if(mNodes == null) return;
         ArrayList<Nodes> filterdNames = new ArrayList<>();
@@ -151,31 +166,10 @@ public class Nodes {
         }
         MainActivity.Get().getAdapter().update(filterdNames);
     }
-    public static void topFive(String text){
-        if(mNodes == null) return;
-        ArrayList<Nodes> filterdNames = new ArrayList<>();
-        for (Nodes n : mNodes) {
-            if (n.getTags().toLowerCase().contains(text.toLowerCase())) {
-                filterdNames.add(n);
-            }
-        }
-        MainActivity.Get().getAdapter().update(filterdNames);
-    }
+    /******************  End of filter  ********************************/
 
-    public static void FrequentlyPlayed(String text){
-        if(mNodes == null) return;
-        ArrayList<Nodes> filterdNames = new ArrayList<>();
-        for (Nodes n : mNodes) {
-            if (n.getTags().toLowerCase().contains(text.toLowerCase())) {
-                filterdNames.add(n);
-            }
-        }
-        MainActivity.Get().getAdapter().update(filterdNames);
-    }
 
-    public static List<Nodes> getNodes() {
-        return mNodes;
-    }
+
 
     /*****************  Feb List **********************************/
     private static LinkedList<Nodes> feblist;
@@ -209,6 +203,16 @@ public class Nodes {
         }
         Paper.book().write("FevList", feblist);
     }
+
+
+
+
+
+
+
+
+
+
     /*****************  Recent List **********************************/
     private static LinkedList<Nodes> rectlist;
     public static List<Nodes> getRecent(){
