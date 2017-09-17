@@ -57,7 +57,7 @@ public class Nodes {
     String uid, name, img, tags, mediaurl;
     int count_error,count_success,count_click;
 
-    private static final String url= "http://52.89.112.230/api/nodel_bengalifm?limit=300";
+    private static final String url= "http://52.89.112.230/api/nodel_bengalifm?limit=300&state1=Active";
     private static final String TAG= "";
     private static List<Nodes> mNodes;
 
