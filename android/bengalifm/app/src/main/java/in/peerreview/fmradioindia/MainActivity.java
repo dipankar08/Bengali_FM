@@ -111,8 +111,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private void setuptoolbar() {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-       setSupportActionBar(toolbar);
-
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -131,6 +131,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
     }
+
     private void initExternal() {
         Paper.init(this);
     }
@@ -346,15 +347,60 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         return true;
     }
 
-
+    /*****************************  START NAVIGATION DRAWER SUPPORT ****************/
+    @Override
+    public boolean onOptionsItemSelected(MenuItem menuItem) {
+        if (menuItem.getItemId() == android.R.id.home) {
+            //Timber.d("Home pressed");
+        }
+        return super.onOptionsItemSelected(menuItem);
+    }
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         int id = item.getItemId();
-        if (id == R.id.nav_camera) {
+        String tag ="clear";
+        if (id == R.id.s_live) {
+            tag = "clear";
+        } else if (id == R.id.s_kolkata) {
+            tag = "kolkata";
+        }else if (id == R.id.s_delhi) {
+            tag = "delhi";
+        }else if (id == R.id.s_mumbai) {
+            tag = "mumbai";
+        }else if (id == R.id.s_hyderabad) {
+            tag = "hyderabad";
+        }else if (id == R.id.s_pune) {
+            tag = "pune";
+        }else if (id == R.id.s_bangalore) {
+            tag = "bangalore";
+        }else if (id == R.id.s_chennai) {
+            tag = "chennai";
+        } else if (id == R.id.s_bangladesh) {
+            tag = "bangladesh";
+        } else if (id == R.id.s_hindi) {
+            tag = "hindi";
+        }else if (id == R.id.s_bangla) {
+            tag = "bengali";
+        }else if (id == R.id.s_tamil) {
+            tag = "tamil";
+        }else if (id == R.id.s_telegu) {
+            tag = "telegu";
+        }else if (id == R.id.s_marathi) {
+            tag = "marathi";
+        } else if (id == R.id.s_malayalam) {
+            tag = "malayalam";
+        } else if (id == R.id.s_kannada) {
+            tag = "kannada";
         }
+        filterByTag(tag);
+        final String tag1 = tag;
+        Telemetry.sendTelemetry("click_navigation",  new HashMap<String, String>(){{
+            put("tag",tag1);
+        }});
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
 }

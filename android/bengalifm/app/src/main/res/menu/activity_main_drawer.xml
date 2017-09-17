@@ -1,36 +1,77 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-
-    <group android:checkableBehavior="single">
+    <group android:checkableBehavior="single" android:title="Live on City">
         <item
-            android:id="@+id/nav_camera"
-            android:icon="@drawable/ic_menu_camera"
-            android:title="Import" />
-        <item
-            android:id="@+id/nav_gallery"
-            android:icon="@drawable/ic_menu_gallery"
-            android:title="Gallery" />
-        <item
-            android:id="@+id/nav_slideshow"
+            android:id="@+id/s_live"
             android:icon="@drawable/ic_menu_slideshow"
-            android:title="Slideshow" />
-        <item
-            android:id="@+id/nav_manage"
-            android:icon="@drawable/ic_menu_manage"
-            android:title="Tools" />
+            android:title="All Live" />
     </group>
-
-    <item android:title="Communicate">
+    <item android:title="Live on City">
         <menu>
             <item
-                android:id="@+id/nav_share"
-                android:icon="@drawable/ic_menu_share"
-                android:title="Share" />
+                android:id="@+id/s_kolkata"
+                android:icon="@drawable/ic_menu_slideshow"
+                android:title="Kolkata Live" />
             <item
-                android:id="@+id/nav_send"
-                android:icon="@drawable/ic_menu_send"
-                android:title="Send" />
+                android:id="@+id/s_delhi"
+                android:icon="@drawable/ic_menu_slideshow"
+                android:title="Dilhi Live" />
+            <item
+                android:id="@+id/s_mumbai"
+                android:icon="@drawable/ic_menu_slideshow"
+                android:title="Mumbai Live" />
+            <item
+                android:id="@+id/s_hyderabad"
+                android:icon="@drawable/ic_menu_slideshow"
+                android:title="Hyderabad Live" />
+            <item
+                android:id="@+id/s_pune"
+                android:icon="@drawable/ic_menu_slideshow"
+                android:title="Pune Live" />
+            <item
+                android:id="@+id/s_bangalore"
+                android:icon="@drawable/ic_menu_slideshow"
+                android:title="Bangalore Live" />
+            <item
+                android:id="@+id/s_chennai"
+                android:icon="@drawable/ic_menu_slideshow"
+                android:title="Chennai Live" />
+            <item
+                android:id="@+id/s_bangladesh"
+                android:icon="@drawable/ic_menu_slideshow"
+                android:title="Bangladesh Live" />
         </menu>
     </item>
-
+    <item android:title="Group by languages">
+        <menu>
+            <item
+                android:id="@+id/s_bangla"
+                android:icon="@drawable/ic_menu_slideshow"
+                android:title="Bengali" />
+            <item
+                android:id="@+id/s_hindi"
+                android:icon="@drawable/ic_menu_slideshow"
+                android:title="Hindi" />
+            <item
+                android:id="@+id/s_tamil"
+                android:icon="@drawable/ic_menu_slideshow"
+                android:title="Tamil" />
+            <item
+                android:id="@+id/s_telegu"
+                android:icon="@drawable/ic_menu_slideshow"
+                android:title="Telegu" />
+            <item
+                android:id="@+id/s_marathi"
+                android:icon="@drawable/ic_menu_slideshow"
+                android:title="Marathi" />
+            <item
+                android:id="@+id/s_malayalam"
+                android:icon="@drawable/ic_menu_slideshow"
+                android:title="Malayalam" />
+            <item
+                android:id="@+id/s_kannada"
+                android:icon="@drawable/ic_menu_slideshow"
+                android:title="Kannada" />
+        </menu>
+    </item>
 </menu>
