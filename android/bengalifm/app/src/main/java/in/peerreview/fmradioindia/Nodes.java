@@ -65,11 +65,7 @@ public class Nodes {
         return count_error;
     }
     public int getRank() {
-        int res = 0;
-        if(count_click > 0){
-            res = (int)((float)count_success/count_click);
-        }
-        return res + count_click*10/100;
+        return count_click;
     }
     String uid, name, img, tags, mediaurl;
     int count_error,count_success,count_click,type;
@@ -103,6 +99,7 @@ public class Nodes {
     public static void setCurNode(Nodes n) {
         if(n.getType() == 0) return;
         for( int i =0;i<mNodes.size();i++){
+            if(mNodes.get(i).getType() == 0) continue;
             if(mNodes.get(i).getUid().equals(n.getUid())){
                 mCurNodeIdx = i;
                 break;
@@ -181,6 +178,7 @@ public class Nodes {
         if(mNodes == null) return;
         ArrayList<Nodes> filterdNames = new ArrayList<>();
         for (Nodes n : mNodes) {
+            if(n.getType() == 0) continue;
             if (n.getName().toLowerCase().contains(text.toLowerCase())) {
                 filterdNames.add(n);
             }
@@ -191,6 +189,7 @@ public class Nodes {
         if(mNodes == null) return;
         ArrayList<Nodes> filterdNames = new ArrayList<>();
         for (Nodes n : mNodes) {
+            if(n.getType() == 0) continue;
             if (n.getTags().toLowerCase().contains(text.toLowerCase())) {
                 filterdNames.add(n);
             }
@@ -216,6 +215,7 @@ public class Nodes {
         }
         Nodes found = null;
         for (Nodes a : feblist) {
+            if(a.getType() == 0) continue;
             if(a.getName().equals(temp.getName())){
                 //exist - remove
                 found = a;
@@ -253,10 +253,12 @@ public class Nodes {
         return rectlist;
     }
     public static void addToRecent(Nodes n){
+        if(n.getType() == 0) return;
         if(rectlist == null){
             rectlist = Paper.book().read("RecentList", new LinkedList());
         }
         for (Nodes a : rectlist) {
+            if(a.getType() == 0) continue;
             if(a.getName().equals(n.getName())){
                 return;
             }
