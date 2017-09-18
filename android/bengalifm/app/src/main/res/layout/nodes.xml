@@ -28,7 +28,8 @@
                 android:textColor="@android:color/holo_blue_dark"
                 android:layout_marginRight="5dp"
                 android:textSize="20dp" />
-            <TextView
+            <com.cubostecnologia.customfonttextview.CustomFontTextView
+                app:font="myfont.ttf"
                 android:id="@+id/sl"
                 android:text="1"
                 android:layout_width="wrap_content"
@@ -41,22 +42,25 @@
                 android:layout_width="70dp"
                 android:layout_height="70dp"
                 android:layout_toRightOf="@+id/sl"
-                android:layout_marginRight="30dp"
-                android:layout_marginLeft="30dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginLeft="20dp"
                 />
-            <TextView
+            <com.cubostecnologia.customfonttextview.CustomFontTextView
+                app:font="myfont.ttf"
                 android:id="@+id/name"
                 android:text="Radio Mirchi"
                 android:layout_marginTop="5dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/gray400"
+                android:textColor="@color/gray300"
                 android:layout_alignTop="@+id/img"
                 android:layout_toRightOf="@+id/img"
-                android:textSize="16dp" />
-            <TextView
+                android:textSize="14dp" />
+            <com.cubostecnologia.customfonttextview.CustomFontTextView
+                app:font="myfont.ttf"
                 android:id="@+id/count"
                 android:text="10 views"
+                android:textSize="9dp"
                 android:textColor="@color/gray200"
                 android:layout_width="wrap_content"
                 android:layout_marginBottom="5dp"

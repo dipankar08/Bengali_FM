@@ -50,7 +50,8 @@
                 android:visibility="gone"
                 android:paddingBottom="5dp"
                 android:layout_height="wrap_content">
-                <TextView
+                <com.cubostecnologia.customfonttextview.CustomFontTextView
+                    app:font="myfont.ttf"
                     android:id="@+id/recent"
                     android:onClick="onClick"
                     android:paddingLeft="5dp"
@@ -64,7 +65,8 @@
                     android:background="@drawable/backgroud_gray_round"
                     android:layout_height="wrap_content"
                     android:text="Recent"/>
-                <TextView
+                <com.cubostecnologia.customfonttextview.CustomFontTextView
+                    app:font="myfont.ttf"
                     android:id="@+id/qsb_fev"
                     android:onClick="onClick"
                     android:paddingLeft="5dp"
@@ -78,7 +80,8 @@
                     android:background="@drawable/backgroud_gray_round"
                     android:layout_height="wrap_content"
                     android:text="Favorites"/>
-                <TextView
+                <com.cubostecnologia.customfonttextview.CustomFontTextView
+                    app:font="myfont.ttf"
                     android:id="@+id/hindi"
                     android:onClick="onClick"
                     android:paddingLeft="5dp"
@@ -92,7 +95,8 @@
                     android:background="@drawable/backgroud_gray_round"
                     android:layout_height="wrap_content"
                     android:text="Hindi"/>
-                <TextView
+                <com.cubostecnologia.customfonttextview.CustomFontTextView
+                    app:font="myfont.ttf"
                     android:id="@+id/kolkata"
                     android:onClick="onClick"
                     android:paddingLeft="5dp"
@@ -106,7 +110,8 @@
                     android:background="@drawable/backgroud_gray_round"
                     android:layout_height="wrap_content"
                     android:text="Kolkata"/>
-                <TextView
+                <com.cubostecnologia.customfonttextview.CustomFontTextView
+                    app:font="myfont.ttf"
                     android:id="@+id/bangaladesh"
                     android:onClick="onClick"
                     android:paddingLeft="5dp"
@@ -120,7 +125,8 @@
                     android:background="@drawable/backgroud_gray_round"
                     android:layout_height="wrap_content"
                     android:text="Bangaladesh"/>
-                <TextView
+                <com.cubostecnologia.customfonttextview.CustomFontTextView
+                    app:font="myfont.ttf"
                     android:id="@+id/clear"
                     android:onClick="onClick"
                     android:paddingLeft="5dp"
@@ -159,7 +165,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="15dp">
-                    <TextView
+                    <com.cubostecnologia.customfonttextview.CustomFontTextView
+                        app:font="myfont.ttf"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_toRightOf="@+id/isplaying"
@@ -167,7 +174,8 @@
                         android:text="Tap on channel to play."
                         android:id="@+id/message"
                         android:textColor="@color/gray400" />
-                    <TextView
+                    <com.cubostecnologia.customfonttextview.CustomFontTextView
+                        app:font="myfont.ttf"
                         android:layout_width="wrap_content"
                         android:id="@+id/isplaying"
                         android:text="Live"
