@@ -40,6 +40,8 @@ dependencies {
     compile 'com.cubostecnologia:customfonttextview:1.0.0'
     compile 'jp.wasabeef:recyclerview-animators:2.2.7'
     compile 'io.paperdb:paperdb:2.1'
+
+    compile 'com.google.android.gms:play-services-ads:10.2.1'
 }
 
 apply plugin: 'com.google.gms.google-services'

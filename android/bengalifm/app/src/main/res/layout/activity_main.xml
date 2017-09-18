@@ -147,11 +147,12 @@
             android:layout_height="match_parent"
             android:layout_marginTop="82dp"
             android:id="@+id/mainbody"
+            android:background="@color/white200"
             android:orientation="vertical">
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/rv"
                 android:layout_width="match_parent"
-                android:background="@color/white100"
+                android:background="@color/white200"
                 android:layout_height="0dp"
                 android:layout_weight="1" />
             <LinearLayout
