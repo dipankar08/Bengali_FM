@@ -23,7 +23,7 @@ import in.peerreview.fmradioindia.External.WelcomeActivity;
 import io.paperdb.Paper;
 
 public class Nodes {
-    public Nodes(String uid, String name, String img, String url, String tags, int error,int success, int click) {
+    public Nodes(String uid, String name, String img, String url, String tags, int error,int success, int click,int type) {
         this.uid = uid;
         this.name = name;
         this.img = img;
@@ -32,7 +32,13 @@ public class Nodes {
         this.count_error = error;
         this.count_success = success;
         this.count_click = click;
+        this.type=type;
     }
+
+    public Nodes(int type) {
+        this.type=type;
+    }
+
     public String getUid() {
         return uid;
     }
@@ -44,6 +50,9 @@ public class Nodes {
     }
     public String getTags() {
         return tags;
+    }
+    public int getType() {
+        return type;
     }
     public String getUrl() {
         return mediaurl;
@@ -63,7 +72,7 @@ public class Nodes {
         return res + count_click*10/100;
     }
     String uid, name, img, tags, mediaurl;
-    int count_error,count_success,count_click;
+    int count_error,count_success,count_click,type;
 
     private static final String url= "http://52.89.112.230/api/nodel_bengalifm?limit=300&state1=Active";
     private static final String TAG= "";
@@ -81,15 +90,18 @@ public class Nodes {
         if(mCurNodeIdx <= 0){
             mCurNodeIdx = mNodes.size();
         }
-        return mNodes.get(--mCurNodeIdx);
+        Nodes x =  mNodes.get(--mCurNodeIdx);
+        return (0 == x.getType())?getPrevNode(): x;
     }
     public static Nodes getNextNode(){
         if(mCurNodeIdx == mNodes.size()-1){
             mCurNodeIdx = -1;
         }
-        return mNodes.get(++mCurNodeIdx);
+        Nodes x =  mNodes.get(++mCurNodeIdx);
+        return (0 == x.getType())?getNextNode(): x;
     }
     public static void setCurNode(Nodes n) {
+        if(n.getType() == 0) return;
         for( int i =0;i<mNodes.size();i++){
             if(mNodes.get(i).getUid().equals(n.getUid())){
                 mCurNodeIdx = i;
@@ -124,7 +136,8 @@ public class Nodes {
                                      object.optString("tags",null),
                                      object.optInt("count_error",0),
                                      object.optInt("count_success",0),
-                                     object.optInt("count_click",0)));
+                                     object.optInt("count_click",0),1));
+
                          }
                      }
                      new Handler(Looper.getMainLooper()).post(new Runnable() {
@@ -136,7 +149,11 @@ public class Nodes {
                                      return a2.getRank() - a1.getRank();
                                  }
                              });
-                             mNodes= nodes;
+                             //adding adds
+                             for(int i=1;i<nodes.size();i+=10){
+                                 nodes.add(i,new Nodes(0));
+                             }
+                             mNodes = nodes;
                              final long endTime   = System.currentTimeMillis();
                              Telemetry.sendTelemetry("data_fetch_time",  new HashMap<String, String>(){{
                                   put("time",endTime - startTime+"");

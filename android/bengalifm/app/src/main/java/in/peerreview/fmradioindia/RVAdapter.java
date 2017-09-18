@@ -1,7 +1,6 @@
 package in.peerreview.fmradioindia;
 
 import android.content.Context;
-import android.icu.text.DisplayContext;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -10,7 +9,6 @@ import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.google.android.gms.ads.AdRequest;
@@ -18,19 +16,19 @@ import com.google.android.gms.ads.AdSize;
 import com.google.android.gms.ads.AdView;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import in.peerreview.fmradioindia.External.AndroidUtils;
-import in.peerreview.fmradioindia.External.SimpleSend;
+
 
 public class RVAdapter extends RecyclerView.Adapter<RVAdapter.PersonViewHolder>{
     private static final String TAG = "RVAdapter" ;
-    private static final String ADMOB_ID_PROD = "ca-app-pub-6413024436378029/2754825666";
+    private static final String ADMOB_ID_PROD =  "ca-app-pub-6413024436378029/2754825666";
     private static final String ADMOB_ID_DEBUG = "ca-app-pub-3940256099942544/6300978111";
     static List<Nodes> nodes = new ArrayList<>();
     Context mContext;
 
+    final static  int skip =10;
     RVAdapter(List<Nodes> persons,Context c){
         if (persons != null){
             this.nodes = persons;
@@ -63,14 +61,18 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.PersonViewHolder>{
             });
         }
     }
+
+
     @Override
     public int getItemCount() {
         return nodes.size();
     }
+
+
     @Override
     public PersonViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
         View v;
-        if (viewType == 1) //add
+        if (viewType == 0) //add
         {
             AdView adView = new AdView(MainActivity.Get());
             adView.setAdSize(AdSize.BANNER);
@@ -93,9 +95,11 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.PersonViewHolder>{
         PersonViewHolder pvh = new PersonViewHolder(v,viewType);
         return pvh;
     }
+
+
     @Override
     public void onBindViewHolder(PersonViewHolder personViewHolder, int i) {
-        if(personViewHolder.type ==1){
+        if(personViewHolder.type ==0){
             // this is an add view..
         } else{
             personViewHolder.sl.setText((i+1)+"");
@@ -112,10 +116,14 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.PersonViewHolder>{
                     .into(personViewHolder.img);
         }
     }
+
+
     @Override
     public void onAttachedToRecyclerView(RecyclerView recyclerView) {
         super.onAttachedToRecyclerView(recyclerView);
     }
+
+
     public void update(List<Nodes> datas){
         if(datas == null)
             return;
@@ -125,11 +133,10 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.PersonViewHolder>{
         nodes.addAll(datas);
         notifyDataSetChanged();
     }
+
+
     @Override
-    public int getItemViewType(int position)
-    {
-        if (position % 5 == 0)
-            return 1;
-        return 2;
+    public int getItemViewType(int position){
+        return nodes.get(position).getType();
     }
 }
