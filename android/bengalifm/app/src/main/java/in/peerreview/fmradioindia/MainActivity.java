@@ -153,6 +153,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     // Click events and helpsers
     void play(final Nodes temp){
         HideQAB();
+        Nodes.setCurNode(temp);
         if(temp != null){
             final Nodes finalTemp = temp;
             MediaPlayerUtils.play(temp.getUrl(), new MediaPlayerUtils.IPlayerCallback() {
@@ -175,7 +176,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                                 }})
                                 .post();
                         Nodes.addToRecent(finalTemp);
-                        Nodes.setCurNode(finalTemp);
                     }
                     PauseUI(finalTemp);
 
@@ -244,10 +244,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 }
                 break;
             case R.id.prev:
-                play(temp);
+                play(Nodes.getPrevNode());
                 break;
             case R.id.next:
-                play(temp);
+                play(Nodes.getNextNode());
                 break;
             case R.id.fev:
                 if(temp != null) {

@@ -78,9 +78,15 @@ public class Nodes {
         return mNodes.get(mCurNodeIdx);
     }
     public static Nodes getPrevNode(){
+        if(mCurNodeIdx <= 0){
+            mCurNodeIdx = mNodes.size();
+        }
         return mNodes.get(--mCurNodeIdx);
     }
     public static Nodes getNextNode(){
+        if(mCurNodeIdx == mNodes.size()-1){
+            mCurNodeIdx = -1;
+        }
         return mNodes.get(++mCurNodeIdx);
     }
     public static void setCurNode(Nodes n) {
