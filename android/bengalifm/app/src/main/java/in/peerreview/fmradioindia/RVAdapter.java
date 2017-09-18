@@ -67,7 +67,12 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.PersonViewHolder>{
     public void onBindViewHolder(PersonViewHolder personViewHolder, int i) {
         personViewHolder.sl.setText((i+1)+"");
         personViewHolder.name.setText(nodes.get(i).getName());
-        personViewHolder.count.setText(nodes.get(i).getCount()+" plays");
+        int per =0;
+        if(nodes.get(i).getCount() > 0){
+            per = (int)((float)nodes.get(i).getSuccess()/(nodes.get(i).getCount())*100);
+        }
+        String msg = nodes.get(i).getCount()+" plays  .  "+ per+"% working.";
+        personViewHolder.count.setText(msg);
         Glide.with(mContext)
                 .load(nodes.get(i).getImg())
                 .override(70, 70)

@@ -50,9 +50,17 @@ public class Nodes {
     }
     public int getCount() {
         return count_click;
+    }    public int getSuccess() {
+        return count_success;
+    }    public int getError() {
+        return count_error;
     }
     public int getRank() {
-        return count_click- 2* count_error+count_success;
+        int res = 0;
+        if(count_click > 0){
+            res = (int)((float)count_success/count_click);
+        }
+        return res + count_click*10/100;
     }
     String uid, name, img, tags, mediaurl;
     int count_error,count_success,count_click;
