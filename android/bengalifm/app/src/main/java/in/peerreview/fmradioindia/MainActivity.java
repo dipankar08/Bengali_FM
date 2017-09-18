@@ -183,7 +183,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 @Override
                 public void error(String msg, Exception e) {
                     if(finalTemp != null){
-                        Toast.makeText(MainActivity.Get(),"Stream is not avibale for "+finalTemp.getName()+". Please try after sometime",Toast.LENGTH_SHORT);
+                        Toast.makeText(MainActivity.Get(),"Stream is not avibale for "+finalTemp.getName()+". Please try after sometime",Toast.LENGTH_SHORT).show();
                         Telemetry.sendTelemetry("play_error",  new HashMap<String, String>(){{
                             put("url",finalTemp.getUrl());
                         }});
