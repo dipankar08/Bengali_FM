@@ -17,6 +17,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.animation.AnimationUtils;
 import android.view.animation.OvershootInterpolator;
 import android.view.inputmethod.InputMethodManager;
@@ -42,15 +43,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private static final String TAG = "MainActivity";
     private static MainActivity s_activity;
+    private boolean mIslock = false;
+
     public static MainActivity Get() {
         return s_activity;
     }
 
     private RecyclerView rv;
     private RVAdapter adapter;
-    private ImageView play,next,prev,fev;
+    private ImageView play,next,prev,fev,lock;
     private GifImageView tryplayin;
     private TextView message, isplaying;
+    private ViewGroup lock_screen;
     LinearLayout qab;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,11 +66,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         prev = (ImageView)findViewById(R.id.prev);
         next = (ImageView)findViewById(R.id.next);
         fev = (ImageView)findViewById(R.id.fev);
+        lock = (ImageView)findViewById(R.id.lock);
 
         message = (TextView)findViewById(R.id.message);
         tryplayin = (GifImageView)findViewById(R.id.tryplaying);
         isplaying = (TextView) findViewById(R.id.isplaying);
+
         qab = (LinearLayout) findViewById(R.id.qab);
+        lock_screen = (ViewGroup) findViewById(R.id.lock_screen);
 
         initExternal();
         setRV();
@@ -103,6 +110,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             @Override
             public boolean onClose() {
                 //Do something on collapse Searchview
+                Nodes.filterByTag("clear");
                 HideQAB();
                 return false;
             }
@@ -226,7 +234,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         } else{
             Nodes.filterByTag(tag);
         }
-        //HideQAB();
+        HideKeyboard();
         Telemetry.sendTelemetry("click_qsb",  new HashMap<String, String>(){{
             put("id",tag);
         }});
@@ -253,6 +261,19 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             case R.id.fev:
                 if(temp != null) {
                     Nodes.handleFavorite(temp);
+                }
+                break;
+            case R.id.lock:
+                if(mIslock != true) {
+                    Toast.makeText(this,"Cool! You have locked your screen which will prevent you from unwanted click!",Toast.LENGTH_SHORT).show();
+                    LockUI();
+                    lock_screen.setVisibility(View.VISIBLE);
+                    mIslock = true;
+                } else{
+                    UnLockUI();
+                    Toast.makeText(this,"Cool! You have un-locked the FM for click",Toast.LENGTH_SHORT).show();
+                    mIslock = false;
+                    lock_screen.setVisibility(View.GONE);
                 }
                 break;
             case R.id.mainbody:
@@ -317,6 +338,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
     void HideQAB(){
         qab.setVisibility(View.GONE);
+        HideKeyboard();
+    }
+    void HideKeyboard(){
         View view = this.getCurrentFocus();
         if (view != null) {
             InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -331,7 +355,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         fev.setImageResource(R.drawable.heart);
         fev.startAnimation(AnimationUtils.loadAnimation(this, R.anim.pulse));
     }
-
+    void LockUI(){
+        lock.setImageResource(R.drawable.unlock);
+        lock.startAnimation(AnimationUtils.loadAnimation(this, R.anim.pulse));
+    }
+    void UnLockUI(){
+        lock.setImageResource(R.drawable.lock);
+        lock.startAnimation(AnimationUtils.loadAnimation(this, R.anim.pulse));
+    }
     //Other overrides here
     @Override
     public void onBackPressed() {
