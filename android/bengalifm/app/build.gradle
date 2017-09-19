@@ -8,7 +8,7 @@ android {
         applicationId "in.peerreview.fmradioindia"
         minSdkVersion 16
         targetSdkVersion 24
-        versionCode 8
+        versionCode 9
         versionName "3.1(New UI)"
     }
     buildTypes {

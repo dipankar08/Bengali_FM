@@ -43,15 +43,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private static final String TAG = "MainActivity";
     private static MainActivity s_activity;
-    private boolean mIslock = false;
-
     public static MainActivity Get() {
         return s_activity;
     }
 
     private RecyclerView rv;
     private RVAdapter adapter;
-    private ImageView play,next,prev,fev,lock;
+    private ImageView play,next,prev,fev,lock,unlock;
     private GifImageView tryplayin;
     private TextView message, isplaying;
     private ViewGroup lock_screen;
@@ -67,17 +65,29 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         next = (ImageView)findViewById(R.id.next);
         fev = (ImageView)findViewById(R.id.fev);
         lock = (ImageView)findViewById(R.id.lock);
+        unlock = (ImageView)findViewById(R.id.unlock);
 
         message = (TextView)findViewById(R.id.message);
         tryplayin = (GifImageView)findViewById(R.id.tryplaying);
         isplaying = (TextView) findViewById(R.id.isplaying);
 
         qab = (LinearLayout) findViewById(R.id.qab);
-        lock_screen = (ViewGroup) findViewById(R.id.lock_screen);
 
         initExternal();
         setRV();
         setSearch();
+        setLockScreen();
+    }
+
+    private void setLockScreen() {
+        lock_screen = (ViewGroup) findViewById(R.id.lock_screen);
+        lock_screen.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                UnLockUI();
+                return true;
+            }
+        });
     }
 
     private void setSearch() {
@@ -264,18 +274,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 }
                 break;
             case R.id.lock:
-                if(mIslock != true) {
-                    Toast.makeText(this,"Cool! You have locked your screen which will prevent you from unwanted click!",Toast.LENGTH_SHORT).show();
                     LockUI();
-                    lock_screen.setVisibility(View.VISIBLE);
-                    mIslock = true;
-                } else{
-                    UnLockUI();
-                    Toast.makeText(this,"Cool! You have un-locked the FM for click",Toast.LENGTH_SHORT).show();
-                    mIslock = false;
-                    lock_screen.setVisibility(View.GONE);
-                }
-                break;
+                    break;
             case R.id.mainbody:
                 HideQAB();
                 break;
@@ -356,11 +356,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         fev.startAnimation(AnimationUtils.loadAnimation(this, R.anim.pulse));
     }
     void LockUI(){
-        lock.setImageResource(R.drawable.unlock);
-        lock.startAnimation(AnimationUtils.loadAnimation(this, R.anim.pulse));
+        lock_screen.setVisibility(View.VISIBLE);
+        lock.setVisibility(View.GONE);
+        unlock.startAnimation(AnimationUtils.loadAnimation(this, R.anim.pulse));
     }
     void UnLockUI(){
-        lock.setImageResource(R.drawable.lock);
+        lock_screen.setVisibility(View.GONE);
+        lock.setVisibility(View.VISIBLE);
         lock.startAnimation(AnimationUtils.loadAnimation(this, R.anim.pulse));
     }
     //Other overrides here

@@ -268,9 +268,39 @@
     </android.support.design.widget.CoordinatorLayout>
         <RelativeLayout
             android:visibility="gone"
+            android:background="#ccffffff"
             android:id="@+id/lock_screen"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
+            <ImageView
+                android:id="@+id/unlock"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:src="@drawable/lock"
+                android:layout_marginTop="150dp"
+                android:layout_centerHorizontal="true" />
+            <com.cubostecnologia.customfonttextview.CustomFontTextView
+                app:font="myfont.ttf"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/unlock"
+                android:layout_centerHorizontal="true"
+                android:textSize="35dp"
+                android:layout_marginTop="10dp"
+                android:text="Locked"
+                android:id="@+id/lockmessage"
+                android:textColor="@color/gray900" />
+            <com.cubostecnologia.customfonttextview.CustomFontTextView
+                app:font="myfont.ttf"
+                android:layout_width="wrap_content"
+                android:layout_marginTop="15dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/lockmessage"
+                android:layout_centerHorizontal="true"
+                android:textSize="15dp"
+                android:text="Long tap on Lock icon to unlock"
+                android:id="@+id/lockdesc"
+                android:textColor="@color/gray500" />
         </RelativeLayout>
 </FrameLayout>
 
@@ -280,7 +310,7 @@
         android:layout_height="match_parent"
         android:layout_gravity="start"
         android:fitsSystemWindows="true"
-        android:visibility="gone"
+        android:visibility="invisible"
         app:headerLayout="@layout/nav_header_main"
         app:menu="@menu/activity_main_drawer" />
 
