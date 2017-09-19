@@ -56,7 +56,6 @@
                 <com.cubostecnologia.customfonttextview.CustomFontTextView
                     app:font="myfont.ttf"
                     android:id="@+id/recent"
-                    android:onClick="onClick"
                     android:paddingLeft="5dp"
                     android:paddingTop="3dp"
                     android:textSize="10dp"
@@ -71,7 +70,6 @@
                 <com.cubostecnologia.customfonttextview.CustomFontTextView
                     app:font="myfont.ttf"
                     android:id="@+id/qsb_fev"
-                    android:onClick="onClick"
                     android:paddingLeft="5dp"
                     android:paddingTop="3dp"
                     android:textSize="10dp"
@@ -86,7 +84,6 @@
                 <com.cubostecnologia.customfonttextview.CustomFontTextView
                     app:font="myfont.ttf"
                     android:id="@+id/hindi"
-                    android:onClick="onClick"
                     android:paddingLeft="5dp"
                     android:paddingTop="3dp"
                     android:textSize="10dp"
@@ -101,7 +98,6 @@
                 <com.cubostecnologia.customfonttextview.CustomFontTextView
                     app:font="myfont.ttf"
                     android:id="@+id/kolkata"
-                    android:onClick="onClick"
                     android:paddingLeft="5dp"
                     android:paddingTop="3dp"
                     android:textSize="10dp"
@@ -116,7 +112,6 @@
                 <com.cubostecnologia.customfonttextview.CustomFontTextView
                     app:font="myfont.ttf"
                     android:id="@+id/bangaladesh"
-                    android:onClick="onClick"
                     android:paddingLeft="5dp"
                     android:paddingTop="3dp"
                     android:textSize="10dp"
@@ -131,7 +126,6 @@
                 <com.cubostecnologia.customfonttextview.CustomFontTextView
                     app:font="myfont.ttf"
                     android:id="@+id/clear"
-                    android:onClick="onClick"
                     android:paddingLeft="5dp"
                     android:paddingTop="3dp"
                     android:textSize="10dp"
@@ -199,7 +193,6 @@
                     <ImageView
                         android:id="@+id/fev"
                         android:visibility="gone"
-                        android:onClick="onClick"
                         android:layout_width="20dp"
                         android:src="@drawable/heart"
                         android:layout_toRightOf="@+id/lock"
@@ -210,7 +203,6 @@
                         android:layout_height="20dp"
                         android:layout_alignParentRight="true"
                         android:padding="0dp"
-                        android:onClick="onClick"
                         android:src="@drawable/unlock" />
                 </RelativeLayout>
                 <RelativeLayout
@@ -227,15 +219,13 @@
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
                         android:padding="10dp"
-                        android:src="@drawable/prev"
-                        android:onClick="onClick" />
+                        android:src="@drawable/prev" />
                     <ImageView
                         android:id="@+id/play"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerHorizontal="true"
-                        android:src="@drawable/play"
-                        android:onClick="onClick" />
+                        android:src="@drawable/play" />
                     <pl.droidsonroids.gif.GifImageView
                         android:layout_width="60dp"
                         android:layout_height="70dp"
@@ -251,7 +241,6 @@
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
                         android:padding="15dp"
-                        android:onClick="onClick"
                         android:src="@drawable/next" />
                 </RelativeLayout>
             </LinearLayout>

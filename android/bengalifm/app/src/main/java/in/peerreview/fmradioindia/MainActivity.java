@@ -39,7 +39,7 @@ import jp.wasabeef.recyclerview.animators.SlideInLeftAnimator;
 import jp.wasabeef.recyclerview.animators.SlideInUpAnimator;
 import pl.droidsonroids.gif.GifImageView;
 
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener , View.OnClickListener {
 
     private static final String TAG = "MainActivity";
     private static MainActivity s_activity;
@@ -60,12 +60,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         s_activity = this;
         setContentView(R.layout.activity_main);
         setuptoolbar();
-        play = (ImageView)findViewById(R.id.play);
-        prev = (ImageView)findViewById(R.id.prev);
-        next = (ImageView)findViewById(R.id.next);
-        fev = (ImageView)findViewById(R.id.fev);
-        lock = (ImageView)findViewById(R.id.lock);
-        unlock = (ImageView)findViewById(R.id.unlock);
+
+        attachListner();
 
         message = (TextView)findViewById(R.id.message);
         tryplayin = (GifImageView)findViewById(R.id.tryplaying);
@@ -89,6 +85,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         });
     }
+
+
 
     private void setSearch() {
         //serach view.
@@ -250,7 +248,34 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }});
     }
 
-    public void onClick(View v) {
+    void attachListner(){
+        play = (ImageView)findViewById(R.id.play);
+        prev = (ImageView)findViewById(R.id.prev);
+        next = (ImageView)findViewById(R.id.next);
+        fev = (ImageView)findViewById(R.id.fev);
+        lock = (ImageView)findViewById(R.id.lock);
+        unlock = (ImageView)findViewById(R.id.unlock);
+
+
+
+
+        play.setOnClickListener(this);
+        prev.setOnClickListener(this);
+        next.setOnClickListener(this);
+        fev.setOnClickListener(this);
+        lock.setOnClickListener(this);
+        unlock.setOnClickListener(this);
+        ((TextView)findViewById(R.id.kolkata)).setOnClickListener(this);
+        ((TextView)findViewById(R.id.bangaladesh)).setOnClickListener(this);
+        ((TextView)findViewById(R.id.hindi)).setOnClickListener(this);
+        ((TextView)findViewById(R.id.recent)).setOnClickListener(this);
+        ((TextView)findViewById(R.id.clear)).setOnClickListener(this);
+        ((TextView)findViewById(R.id.qsb_fev)).setOnClickListener(this);
+    }
+
+    @Override
+    public void onClick(View v)
+    {
         Nodes temp = Nodes.getCurNode();
         switch (v.getId()) {
             //Player Comands
@@ -274,8 +299,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 }
                 break;
             case R.id.lock:
-                    LockUI();
-                    break;
+                LockUI();
+                break;
             case R.id.mainbody:
                 HideQAB();
                 break;
@@ -300,6 +325,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 break;
         }
     }
+
     //UI change
     void PlayUI(Nodes n){
         if(n == null){
