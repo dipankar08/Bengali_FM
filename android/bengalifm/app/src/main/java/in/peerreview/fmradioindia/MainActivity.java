@@ -61,13 +61,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setContentView(R.layout.activity_main);
         setuptoolbar();
 
-        attachListner();
-
-        message = (TextView)findViewById(R.id.message);
-        tryplayin = (GifImageView)findViewById(R.id.tryplaying);
-        isplaying = (TextView) findViewById(R.id.isplaying);
-        qab = (LinearLayout) findViewById(R.id.qab);
-
+        initViews();
         initExternal();
         setRV();
         setSearch();
@@ -236,7 +230,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }});
     }
 
-    void attachListner(){
+    void initViews(){
+
+        message = (TextView)findViewById(R.id.message);
+        tryplayin = (GifImageView)findViewById(R.id.tryplaying);
+        isplaying = (TextView) findViewById(R.id.isplaying);
+        qab = (LinearLayout) findViewById(R.id.qab);
+
+
         play = (ImageView)findViewById(R.id.play);
         prev = (ImageView)findViewById(R.id.prev);
         next = (ImageView)findViewById(R.id.next);
@@ -244,14 +245,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         lock = (ImageView)findViewById(R.id.lock);
         unlock = (ImageView)findViewById(R.id.unlock);
 
-
-
-
         play.setOnClickListener(this);
         prev.setOnClickListener(this);
         next.setOnClickListener(this);
         fev.setOnClickListener(this);
         lock.setOnClickListener(this);
+
+
         ((TextView)findViewById(R.id.kolkata)).setOnClickListener(this);
         ((TextView)findViewById(R.id.bangaladesh)).setOnClickListener(this);
         ((TextView)findViewById(R.id.hindi)).setOnClickListener(this);
@@ -260,6 +260,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         ((TextView)findViewById(R.id.qsb_fev)).setOnClickListener(this);
 
         lock_screen = (ViewGroup) findViewById(R.id.lock_screen);
+        lock_screen.setOnClickListener(this);
         unlock.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {

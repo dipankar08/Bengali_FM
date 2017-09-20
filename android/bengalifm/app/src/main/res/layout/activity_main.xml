@@ -168,7 +168,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_toRightOf="@+id/isplaying"
-                        android:textSize="15dp"
+                        android:textSize="13dp"
                         android:text="Tap on channel to play."
                         android:id="@+id/message"
                         android:textColor="@color/gray400" />
@@ -195,7 +195,9 @@
                         android:visibility="gone"
                         android:layout_width="20dp"
                         android:src="@drawable/heart"
-                        android:layout_toRightOf="@+id/lock"
+                        android:layout_alignWithParentIfMissing="true"
+                        android:layout_toLeftOf="@+id/lock"
+                        android:layout_marginRight="5dp"
                         android:layout_height="20dp" />
                     <ImageView
                         android:id="@+id/lock"
