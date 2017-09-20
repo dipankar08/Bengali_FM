@@ -3,6 +3,7 @@ package in.peerreview.fmradioindia;
 import android.content.Context;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -79,6 +80,7 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.PersonViewHolder>{
             if(AndroidUtils.isDebug()){
                 adView.setAdUnitId(ADMOB_ID_DEBUG);
             } else{
+                Log.e(TAG, "Applying production adds");
                 adView.setAdUnitId(ADMOB_ID_PROD);
             }
             float density = MainActivity.Get().getResources().getDisplayMetrics().density;

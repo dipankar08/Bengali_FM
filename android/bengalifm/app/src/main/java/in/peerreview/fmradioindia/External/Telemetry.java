@@ -74,7 +74,7 @@ public class Telemetry {
         mContext = cx;
         Telemetry t = Get();
         t.mUrl = url;
-        t.mDebug = isForce;
+        t.mDebug = isForce || !AndroidUtils.isDebug();
         t.m_Httpclient = new OkHttpClient();
         t.sendEventLaunch();
     }
@@ -85,7 +85,7 @@ public class Telemetry {
             Log.d(TAG, "You must need to call setup() first.");
             return;
         }
-        if (t.mDebug == false) {
+        if (t.mDebug == true) {
             Log.d(TAG, "Ignore Sending telemetry data as debug build ");
             return;
         }
@@ -102,7 +102,7 @@ public class Telemetry {
 
     ///////////////////////////  Private API's ///////////////////////////////////////
     private void sendTelemtry(String tag, JSONObject json) {
-        if (BuildConfig.DEBUG && !mDebug) {
+        if (mDebug== true) {
             Log.d("DIPANKAR", "Skipping telemetry as debug build");
             return;
         }
@@ -154,6 +154,10 @@ public class Telemetry {
     private static String s_session = getSaltString();
 
     private void sendEventLaunch() {
+        if (mDebug == true) {
+            Log.d(TAG, "Ignore Sending telemetry data as debug build ");
+            return;
+        }
         JSONObject data = new JSONObject();
         TimeZone tz = TimeZone.getDefault();
         try {

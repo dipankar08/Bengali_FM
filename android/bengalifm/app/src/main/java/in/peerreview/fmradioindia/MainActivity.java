@@ -225,9 +225,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             Nodes.filterByTag(tag);
         }
         HideKeyboard();
-        Telemetry.sendTelemetry("click_qsb",  new HashMap<String, String>(){{
-            put("id",tag);
-        }});
     }
 
     void initViews(){
@@ -252,11 +249,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         lock.setOnClickListener(this);
 
 
-        ((TextView)findViewById(R.id.kolkata)).setOnClickListener(this);
-        ((TextView)findViewById(R.id.bangaladesh)).setOnClickListener(this);
-        ((TextView)findViewById(R.id.hindi)).setOnClickListener(this);
-        ((TextView)findViewById(R.id.recent)).setOnClickListener(this);
-        ((TextView)findViewById(R.id.clear)).setOnClickListener(this);
+        ((TextView)findViewById(R.id.qsb_kolkata)).setOnClickListener(this);
+        ((TextView)findViewById(R.id.qsb_bangaladesh)).setOnClickListener(this);
+        ((TextView)findViewById(R.id.qsb_hindi)).setOnClickListener(this);
+        ((TextView)findViewById(R.id.qsb_recent)).setOnClickListener(this);
+        ((TextView)findViewById(R.id.qsb_clear)).setOnClickListener(this);
         ((TextView)findViewById(R.id.qsb_fev)).setOnClickListener(this);
 
         lock_screen = (ViewGroup) findViewById(R.id.lock_screen);
@@ -271,7 +268,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     @Override
-    public void onClick(View v)
+    public void onClick(final View v)
     {
         Nodes temp = Nodes.getCurNode();
         switch (v.getId()) {
@@ -298,29 +295,32 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             case R.id.lock:
                 LockUI();
                 break;
-            case R.id.mainbody:
+            case R.id.topcontainer:
                 HideQAB();
                 break;
             //QAB Commands
-            case R.id.kolkata:
+            case R.id.qsb_kolkata:
                 filterByTag("kolkata");
                 break;
-            case R.id.hindi:
+            case R.id.qsb_hindi:
                 filterByTag("hindi");
                 break;
-            case R.id.bangaladesh:
+            case R.id.qsb_bangaladesh:
                 filterByTag("bangladesh");
                 break;
-            case R.id.recent:
+            case R.id.qsb_recent:
                 filterByTag("recent");
                 break;
-            case R.id.clear:
+            case R.id.qsb_clear:
                 filterByTag("clear");
                 break;
             case R.id.qsb_fev:
                 adapter.update(Nodes.getFavorite());
                 break;
         }
+        Telemetry.sendTelemetry("click_event",  new HashMap<String, String>(){{
+            put("id",getResources().getResourceEntryName(v.getId()));
+        }});
     }
 
     //UI change

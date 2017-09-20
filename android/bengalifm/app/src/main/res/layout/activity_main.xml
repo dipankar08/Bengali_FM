@@ -55,7 +55,7 @@
                 android:layout_height="wrap_content">
                 <com.cubostecnologia.customfonttextview.CustomFontTextView
                     app:font="myfont.ttf"
-                    android:id="@+id/recent"
+                    android:id="@+id/qsb_recent"
                     android:paddingLeft="5dp"
                     android:paddingTop="3dp"
                     android:textSize="10dp"
@@ -83,7 +83,7 @@
                     android:text="Favorites"/>
                 <com.cubostecnologia.customfonttextview.CustomFontTextView
                     app:font="myfont.ttf"
-                    android:id="@+id/hindi"
+                    android:id="@+id/qsb_hindi"
                     android:paddingLeft="5dp"
                     android:paddingTop="3dp"
                     android:textSize="10dp"
@@ -97,7 +97,7 @@
                     android:text="Hindi"/>
                 <com.cubostecnologia.customfonttextview.CustomFontTextView
                     app:font="myfont.ttf"
-                    android:id="@+id/kolkata"
+                    android:id="@+id/qsb_kolkata"
                     android:paddingLeft="5dp"
                     android:paddingTop="3dp"
                     android:textSize="10dp"
@@ -111,7 +111,7 @@
                     android:text="Kolkata"/>
                 <com.cubostecnologia.customfonttextview.CustomFontTextView
                     app:font="myfont.ttf"
-                    android:id="@+id/bangaladesh"
+                    android:id="@+id/qsb_bangaladesh"
                     android:paddingLeft="5dp"
                     android:paddingTop="3dp"
                     android:textSize="10dp"
@@ -125,7 +125,7 @@
                     android:text="Bangaladesh"/>
                 <com.cubostecnologia.customfonttextview.CustomFontTextView
                     app:font="myfont.ttf"
-                    android:id="@+id/clear"
+                    android:id="@+id/qsb_clear"
                     android:paddingLeft="5dp"
                     android:paddingTop="3dp"
                     android:textSize="10dp"
@@ -143,7 +143,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginTop="90dp"
-            android:id="@+id/mainbody"
+            android:id="@+id/topcontainer"
             android:background="@color/white200"
             android:orientation="vertical">
             <android.support.v7.widget.RecyclerView
