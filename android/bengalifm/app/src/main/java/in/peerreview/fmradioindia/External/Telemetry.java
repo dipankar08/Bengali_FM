@@ -74,7 +74,7 @@ public class Telemetry {
         mContext = cx;
         Telemetry t = Get();
         t.mUrl = url;
-        t.mDebug = isForce || !AndroidUtils.isDebug();
+        t.mDebug = isForce || AndroidUtils.isDebug();
         t.m_Httpclient = new OkHttpClient();
         t.sendEventLaunch();
     }

@@ -72,7 +72,7 @@ public class SimpleSend {
                     .enqueue(new Callback() {
                         @Override
                         public void onFailure(Request request, IOException e) {
-                            Log.d(TAG, "Telemtery: Failed " + e.toString());
+                            Log.d(TAG, "SimpleSend: Failed " + e.toString());
                             if (callback != null) {
                                 callback.error(e.toString());
                             }
@@ -80,7 +80,7 @@ public class SimpleSend {
 
                         @Override
                         public void onResponse(Response response) throws IOException {
-                            Log.d(TAG, "Telemtery: Success " + response.body().string());
+                            Log.d(TAG, "SimpleSend: Success " + response.body().string());
                             if (callback != null) {
                                 callback.error(response.body().string());
                             }
@@ -96,7 +96,7 @@ public class SimpleSend {
                     .enqueue(new Callback() {
                         @Override
                         public void onFailure(Request request, IOException e) {
-                            Log.d(TAG, "Telemtery: Failed " + e.toString());
+                            Log.d(TAG, "SimpleSend: Failed " + e.toString());
                             if (callback != null) {
                                 callback.error(e.toString());
                             }
@@ -104,7 +104,7 @@ public class SimpleSend {
 
                         @Override
                         public void onResponse(Response response) throws IOException {
-                            Log.d(TAG, "Telemtery: Success " + response.toString());
+                            Log.d(TAG, "SimpleSend: Success " + response.toString());
                             if (callback != null) {
                                 callback.error(response.toString());
                             }
