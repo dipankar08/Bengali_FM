@@ -51,7 +51,7 @@
                 android:orientation="horizontal"
                 android:gravity="center"
                 android:visibility="gone"
-                android:paddingBottom="5dp"
+                android:paddingBottom="10dp"
                 android:layout_height="wrap_content">
                 <com.cubostecnologia.customfonttextview.CustomFontTextView
                     app:font="myfont.ttf"
@@ -142,7 +142,7 @@
             xmlns:app="http://schemas.android.com/apk/res-auto"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="82dp"
+            android:layout_marginTop="90dp"
             android:id="@+id/mainbody"
             android:background="@color/white200"
             android:orientation="vertical">
@@ -257,7 +257,7 @@
     </android.support.design.widget.CoordinatorLayout>
         <RelativeLayout
             android:visibility="gone"
-            android:background="#ccffffff"
+            android:background="#ddffffff"
             android:id="@+id/lock_screen"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
