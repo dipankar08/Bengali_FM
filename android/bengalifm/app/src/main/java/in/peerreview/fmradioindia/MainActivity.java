@@ -227,6 +227,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             Nodes.filterByTag(tag);
         }
         HideKeyboard();
+        rv.scrollToPosition(0);
     }
 
     void initViews(){
