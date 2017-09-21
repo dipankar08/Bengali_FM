@@ -234,7 +234,18 @@ public class Nodes {
         }
         Paper.book().write("FevList", feblist);
     }
-
+    public static boolean isFev(Nodes n) {
+        if(feblist == null){
+            feblist = Paper.book().read("FevList", new LinkedList());
+        }
+        for (Nodes a : feblist) {
+            if(a.getType() == 0) continue;
+            if(a.getName().equals(n.getName())){
+                return true;
+            }
+        }
+        return false;
+    }
 
 
 
@@ -269,4 +280,6 @@ public class Nodes {
         }
         Paper.book().write("RecentList", rectlist);
     }
+
+
 }

@@ -349,6 +349,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     void PauseUI(Nodes n){
         if(n != null) {
             message.setText("Now Playing " + n.getName());
+            if(Nodes.isFev(n) == true){
+                enableFeb();
+            } else{
+                disableFeb();
+            }
         }
         play.setImageResource(R.drawable.pause);
         play.setVisibility(View.VISIBLE);
