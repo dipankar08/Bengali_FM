@@ -21,7 +21,7 @@
             <com.cubostecnologia.customfonttextview.CustomFontTextView
                 app:font="myfont.ttf"
                 android:id="@+id/liveindicator"
-                android:text="★"
+                android:text="➤"
                 android:layout_marginRight="4dp"
                 android:textSize="15dp"
                 android:layout_below="@+id/name"

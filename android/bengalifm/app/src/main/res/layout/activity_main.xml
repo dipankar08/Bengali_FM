@@ -106,7 +106,6 @@
                 android:orientation="vertical"
                 android:padding="10dp">
                 <RelativeLayout
-                    android:id="@+id/infoholder"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="15dp">
@@ -237,7 +236,6 @@
                 android:layout_centerHorizontal="true"
                 android:textSize="15dp"
                 android:text="Long tap on Lock icon to unlock"
-                android:id="@+id/lockdesc"
                 android:textColor="@color/gray500" />
         </RelativeLayout>
 </FrameLayout>

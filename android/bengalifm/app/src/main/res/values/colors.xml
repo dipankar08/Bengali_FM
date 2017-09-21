@@ -1,34 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#3F51B5</color>
-    <color name="colorPrimaryDark">#3F51B5</color>
     <color name="colorAccent">#FF4081</color>
     <color name="black">#000</color>
-    <color name="black1">#626265</color>
-    <color name="black2">#878793</color>
-
-
 
 
     <!-- Color Pallet -->
-    <color name="gray100">#c0c5ce</color>
     <color name="gray200">#a7adba</color>
     <color name="gray300">#65737e</color>
     <color name="gray400">#4f5b66</color>
     <color name="gray500">#343d46</color>
-    <color name="gray600">#343d46</color>
-    <color name="gray700">#343d46</color>
-    <color name="gray800">#343d46</color>
     <color name="gray900">#000000</color>
 
 
-    <color name="white100">#ffffff</color>
     <color name="white200">#f5f5f5</color>
     <color name="white300">#efefef</color>
-    <color name="white400">#e5e5e5</color>
-
-
-
 
 
 </resources>

@@ -23,10 +23,6 @@
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
-    <style name="rootElement"></style>
-
-    <style name="footer"></style>
-
     <style name="QSB_BTN">
 
         <item name="android:paddingLeft">5dp</item>

@@ -338,6 +338,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         isplaying.setVisibility(View.GONE);
         tryplayin.setVisibility(View.GONE);
         fev.setVisibility(View.GONE);
+        // Notify to remove play icon.
+        adapter.notifyDataSetChanged();
     }
     void TryPlayUI(Nodes n){
         if(n != null) {
