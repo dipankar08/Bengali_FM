@@ -1,6 +1,7 @@
 package in.peerreview.fmradioindia;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -39,7 +40,7 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.PersonViewHolder>{
     public static class PersonViewHolder extends RecyclerView.ViewHolder {
 
         CardView cv;
-        TextView sl;
+        TextView sl,liveindicator;
         TextView name;
         TextView count;
         ImageView img;
@@ -52,6 +53,7 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.PersonViewHolder>{
             sl = (TextView)itemView.findViewById(R.id.sl);
             name = (TextView)itemView.findViewById(R.id.name);
             count = (TextView)itemView.findViewById(R.id.count);
+            liveindicator = (TextView)itemView.findViewById(R.id.liveindicator);
             img = (ImageView)itemView.findViewById(R.id.img);
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override public void onClick(View v) {
@@ -120,12 +122,16 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.PersonViewHolder>{
             } else {
                 msg+= ".  100+% working";
             }
-
             personViewHolder.count.setText(msg);
             Glide.with(mContext)
                     .load(nodes.get(i).getImg())
                     .override(70, 70)
                     .into(personViewHolder.img);
+            if(Nodes.getCurNode() != null && Nodes.getCurNode().getUid().equals(nodes.get(i).getUid())){
+                personViewHolder.liveindicator.setVisibility(View.VISIBLE);
+            } else{
+                personViewHolder.liveindicator.setVisibility(View.INVISIBLE);
+            }
         }
     }
 

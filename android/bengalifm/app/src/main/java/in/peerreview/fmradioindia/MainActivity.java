@@ -363,6 +363,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         fev.setVisibility(View.VISIBLE);
         isplaying.setVisibility(View.VISIBLE);
         tryplayin.setVisibility(View.GONE);
+        //update views
+        adapter.notifyDataSetChanged();
     }
     void ShowQAB(){
         qab.setVisibility(View.VISIBLE);

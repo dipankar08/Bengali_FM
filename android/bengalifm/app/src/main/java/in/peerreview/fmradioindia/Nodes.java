@@ -76,6 +76,8 @@ public class Nodes {
 
     /******************  Start of Cur Nodes  ********************************/
     private static int mCurNodeIdx = 0;
+    public static int mPreviousNodeIdx = 0; // that is played previously.
+
     public static Nodes getCurNode(){
         if( mNodes == null){
             return null;
@@ -101,6 +103,7 @@ public class Nodes {
         for( int i =0;i<mNodes.size();i++){
             if(mNodes.get(i).getType() == 0) continue;
             if(mNodes.get(i).getUid().equals(n.getUid())){
+                mPreviousNodeIdx = mCurNodeIdx;
                 mCurNodeIdx = i;
                 break;
             }
