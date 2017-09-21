@@ -106,11 +106,21 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.PersonViewHolder>{
         } else{
             personViewHolder.sl.setText((i+1)+"");
             personViewHolder.name.setText(nodes.get(i).getName());
+            String msg = nodes.get(i).getCount()+" plays  ";
             int per =0;
-            if((nodes.get(i).getSuccess()+nodes.get(i).getError()) > 0){
-                per = (int)((float)nodes.get(i).getSuccess()/(nodes.get(i).getSuccess()+nodes.get(i).getError())*100);
+            if(nodes.get(i).getCount() == 0){
+                msg+= ".  Play first";
             }
-            String msg = nodes.get(i).getCount()+" plays  .  "+ per+"% working.";
+            else if((nodes.get(i).getSuccess() == 0 && nodes.get(i).getError() > 0)) {
+                msg+= ".  Streaming Issue";
+            }
+            else if((nodes.get(i).getSuccess()+nodes.get(i).getError()) > 0){
+                per = (int)((float)nodes.get(i).getSuccess()/(nodes.get(i).getSuccess()+nodes.get(i).getError())*100);
+                msg+= ".  "+ per+"% working";
+            } else {
+                msg+= ".  100+% working";
+            }
+
             personViewHolder.count.setText(msg);
             Glide.with(mContext)
                     .load(nodes.get(i).getImg())
