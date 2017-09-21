@@ -33,23 +33,10 @@ import java.io.IOException;
  *****************************************************************/
 
 public class MyOkHttp {
-    public interface IResponse {
-        void success(JSONObject jsonObject);
-
-        void error(String msg);
-    }
-
-    public enum CacheControl {
-        GET_CACHE_ELSE_LIVE,
-        GET_LIVE_ELSE_CACHE,
-        GET_LIVE_ONLY,
-        GET_CACHE_ONLY,
-    }
-
-    ;
-
     private static final String TAG = "MyOkHttp";
     private static OkHttpClient m_Httpclient = new OkHttpClient();
+
+    ;
     private static boolean mDebug = false;
     private static Context mContext;
 
@@ -174,5 +161,18 @@ public class MyOkHttp {
             Log.d(TAG, "Not able to read data as Json is not valid");
         }
         return null;
+    }
+
+    public enum CacheControl {
+        GET_CACHE_ELSE_LIVE,
+        GET_LIVE_ELSE_CACHE,
+        GET_LIVE_ONLY,
+        GET_CACHE_ONLY,
+    }
+
+    public interface IResponse {
+        void success(JSONObject jsonObject);
+
+        void error(String msg);
     }
 }

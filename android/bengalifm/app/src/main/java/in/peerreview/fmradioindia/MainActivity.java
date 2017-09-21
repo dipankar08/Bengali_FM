@@ -31,6 +31,7 @@ import com.bumptech.glide.Glide;
 
 import java.util.HashMap;
 
+import in.peerreview.fmradioindia.External.AndroidUtils;
 import in.peerreview.fmradioindia.External.MediaPlayerUtils;
 import in.peerreview.fmradioindia.External.SimpleSend;
 import in.peerreview.fmradioindia.External.Telemetry;
@@ -132,6 +133,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private void initExternal() {
         Paper.init(this);
+        AndroidUtils.setup(this);
     }
 
     void setRV(){
@@ -412,10 +414,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     /*****************************  START NAVIGATION DRAWER SUPPORT ****************/
     @Override
     public boolean onOptionsItemSelected(MenuItem menuItem) {
-        if (menuItem.getItemId() == android.R.id.home) {
-            //Timber.d("Home pressed");
+        switch (menuItem.getItemId()) {
+            case R.id.rate:
+                AndroidUtils.RateIt();
+                return true;
+            default:
+                return super.onOptionsItemSelected(menuItem);
         }
-        return super.onOptionsItemSelected(menuItem);
     }
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
