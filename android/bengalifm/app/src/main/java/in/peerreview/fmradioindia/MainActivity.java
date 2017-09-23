@@ -322,7 +322,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 break;
         }
         Telemetry.sendTelemetry("click_event",  new HashMap<String, String>(){{
-            put("id",getResources().getResourceEntryName(v.getId()));
+            put("ButtonName",getResources().getResourceEntryName(v.getId()));
         }});
     }
 
