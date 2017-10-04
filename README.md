@@ -1,6 +1,6 @@
 # what is Bengali_FM ?
-Here it looks like:
-![This is how it looks like ](//lh3.googleusercontent.com/fAwkUYW3faJiJ_QTZan54EoF8PrqBHROfcet1iS_ixnS2UaYYsEDBg6y65uxyDZUYbw3=h900-rwg)
+
+![Here it looks like<br>](https://lh3.googleusercontent.com/fAwkUYW3faJiJ_QTZan54EoF8PrqBHROfcet1iS_ixnS2UaYYsEDBg6y65uxyDZUYbw3=h500-rw )
 
 # Why this App ?
 It provides a list of frequently used FM station from india and bangladesh.
