@@ -2,14 +2,14 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 24
-    buildToolsVersion "24.0.1"
+    buildToolsVersion '25.0.0'
 
     defaultConfig {
         applicationId "in.peerreview.fmradioindia"
         minSdkVersion 16
         targetSdkVersion 24
-        versionCode 11
-        versionName "3.5(New UI)"
+        versionCode 14
+        versionName "3.6"
     }
     buildTypes {
         release {

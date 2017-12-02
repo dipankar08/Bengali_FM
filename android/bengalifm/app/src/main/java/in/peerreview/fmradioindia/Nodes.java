@@ -70,7 +70,7 @@ public class Nodes {
     String uid, name, img, tags, mediaurl;
     int count_error,count_success,count_click,type;
 
-    private static final String url= "http://52.89.112.230/api/nodel_bengalifm?limit=300&state1=Active";
+    private static final String url= Configuration.DB_ENDPOINT+"?limit=300&state=Active";
     private static final String TAG= "";
     private static List<Nodes> mNodes;
 
@@ -79,7 +79,7 @@ public class Nodes {
     public static int mPreviousNodeIdx = 0; // that is played previously.
 
     public static Nodes getCurNode(){
-        if( mNodes == null){
+        if( mNodes == null && mNodes.size() <= 0){
             return null;
         }
         return mNodes.get(mCurNodeIdx);

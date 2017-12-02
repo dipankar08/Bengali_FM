@@ -168,7 +168,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                             put("url",finalTemp.getUrl());
                         }});
                         new SimpleSend.Builder()
-                                .url("http://52.89.112.230/api/nodel_bengalifm")
+                                .url(Configuration.DB_ENDPOINT)
                                 .payload(new HashMap<String, String>() {{
                                     put("_cmd","increment");
                                     put("id",finalTemp.getUid());
@@ -188,7 +188,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                             put("url",finalTemp.getUrl());
                         }});
                         new SimpleSend.Builder()
-                                .url("http://52.89.112.230/api/nodel_bengalifm")
+                                .url(Configuration.DB_ENDPOINT)
                                 .payload(new HashMap<String, String>() {{
                                     put("_cmd","increment");
                                     put("id",finalTemp.getUid());
@@ -204,7 +204,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 }
             });
             new SimpleSend.Builder()
-                    .url("http://52.89.112.230/api/nodel_bengalifm")
+                    .url(Configuration.DB_ENDPOINT)
                     .payload(new HashMap<String, String>() {{
                         put("_cmd","increment");
                         put("id",temp.getUid());
