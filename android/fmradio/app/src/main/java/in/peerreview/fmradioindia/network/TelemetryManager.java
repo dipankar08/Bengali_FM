@@ -1,10 +1,12 @@
-package in.peerreview.fmradioindia.applogic;
+package in.peerreview.fmradioindia.network;
 
 import android.content.Context;
 import in.co.dipankar.quickandorid.utils.DLog;
 import in.co.dipankar.quickandorid.utils.INetwork;
 import in.co.dipankar.quickandorid.utils.Network;
 import in.co.dipankar.quickandorid.utils.TelemetryUtils;
+import in.peerreview.fmradioindia.network.Constant;
+
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.inject.Singleton;
@@ -18,18 +20,18 @@ public class TelemetryManager {
     public static final String TELEMETRY_CLICK_BTN_FOLLOW = "click_follow_btn";
     public static final String TELEMETRY_CLICK_BTN_RATE = "click_rate_btn";
     public static final String TELEMETRY_CLICK_BTN_CREDIT = "click_credit_btn";
-    public static String DB_ENDPOINT = "http://simplestore.dipankar.co.in/api/nodel_bengalifm1";
-  public static String TELEMETRY_ENDPOINT = "http://simplestore.dipankar.co.in/api/stat_bengalifm1";
+    public static String DB_ENDPOINT = Constant.DB_ENDPOINT;
+  public static String TELEMETRY_ENDPOINT = Constant.TELEMETRY_ENDPOINT;
 
   // modidy DB entry
-  public static String DB_RANK_UP_URL = DB_ENDPOINT + "?_cmd=rankup&_payload=rank&id=";
-  public static String DB_RANK_DOWN_URL = DB_ENDPOINT + "?_cmd=rankdown&_payload=rank&id=";
-  public static String DB_COUNT_CLICK = DB_ENDPOINT + "?_cmd=increment&_payload=count_click&id=";
-  public static String DB_COUNT_ERROR = DB_ENDPOINT + "?_cmd=increment&_payload=count_error&id=";
+  public static String DB_RANK_UP_URL = DB_ENDPOINT + "rankup?field=rank&id=";
+  public static String DB_RANK_DOWN_URL = DB_ENDPOINT + "rankdown?field=rank&id=";
+  public static String DB_COUNT_CLICK = DB_ENDPOINT + "increment?field=count_click&id=";
+  public static String DB_COUNT_ERROR = DB_ENDPOINT + "increment&?field=count_error&id=";
   public static String DB_COUNT_SUCCESS =
-      DB_ENDPOINT + "?_cmd=increment&_payload=count_success&id=";
-  public static String DB_COUNT_LIKE = DB_ENDPOINT + "?_cmd=increment&_payload=like&id=";
-  public static String DB_COUNT_UNLIKE = DB_ENDPOINT + "?_cmd=increment&_payload=unlike&id=";
+      DB_ENDPOINT + "increment?&field=count_success&id=";
+  public static String DB_COUNT_LIKE = DB_ENDPOINT + "increment?field=like&id=";
+  public static String DB_COUNT_UNLIKE = DB_ENDPOINT + "increment?field=unlike&id=";
   // Adding telemetry
   public static final String TELEMETRY_PLAYER_TRY_PLAYING =
       "player_click"; // indicate we are really tring.

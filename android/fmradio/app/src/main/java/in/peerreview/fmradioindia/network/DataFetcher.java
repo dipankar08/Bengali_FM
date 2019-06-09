@@ -1,10 +1,11 @@
-package in.peerreview.fmradioindia.applogic;
+package in.peerreview.fmradioindia.network;
 
 import android.content.Context;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import in.co.dipankar.quickandorid.utils.DLog;
 import in.co.dipankar.quickandorid.utils.Network;
+import in.peerreview.fmradioindia.applogic.Utils;
 import in.peerreview.fmradioindia.model.Channel;
 import in.peerreview.fmradioindia.model.Config;
 import java.io.IOException;
@@ -29,15 +30,15 @@ public class DataFetcher {
     void onError(String msg);
   }
 
-  private static String URL = "http://simplestore.dipankar.co.in/api/nodel_bengalifm1?_limit=1000";
-  private static String APP_CONFIG_URL =
-      "http://simplestore.dipankar.co.in/api/nodel_config?app_name=fmradioindia1";
+  private static String URL = Constant.DB_ENDPOINT+"find";
+  private static String APP_CONFIG_URL = Constant.CONFIG_ENDPOINT+"find";
   private List<Channel> mChannelList;
   private Network mNetwork;
   private List<Callback> mCallback;
   private Context mContext;
 
-  @Inject Utils mUtils;
+  @Inject
+  Utils mUtils;
 
   @Inject
   public DataFetcher(@Named("ApplicationContext") Context context) {

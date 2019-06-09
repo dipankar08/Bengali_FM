@@ -15,7 +15,7 @@ import java.util.List;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Channel {
 
-  @JsonProperty("uid")
+  @JsonProperty("_id")
   private String id;
 
   @JsonProperty("rank")

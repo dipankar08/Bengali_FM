@@ -3,7 +3,7 @@ package in.peerreview.fmradioindia.ui.pref;
 import in.co.dipankar.quickandorid.arch.BasePresenter;
 import in.peerreview.fmradioindia.applogic.ChannelManager;
 import in.peerreview.fmradioindia.applogic.MusicManager;
-import in.peerreview.fmradioindia.applogic.TelemetryManager;
+import in.peerreview.fmradioindia.network.TelemetryManager;
 import in.peerreview.fmradioindia.applogic.ThreadUtils;
 import in.peerreview.fmradioindia.ui.MyApplication;
 import in.peerreview.fmradioindia.ui.common.CommonUtils;
