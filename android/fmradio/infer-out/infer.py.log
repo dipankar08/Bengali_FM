@@ -1,0 +1,21 @@
+[INFO] output of locale.getdefaultlocale(): ('en_US', 'UTF-8')
+[INFO] encoding we chose in the end: UTF-8
+[INFO] Running command /Users/dip/Library/Infer/git-fabdb3ffc1a35cc8c5809437677f46b5e26b6117/infer/lib/infer/infer/bin/../lib/python/infer.py -j 8 --project-root /Users/dip/dipankar/androidStudio/fmradio --out /Users/dip/dipankar/androidStudio/fmradio/infer-out -- gradle clean build
+[INFO] Path to infer script /Users/dip/Library/Infer/git-fabdb3ffc1a35cc8c5809437677f46b5e26b6117/infer/lib/infer/infer/bin/../lib/python/infer.py (/Users/dip/Library/Infer/git-fabdb3ffc1a35cc8c5809437677f46b5e26b6117/infer/lib/infer/infer/lib/python/infer.py)
+[INFO] Platform: Darwin-18.2.0-x86_64-i386-64bit
+[INFO] PATH=/opt/facebook/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/opt/facebook/bin/biggrep:/opt/facebook/nuclide/latest/nuclide/pkg/fb-biggrep-cli/bin:/opt/facebook/nuclide/latest/nuclide/pkg/fb-on-demand-cli/bin:/opt/facebook/ops/scripts/chef:/opt/homebrew/bin:/usr/local/munki:/opt/facebook/hg/bin:/opt/android_sdk/tools:/opt/android_sdk/platform-tools:/opt/android_sdk/tools:/opt/android_sdk/platform-tools:/opt/android_sdk/tools:/opt/android_sdk/platform-tools:/opt/android_sdk/tools:/opt/android_sdk/platform-tools:/opt/android_sdk/tools:/opt/android_sdk/platform-tools:/opt/android_sdk/tools:/opt/android_sdk/platform-tools:/opt/android_sdk/tools:/opt/android_sdk/platform-tools
+[INFO] SHELL=/bin/bash
+[INFO] PWD=/Users/dip/dipankar/androidStudio/fmradio
+[INFO] Running with:
+calling gradle --version failed
+Traceback (most recent call last):
+  File "/Users/dip/Library/Infer/git-fabdb3ffc1a35cc8c5809437677f46b5e26b6117/infer/lib/infer/infer/lib/python/inferlib/capture/util.py", line 53, in run_cmd_ignore_fail
+    return subprocess.check_output(cmd, stderr=subprocess.STDOUT)
+  File "/usr/local/Cellar/python@2/2.7.15_2/Frameworks/Python.framework/Versions/2.7/lib/python2.7/subprocess.py", line 216, in check_output
+    process = Popen(stdout=PIPE, *popenargs, **kwargs)
+  File "/usr/local/Cellar/python@2/2.7.15_2/Frameworks/Python.framework/Versions/2.7/lib/python2.7/subprocess.py", line 394, in __init__
+    errread, errwrite)
+  File "/usr/local/Cellar/python@2/2.7.15_2/Frameworks/Python.framework/Versions/2.7/lib/python2.7/subprocess.py", line 1047, in _execute_child
+    raise child_exception
+OSError: [Errno 2] No such file or directory
+

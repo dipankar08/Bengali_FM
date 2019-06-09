@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="160dp"
+    android:layout_height="220dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/container"
+    android:orientation="vertical"
+    android:gravity="center_horizontal"
+    android:layout_marginLeft="@dimen/small"
+    >
+    <in.co.dipankar.quickandorid.views.CustomFontTextView
+
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <ImageView
+        android:id="@+id/row_image"
+        android:src="@drawable/ic_music"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="fitXY"
+        app:layout_constraintTop_toTopOf="parent"
+        android:paddingBottom="10dp"
+        />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/gradient_re"/>
+    <in.co.dipankar.quickandorid.views.CustomFontTextView
+        android:id="@+id/row_title"
+        android:text="Radio Kolkata"
+        android:textColor="#ffffff"
+        style="@style/Text.Bold"
+        android:textSize="20sp"
+        android:textAlignment="center"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginBottom="@dimen/small"
+        app:layout_constraintBottom_toTopOf="@id/row_live"
+        />
+    <in.co.dipankar.quickandorid.views.CustomFontTextView
+        android:id="@+id/row_live"
+        style="@style/Text.PlayTitle.LIVE"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginBottom="@dimen/small"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_goneMarginBottom="@dimen/small"
+        />
+    <in.co.dipankar.quickandorid.views.CustomFontTextView
+        android:id="@+id/row_new"
+        style="@style/Text.PlayTitle.New"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginBottom="@dimen/small"
+        />
+</android.support.constraint.ConstraintLayout>

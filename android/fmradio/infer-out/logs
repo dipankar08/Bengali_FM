@@ -1,0 +1,18 @@
+[55085][environment] CWD = /Users/dip/dipankar/androidStudio/fmradio
+[55085][environment] No .inferconfig file found
+[55085][environment] Project root = /Users/dip/dipankar/androidStudio/fmradio
+[55085][environment] INFER_ARGS =   command line arguments:   /Users/dip/Library/Infer/git-fabdb3ffc1a35cc8c5809437677f46b5e26b6117/infer/bin/infer
+[55085][environment]                                          -- gradle clean buildActive checkers: annotation reachability (Java), biabduction (C/C++/ObjC, Java), fragment retains view (Java), immutable cast (Java), liveness (C/C++/ObjC), ownership (C/C++/ObjC), RacerD (C/C++/ObjC, Java), SIOF (C/C++/ObjC), uninitialized variables (C/C++/ObjC)
+[55085][environment] Infer log identifier is 
+Infer version v0.16.0-fabdb3ffc
+[55085][environment] Copyright 2009 - present Facebook. All Rights Reserved.
+[55085][environment] 
+[55085][   progress] Capturing in gradle mode...
+[55085][ intern err]   /Users/dip/Library/Infer/git-fabdb3ffc1a35cc8c5809437677f46b5e26b6117/infer/lib/infer/infer/bin/../lib/python/infer.py
+  -j 8 --project-root /Users/dip/dipankar/androidStudio/fmradio --out
+  /Users/dip/dipankar/androidStudio/fmradio/infer-out -- gradle clean build:
+  exited with code 1
+[55085][ intern err] Raised at file "string.ml", line 142, characters 16-31
+Called from file "src/string.ml", line 402, characters 12-33
+Called from file "src/string.ml", line 411, characters 11-33
+

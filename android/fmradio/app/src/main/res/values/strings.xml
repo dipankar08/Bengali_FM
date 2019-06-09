@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">Best Bengali FM Radio</string>
+
+
+    <!-- App Spacific -->
+    <string name="ftux_title1">Your life. Your music.</string>
+    <string name="ftux_subtitle1">Live FM Broadcast from Kolkata, Delhi, Mumbai, bengaluru, Hyderabad, Pune and Chennai in 10+ Indian Languages</string>
+    <string name="ftux_title2">Non-stop Add-Free music makes your day.</string>
+    <string name="ftux_subtitle2">This app is completely ad-free and never breaks you in the music. Have a greatest test of Indian Music all the time.</string>
+    <string name="ftux_title3">Play music with ultimate control</string>
+    <string name="ftux_subtitle3">Search and save your favorite in a tap. Play music while background and quick play/pause/stop from notification </string>
+
+</resources>

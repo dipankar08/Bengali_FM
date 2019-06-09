@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#ffffff"
+    android:clickable="true"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <in.co.dipankar.quickandorid.views.CustomFontTextView
+        android:id="@+id/serach_title"
+        android:text="Search Now"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        style="@style/Text.Bold.HugeTitle"
+        android:layout_marginLeft="@dimen/space_from_edge"
+        android:layout_marginTop="@dimen/gap_between_element"
+        />
+    <ImageButton
+        android:id="@+id/back"
+        style="@style/ImageButton.Small"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/serach_title"
+        app:layout_constraintBottom_toBottomOf="@id/serach_title"
+        android:src="@drawable/ic_close_24"
+        android:layout_marginEnd="@dimen/space_from_edge"
+        />
+    <EditText
+        android:id="@+id/input"
+        style="@style/EditText.Search"
+        app:layout_constraintTop_toBottomOf="@+id/serach_title"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginLeft="@dimen/space_from_edge"
+        android:layout_marginTop="@dimen/space_from_edge"
+        android:layout_marginRight="@dimen/space_from_edge"
+        />
+    <ImageView
+        android:id="@+id/close"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:src="@drawable/ic_close_close"
+        app:layout_constraintTop_toTopOf="@id/input"
+        app:layout_constraintBottom_toBottomOf="@id/input"
+        app:layout_constraintRight_toRightOf="@id/input"
+        android:layout_marginRight="@dimen/small"
+        />
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/input"
+        android:layout_marginTop="@dimen/gap_between_element"
+        >
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:orientation="vertical"
+            android:layout_height="wrap_content">
+        <in.peerreview.fmradioindia.ui.rowlist.RowListView
+            android:id="@+id/recent_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:headerLayout="@layout/item_recent_search"
+            app:headerText="Recent Search"
+            app:isHorizantal="true"
+            />
+        <in.peerreview.fmradioindia.ui.rowlist.RowListView
+            android:id="@+id/search_result"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:headerLayout="@layout/item_col"
+            app:headerText="Search Result"
+            app:isHorizantal="false"
+            />
+        </LinearLayout>
+    </ScrollView>
+
+</android.support.constraint.ConstraintLayout>

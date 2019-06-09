@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_height="wrap_content">
+    <in.co.dipankar.quickandorid.views.CustomFontTextView
+        android:id="@+id/row_list_text"
+        android:text="Recent List"
+        style="@style/Text.ListViewTitle"
+        android:layout_margin="@dimen/gap_between_element"/>
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv"
+        android:layout_marginBottom="@dimen/gap_between_element"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        />
+</LinearLayout>

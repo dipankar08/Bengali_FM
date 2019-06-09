@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/home"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <ImageView
+        android:id="@+id/menu"
+        style="@style/ImageButton.Small"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/home_title"
+        app:layout_constraintBottom_toBottomOf="@id/home_title"
+        android:src="@drawable/ic_menu_black_24"
+        android:layout_marginStart="@dimen/space_from_edge"
+        android:visibility="gone"
+        android:layout_marginLeft="@dimen/space_from_edge"
+        />
+    <in.co.dipankar.quickandorid.views.CustomFontTextView
+        android:id="@+id/home_title"
+        android:text="My Radio"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toRightOf="@id/menu"
+        style="@style/Text.Bold.HugeTitle"
+        android:layout_marginStart="@dimen/space_from_edge"
+        android:layout_marginTop="@dimen/gap_between_element"
+        />
+    <ImageView
+        android:id="@+id/settings"
+        style="@style/ImageButton.Small"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/home_title"
+        app:layout_constraintBottom_toBottomOf="@id/home_title"
+        android:src="@drawable/ic_settings_black_24"
+        android:layout_marginEnd="@dimen/space_from_edge"
+        />
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintTop_toBottomOf="@+id/home_title"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="60dp"
+        app:layout_constraintEnd_toEndOf="parent">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <EditText
+                android:id="@+id/search_box"
+                style="@style/EditText.Search"
+                android:layout_marginEnd="@dimen/space_from_edge"
+                android:layout_marginStart="@dimen/space_from_edge"
+                android:editable="false"
+                />
+            <in.peerreview.fmradioindia.ui.rowlist.RowListView
+                android:id="@+id/list_suggested"
+                android:visibility="gone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:headerLayout="@layout/item_suggestion"
+                app:headerText="Suggested List"
+                app:isHorizantal="true"
+                />
+            <in.peerreview.fmradioindia.ui.rowlist.RowListView
+                android:id="@+id/list_recent"
+                android:visibility="gone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:headerLayout="@layout/item_home_cat"
+                app:headerText="Recent Play List"
+                app:isHorizantal="true"
+                />
+            <in.peerreview.fmradioindia.ui.compactlist.CategoriesListView
+                android:id="@+id/categories_list"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                />
+        </LinearLayout>
+    </android.support.v4.widget.NestedScrollView>
+
+    <in.peerreview.fmradioindia.ui.player.PlayerView
+        android:id="@+id/player_screen"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent" />
+</android.support.constraint.ConstraintLayout>

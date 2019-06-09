@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#ffffff"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <in.peerreview.fmradioindia.ui.home.HomeScreen
+        android:id="@+id/home"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+    <in.peerreview.fmradioindia.ui.search.SearchView
+        android:id="@+id/search"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+    <in.peerreview.fmradioindia.ui.splash.SplashScreen
+        android:id="@+id/splash"
+        android:visibility="visible"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+    <in.peerreview.fmradioindia.ui.pref.UserPrefView
+        android:id="@+id/user_pref"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+    <include layout="@layout/navigation_drawer"/>
+</FrameLayout>

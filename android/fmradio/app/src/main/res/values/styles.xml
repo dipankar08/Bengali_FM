@@ -1,0 +1,135 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+    <!-- BASE Style -->
+    <style name="Text">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="customfont">lregular.ttf</item>
+    </style>
+    <style name="Text.Bold">
+        <item name="customfont">lbold.ttf</item>
+    </style>
+
+    <style name="Image">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+    <style name="ImageButton">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+    <style name="TextButton">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+    <style name="EditText">
+    </style>
+
+
+    <!-- Test Style -->
+    <style name="Text.ListViewTitle">
+        <item name="android:textColor">#212121</item>
+        <item name="android:textSize">25sp</item>
+    </style>
+    <style name="Text.Bold.HugeTitle">
+        <item name="android:textColor">#212121</item>
+        <item name="android:textSize">30sp</item>
+    </style>
+    <style name="Text.Title">
+        <item name="android:textColor">#BDBDBD</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+    <style name="Text.SubTitle">
+        <item name="android:textColor">@color/subtitle_text</item>
+        <item name="android:textSize">11sp</item>
+    </style>
+    <style name="Text.Bold.Pref">
+        <item name="android:textColor">#111111</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:layout_marginTop">@dimen/space_from_edge</item>
+    </style>
+
+    <!-- Image Style -->
+
+
+    <!-- ImageButton Style -->
+    <style name="ImageButton.Small">
+        <item name="android:layout_width">40dp</item>
+        <item name="android:layout_height">40dp</item>
+        <item name="android:background">@drawable/round_button_background</item>
+        <item name="android:padding">10dp</item>
+        <item name="android:src">@drawable/ic_start_blank</item>
+    </style>
+    <style name="ImageButton.Medium">
+        <item name="android:layout_width">70dp</item>
+        <item name="android:layout_height">70dp</item>
+        <item name="android:background">@drawable/round_button_background</item>
+        <item name="android:padding">15dp</item>
+        <item name="android:src">@drawable/ic_start_blank</item>
+    </style>
+    <style name="ImageButton.Large">
+        <item name="android:layout_width">100dp</item>
+        <item name="android:layout_height">100dp</item>
+        <item name="android:background">@drawable/round_button_background</item>
+        <item name="android:padding">20dp</item>
+        <item name="android:src">@drawable/ic_start_blank</item>
+    </style>
+
+    <!-- TextButton Style -->
+    <style name="TextButton.Empty">
+        <item name="android:textColor">@color/white</item>
+        <item name="android:background">@drawable/rounded_white_empty</item>
+    </style>
+
+    <!-- EditText -->
+    <style name="EditText.Search">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">42dp</item>
+        <item name="android:paddingStart">10dp</item>
+        <item name="android:paddingEnd">10dp</item>
+        <item name="android:hint">Type to search</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:background">@drawable/background_edittext</item>
+    </style>
+
+    <!-- Other value -->
+    <style name="Text.HomeTitle">
+        <item name="android:textColor">#424242</item>
+        <item name="android:textSize">20sp</item>
+    </style>
+
+    <style name="Text.PlayTitle">
+        <item name="android:textColor">@color/title_text</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="Text.PlayTitle.LIVE">
+        <item name="android:text">Live</item>
+        <item name="android:textSize">10sp</item>
+        <item name="android:textColor">#ffffff</item>
+        <item name="android:background">@drawable/background_red</item>
+        <item name="android:paddingStart">10dp</item>
+        <item name="android:paddingEnd">10dp</item>
+        <item name="android:paddingTop">4dp</item>
+        <item name="android:paddingBottom">4dp</item>
+    </style>
+    <style name="Text.PlayTitle.New">
+        <item name="android:text">New Radio</item>
+        <item name="android:textSize">10sp</item>
+        <item name="android:textColor">#ffffff</item>
+        <item name="android:background">@drawable/background_green</item>
+        <item name="android:paddingStart">10dp</item>
+        <item name="android:paddingEnd">10dp</item>
+        <item name="android:paddingTop">4dp</item>
+        <item name="android:paddingBottom">4dp</item>
+    </style>
+
+
+</resources>
