@@ -30,15 +30,14 @@ public class DataFetcher {
     void onError(String msg);
   }
 
-  private static String URL = Constant.DB_ENDPOINT+"find";
-  private static String APP_CONFIG_URL = Constant.CONFIG_ENDPOINT+"find";
+  private static String URL = Constant.DB_ENDPOINT + "find";
+  private static String APP_CONFIG_URL = Constant.CONFIG_ENDPOINT + "find";
   private List<Channel> mChannelList;
   private Network mNetwork;
   private List<Callback> mCallback;
   private Context mContext;
 
-  @Inject
-  Utils mUtils;
+  @Inject Utils mUtils;
 
   @Inject
   public DataFetcher(@Named("ApplicationContext") Context context) {

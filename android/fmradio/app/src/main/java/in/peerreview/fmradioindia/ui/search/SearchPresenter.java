@@ -31,7 +31,6 @@ public class SearchPresenter extends BasePresenter {
                     .build());
           }
 
-
           @Override
           public void onCatListRefreshed() {}
 
@@ -49,10 +48,8 @@ public class SearchPresenter extends BasePresenter {
                     .build());
           }
 
-            @Override
-            public void onPrefUpdated() {
-
-            }
+          @Override
+          public void onPrefUpdated() {}
         });
   }
 

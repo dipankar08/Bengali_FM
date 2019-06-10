@@ -142,19 +142,20 @@ public class SearchView extends ConstraintLayout implements BaseView<SearchState
                   mClose.setVisibility(state.getShouldShowClose() ? VISIBLE : INVISIBLE);
                 }
 
-                if (state.getPreviousSerachList() != null && state.getPreviousSerachList().size() > 0) {
-                    mRecentList.setData(state.getPreviousSerachList());
-                    mRecentList.setVisibility(VISIBLE);
-                  } else {
-                    mRecentList.setVisibility(GONE);
-                  }
+                if (state.getPreviousSerachList() != null
+                    && state.getPreviousSerachList().size() > 0) {
+                  mRecentList.setData(state.getPreviousSerachList());
+                  mRecentList.setVisibility(VISIBLE);
+                } else {
+                  mRecentList.setVisibility(GONE);
+                }
 
                 if (state.getSearchChannel() != null && state.getSearchChannel().size() > 0) {
-                    mColListView.setData(state.getSearchChannel());
-                    mColListView.setVisibility(VISIBLE);
-                  } else {
-                    mColListView.setVisibility(GONE);
-                  }
+                  mColListView.setData(state.getSearchChannel());
+                  mColListView.setVisibility(VISIBLE);
+                } else {
+                  mColListView.setVisibility(GONE);
+                }
               }
             });
   }

@@ -1,12 +1,9 @@
 package in.peerreview.fmradioindia.model;
 
-import com.esotericsoftware.kryo.NotNull;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
-
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -106,10 +103,10 @@ public class Channel {
   }
 
   public List<String> getCategories() {
-      if(categories != null) {
-          return Arrays.asList(categories.split(","));
-      }
-      return new ArrayList<>();
+    if (categories != null) {
+      return Arrays.asList(categories.split(","));
+    }
+    return new ArrayList<>();
   }
 
   public Channel(
@@ -186,27 +183,27 @@ public class Channel {
     }
   }
 
-  public boolean isNew(){
-      if(created_time == null){
-          return false;
-      } else{
-          try {
-              java.util.Date temp = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSSSSS")
-                      .parse(created_time);
-              return dateDifference(temp, new Date());
-          } catch (ParseException e) {
-              e.printStackTrace();
-              return false;
-          }
+  public boolean isNew() {
+    if (created_time == null) {
+      return false;
+    } else {
+      try {
+        java.util.Date temp =
+            new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSSSSS").parse(created_time);
+        return dateDifference(temp, new Date());
+      } catch (ParseException e) {
+        e.printStackTrace();
+        return false;
       }
-  }
-    public boolean dateDifference(Date d1, Date d2)
-    {
-        long currentDateMilliSec = d1.getTime();
-        long updateDateMilliSec = d2.getTime();
-        long diffDays = (currentDateMilliSec - updateDateMilliSec) / (24 * 60 * 60 * 1000);
-        return diffDays < 1; // added in less than 24 hrs.
     }
+  }
+
+  public boolean dateDifference(Date d1, Date d2) {
+    long currentDateMilliSec = d1.getTime();
+    long updateDateMilliSec = d2.getTime();
+    long diffDays = (currentDateMilliSec - updateDateMilliSec) / (24 * 60 * 60 * 1000);
+    return diffDays < 1; // added in less than 24 hrs.
+  }
 
   public boolean isOnline() {
     return rank > 5;

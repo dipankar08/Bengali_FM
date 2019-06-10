@@ -46,10 +46,8 @@ public class SplashPresenter extends BasePresenter {
           @Override
           public void onChangeRecentPlayList() {}
 
-            @Override
-            public void onPrefUpdated() {
-
-            }
+          @Override
+          public void onPrefUpdated() {}
         });
     if (mPrefUtils.isFtux()) {
       onCompelteFTUX();

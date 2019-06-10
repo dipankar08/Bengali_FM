@@ -72,7 +72,7 @@ public class OptionView extends FlexboxLayout {
           value
               ? R.drawable.rouned_switch_button_red_full
               : R.drawable.rouned_switch_button_red_empty);
-      button.setTextColor(value?Color.WHITE:Color.BLACK);
+      button.setTextColor(value ? Color.WHITE : Color.BLACK);
       mMap.put(button, key);
       button.setOnClickListener(
           new OnClickListener() {

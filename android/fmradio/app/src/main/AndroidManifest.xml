@@ -22,5 +22,6 @@
             </intent-filter>
         </activity>
         <service android:name=".applogic.MusicService" android:enabled="true" />
+        <service android:name=".services.LogReportService" android:enabled="true"/>
     </application>
 </manifest>

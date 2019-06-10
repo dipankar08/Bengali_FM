@@ -73,6 +73,6 @@ public class ConfigurationManager {
   }
 
   private boolean isDebug() {
-      return BuildConfig.DEBUG;
+    return BuildConfig.DEBUG;
   }
 }

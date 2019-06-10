@@ -9,7 +9,6 @@ import in.peerreview.fmradioindia.model.Channel;
 import in.peerreview.fmradioindia.model.Config;
 import in.peerreview.fmradioindia.network.DataFetcher;
 import in.peerreview.fmradioindia.network.TelemetryManager;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -55,11 +54,13 @@ public class ChannelManager {
     void onLoadSuccess();
 
     void onCatListRefreshed();
+
     void onChangeRecentSerachList();
 
-      void onChangeRecentPlayList();
+    void onChangeRecentPlayList();
 
     void onChangeFebList();
+
     void onPrefUpdated();
   }
 
@@ -135,8 +136,8 @@ public class ChannelManager {
         mUserPref.put(s.trim(), isSelected);
       }
     }
-    for(Callback callback:mCallbacks){
-        callback.onPrefUpdated();
+    for (Callback callback : mCallbacks) {
+      callback.onPrefUpdated();
     }
     maybuildCatList();
   }
@@ -188,18 +189,17 @@ public class ChannelManager {
       mCategoriesMap.put(item.getKey().toLowerCase().trim(), new Category(item.getKey(), true));
     }
 
-
     // Traversal each channel and insert into map and also populate the UserPref if needed.
     for (Channel channel : mFullChannelList) {
 
-      for(String cat :channel.getCategories()) {
-          if (cat != null && cat.trim().length() > 0) {
-              if (mUserPref.get(cat) == null) {
-                  mUserPref.put(cat, true);
-                  mCategoriesMap.put(cat.toLowerCase().trim(), new Category(cat, false));
-              }
-              mCategoriesMap.get(cat.toLowerCase().trim()).addItem(channel);
+      for (String cat : channel.getCategories()) {
+        if (cat != null && cat.trim().length() > 0) {
+          if (mUserPref.get(cat) == null) {
+            mUserPref.put(cat, true);
+            mCategoriesMap.put(cat.toLowerCase().trim(), new Category(cat, false));
           }
+          mCategoriesMap.get(cat.toLowerCase().trim()).addItem(channel);
+        }
       }
 
       if (channel.getTags() != null) {
@@ -210,8 +210,8 @@ public class ChannelManager {
         }
       }
 
-      if(channel.isNew()){
-          mCategoriesMap.get(NEWLY_ADDED_TAG.toLowerCase().trim()).addItem(channel);
+      if (channel.isNew()) {
+        mCategoriesMap.get(NEWLY_ADDED_TAG.toLowerCase().trim()).addItem(channel);
       }
     }
 
@@ -220,7 +220,6 @@ public class ChannelManager {
       mSuggested.addAll(mCategoriesMap.get(SUGGESTION_LIST_TAG.trim().toLowerCase()).getList());
     }
 
-
     // 3. Trip the perf which is empty.
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
       mUserPref
@@ -228,7 +227,7 @@ public class ChannelManager {
           .removeIf(e -> mCategoriesMap.get(e.getKey().toLowerCase()).getList().size() == 0);
     }
 
-    //4. Notifcy callback.
+    // 4. Notifcy callback.
     for (Callback callback : mCallbacks) {
       callback.onLoadSuccess();
     }
@@ -357,7 +356,7 @@ public class ChannelManager {
   }
 
   public LinkedHashMap<String, Boolean> getUserPref() {
-      return (LinkedHashMap<String, Boolean>) mUserPref.clone();
+    return (LinkedHashMap<String, Boolean>) mUserPref.clone();
   }
 
   public @Nullable List<Channel> getSuggestedList() {

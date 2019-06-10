@@ -42,7 +42,7 @@ public class RowListAdapter extends RecyclerView.Adapter<RowListAdapter.MyViewHo
       super(view);
       image = view.findViewById(R.id.row_image);
       title = view.findViewById(R.id.row_title);
-        neww = view.findViewById(R.id.row_new);
+      neww = view.findViewById(R.id.row_new);
       subtitle = view.findViewById(R.id.row_subtitle);
       count = view.findViewById(R.id.row_count);
       live = view.findViewById(R.id.row_live);
@@ -86,12 +86,12 @@ public class RowListAdapter extends RecyclerView.Adapter<RowListAdapter.MyViewHo
         holder.live.setBackgroundResource(R.drawable.rounded_black_full);
       }
     }
-    if(holder.neww != null){
-        if(c.isNew()){
-            holder.neww.setVisibility(View.VISIBLE);
-        } else{
-            holder.neww.setVisibility(View.GONE);
-        }
+    if (holder.neww != null) {
+      if (c.isNew()) {
+        holder.neww.setVisibility(View.VISIBLE);
+      } else {
+        holder.neww.setVisibility(View.GONE);
+      }
     }
   }
 

@@ -1,12 +1,14 @@
 package in.peerreview.fmradioindia.network;
 
 import android.content.Context;
+import android.content.Intent;
 import in.co.dipankar.quickandorid.utils.DLog;
 import in.co.dipankar.quickandorid.utils.INetwork;
 import in.co.dipankar.quickandorid.utils.Network;
 import in.co.dipankar.quickandorid.utils.TelemetryUtils;
-import in.peerreview.fmradioindia.network.Constant;
-
+import in.peerreview.fmradioindia.services.LogReportService;
+import java.util.HashMap;
+import java.util.Map;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.inject.Singleton;
@@ -14,13 +16,13 @@ import javax.inject.Singleton;
 @Singleton
 public class TelemetryManager {
 
-    public static final String TELEMETRY_CLICK_BTN_OPTION = "click_option_btn";
-    public static final String TELEMETRY_CLICK_BTN_REPORT = "click_report_btn";
-    public static final String TELEMETRY_CLICK_BTN_SAHRE = "click_share_btn";
-    public static final String TELEMETRY_CLICK_BTN_FOLLOW = "click_follow_btn";
-    public static final String TELEMETRY_CLICK_BTN_RATE = "click_rate_btn";
-    public static final String TELEMETRY_CLICK_BTN_CREDIT = "click_credit_btn";
-    public static String DB_ENDPOINT = Constant.DB_ENDPOINT;
+  public static final String TELEMETRY_CLICK_BTN_OPTION = "click_option_btn";
+  public static final String TELEMETRY_CLICK_BTN_REPORT = "click_report_btn";
+  public static final String TELEMETRY_CLICK_BTN_SAHRE = "click_share_btn";
+  public static final String TELEMETRY_CLICK_BTN_FOLLOW = "click_follow_btn";
+  public static final String TELEMETRY_CLICK_BTN_RATE = "click_rate_btn";
+  public static final String TELEMETRY_CLICK_BTN_CREDIT = "click_credit_btn";
+  public static String DB_ENDPOINT = Constant.DB_ENDPOINT;
   public static String TELEMETRY_ENDPOINT = Constant.TELEMETRY_ENDPOINT;
 
   // modidy DB entry
@@ -28,8 +30,7 @@ public class TelemetryManager {
   public static String DB_RANK_DOWN_URL = DB_ENDPOINT + "rankdown?field=rank&id=";
   public static String DB_COUNT_CLICK = DB_ENDPOINT + "increment?field=count_click&id=";
   public static String DB_COUNT_ERROR = DB_ENDPOINT + "increment&?field=count_error&id=";
-  public static String DB_COUNT_SUCCESS =
-      DB_ENDPOINT + "increment?&field=count_success&id=";
+  public static String DB_COUNT_SUCCESS = DB_ENDPOINT + "increment?&field=count_success&id=";
   public static String DB_COUNT_LIKE = DB_ENDPOINT + "increment?field=like&id=";
   public static String DB_COUNT_UNLIKE = DB_ENDPOINT + "increment?field=unlike&id=";
   // Adding telemetry
@@ -40,6 +41,8 @@ public class TelemetryManager {
 
   public static final String TELEMETRY_CLICK_PREV_BUTTON = "click_prev_btn";
   public static final String TELEMETRY_CLICK_NEXT_BUTTON = "click_next_btn";
+  public static final String TELEMETRY_TIME_APP_FOREGROUD = "time_app_foreground";
+
   public static final String TELEMETRY_CLICK_MAIN_LIST_ITEM = "click_main_list_item";
   public static final String TELEMETRY_CLICK_SUGGESTION_LIST_ITEM = "click_suggestion_list_item";
   public static final String TELEMETRY_CLICK_RATING_BAR = "click_rating_bar";
@@ -118,6 +121,18 @@ public class TelemetryManager {
 
   public void dbIncrementSuccess(String id) {
     mNetwork.retrive(DB_COUNT_SUCCESS + id, Network.CacheControl.GET_LIVE_ONLY, null);
+  }
+
+  public void sendData(String tag, Map<String, String> data) {
+    mTelemetryUtils.sendTelemetry(tag, data);
+  }
+
+  public void sendDataWithService(Context context, String tag, HashMap<String, String> data) {
+    Intent intent = new Intent();
+    intent.setClass(context, LogReportService.class);
+    intent.putExtra("TAG", tag);
+    intent.putExtra("DATA_MAP", data);
+    context.startService(intent);
   }
 
   public void markHit(String telemetry) {

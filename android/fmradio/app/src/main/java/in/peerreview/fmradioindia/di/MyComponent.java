@@ -1,7 +1,10 @@
 package in.peerreview.fmradioindia.di;
 
 import dagger.Component;
+import in.peerreview.fmradioindia.applogic.AppTrackingUtils;
 import in.peerreview.fmradioindia.applogic.ThreadUtils;
+import in.peerreview.fmradioindia.services.LogReportService;
+import in.peerreview.fmradioindia.ui.MyApplication;
 import in.peerreview.fmradioindia.ui.home.HomePresenter;
 import in.peerreview.fmradioindia.ui.mainactivity.MainPresenter;
 import in.peerreview.fmradioindia.ui.player.PlayerPresenter;
@@ -26,4 +29,10 @@ public interface MyComponent {
   void inject(UserPrefPresenter presenter);
 
   void inject(ThreadUtils threadUtils);
+
+  void inject(MyApplication myApplication);
+
+  void inject(LogReportService logReportService);
+
+  void inject(AppTrackingUtils appTrackingUtils);
 }

@@ -9,7 +9,6 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import in.co.dipankar.quickandorid.arch.BaseView;
 import in.peerreview.fmradioindia.R;
-import in.peerreview.fmradioindia.ui.common.CommonUtils;
 import in.peerreview.fmradioindia.ui.common.OptionView;
 import in.peerreview.fmradioindia.ui.mainactivity.MainActivity;
 import java.util.Map;
@@ -48,11 +47,11 @@ public class UserPrefView extends ConstraintLayout implements BaseView<UserPrefS
     inflater.inflate(R.layout.screen_options, this, true);
     mOptionView = findViewById(R.id.options);
     mClose = findViewById(R.id.pref_close);
-      mRate = findViewById(R.id.btn_rate);
-      mFollow = findViewById(R.id.btn_follow);
-      mReport = findViewById(R.id.btn_report);
-      mShare = findViewById(R.id.btn_share);
-      mCredit = findViewById(R.id.btn_credit);
+    mRate = findViewById(R.id.btn_rate);
+    mFollow = findViewById(R.id.btn_follow);
+    mReport = findViewById(R.id.btn_report);
+    mShare = findViewById(R.id.btn_share);
+    mCredit = findViewById(R.id.btn_credit);
 
     mOptionView.addCallback(
         new OptionView.Callback() {
@@ -72,41 +71,44 @@ public class UserPrefView extends ConstraintLayout implements BaseView<UserPrefS
           }
         });
 
-    mReport.setOnClickListener(new OnClickListener() {
-        @Override
-        public void onClick(View view) {
+    mReport.setOnClickListener(
+        new OnClickListener() {
+          @Override
+          public void onClick(View view) {
             mPresenter.onClickReport();
-        }
-    });
+          }
+        });
 
-    mShare.setOnClickListener(new OnClickListener() {
-        @Override
-        public void onClick(View view) {
+    mShare.setOnClickListener(
+        new OnClickListener() {
+          @Override
+          public void onClick(View view) {
             mPresenter.onClickShare();
+          }
+        });
 
-        }
-    });
-
-    mFollow.setOnClickListener(new OnClickListener() {
-        @Override
-        public void onClick(View view) {
+    mFollow.setOnClickListener(
+        new OnClickListener() {
+          @Override
+          public void onClick(View view) {
             mPresenter.onClickFollow();
-        }
-    });
+          }
+        });
 
-    mRate.setOnClickListener(new OnClickListener() {
-        @Override
-        public void onClick(View view) {
+    mRate.setOnClickListener(
+        new OnClickListener() {
+          @Override
+          public void onClick(View view) {
             mPresenter.onClickRate();
-
-        }
-    });
-    mCredit.setOnClickListener(new OnClickListener() {
-        @Override
-        public void onClick(View view) {
+          }
+        });
+    mCredit.setOnClickListener(
+        new OnClickListener() {
+          @Override
+          public void onClick(View view) {
             mPresenter.onClickCredit();
-        }
-    });
+          }
+        });
     mPresenter = new UserPrefPresenter();
   }
 

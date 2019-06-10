@@ -1,13 +1,11 @@
 package in.peerreview.fmradioindia.ui;
 
-import android.app.Activity;
 import android.app.Application;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.os.Build;
-import dagger.android.DispatchingAndroidInjector;
 import in.co.dipankar.quickandorid.utils.DLog;
-import in.peerreview.fmradioindia.applogic.ChannelManager;
+import in.peerreview.fmradioindia.applogic.AppTrackingUtils;
 import in.peerreview.fmradioindia.di.ContextModule;
 import in.peerreview.fmradioindia.di.DaggerMyComponent;
 import in.peerreview.fmradioindia.di.MyComponent;
@@ -15,9 +13,7 @@ import javax.inject.Inject;
 
 public class MyApplication extends Application {
 
-  @Inject DispatchingAndroidInjector<Activity> activityDispatchingInjector;
-
-  @Inject ChannelManager channelManager;
+  @Inject AppTrackingUtils mAppTrackingUtils;
 
   public static final String CHANNEL_ID = "MUSIC_NOTIFICATION_CHANNEL";
   private static MyComponent component;
@@ -30,6 +26,8 @@ public class MyApplication extends Application {
         DaggerMyComponent.builder()
             .contextModule(new ContextModule(getApplicationContext()))
             .build();
+    component.inject(this);
+    mAppTrackingUtils.init(this);
   }
 
   private void createNotificationChannel() {
